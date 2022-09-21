@@ -1,0 +1,75 @@
+#-libraryjars <java.home>/lib/rt.jar
+-libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
+#-keep class !org.anti_ad.embedded.** { *; }
+
+
+#-keep class org.anti_ad.mc.ipnext.InventoryProfilesKt { *; }
+#-keep class org.anti_ad.mc.ipnext.compat.** { *; }
+#-keep class org.anti_ad.mc.ipnext.mixin.** { *; }
+#-keep class org.anti_ad.mc.common.mixin.** { *; }
+#-keepnames class org.anti_ad.mc.ipnext.config.**
+
+#-ignorewarnings
+-optimizationpasses 100 # (828K -> 811K)
+#-dontobfuscate
+
+-dontwarn org.jetbrains.annotations.**
+-dontwarn javax.annotation.**
+-dontwarn java.awt.**
+
+#-dontusemixedcaseclassnames
+
+-keepattributes *Annotation*
+-verbose
+
+
+#-dontoptimize
+
+# https://stackoverflow.com/questions/33189249/how-to-tell-proguard-to-keep-enum-constants-and-fields
+#-keepclassmembers class * extends java.lang.Enum {
+#    <fields>;
+#    public static **[] values();
+#    public static ** valueOf(java.lang.String);
+#}
+
+#-keep class org.anti_ad.mc.** { *; }
+#-keep class org.anti_ad.mc.api.** { *; }
+
+#-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonEncoder* { *; }
+#-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonDecoder* { *; }
+#-keep class org.anti_ad.embedded.kotlinx.serialization.json.*Serializer* { *; }
+
+#normal build
+-keep class !org.anti_ad.embedded.** { *; }
+# min build
+#-keepnames class !org.anti_ad.embedded.** { *; }
+#-keep class org.anti_ad.mc.common.mixin.** { *; }
+#-keep class org.anti_ad.mc.ipnext.mixin.** { *; }
+#-keep class org.anti_ad.mc.ipnext.InventoryProfilesKt { *; }
+#-keep class org.anti_ad.mc.ipnext.compat.** { *; }
+#-keep class org.anti_ad.mc.ipnext.config.** { *; }
+#-keep class org.anti_ad.mc.ipnext.event.LockSlotsHandler { *; }
+#-keep class org.anti_ad.mc.ipnext.ForgeModEntry { *; }
+#-keep class org.anti_ad.mc.ipnext.ModInfo { *; }
+#-keep class org.anti_ad.mc.ipnext.forge.** { *; }
+
+#-keep class org.anti_ad.mc.ipn.** { *; }
+
+
+# https://proandroiddev.com/is-your-kotlin-code-really-obfuscated-a36abf033dde
+
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+  public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void checkNotNull(java.lang.Object);
+  public static void checkNotNull(java.lang.Object, java.lang.String);
+  public static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
+  public static void checkNotNullParameter(java.lang.Object, java.lang.String);
+  public static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void throwUninitializedPropertyAccessException(java.lang.String);
+}
+
+#-assumenosideeffects class kotlin.jvm.internal.Intrinsics { *; }
