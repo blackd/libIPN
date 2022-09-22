@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "lib-ipn",
+  "id": "libipn",
   "version": "@VERSION@",
-  "name": "Inventory Profiles Next GUI and Access Library",
-  "description": "Take control over your inventory",
+  "name": "libIPN",
+  "description": "Inventory Profiles Next GUI Library",
   "authors": [
     "mirinimi/blackd"
   ],
@@ -17,12 +17,20 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "org.anti_ad.mc.common.libIPNKt::init"
+      "org.anti_ad.mc.common.LibIPNKt::init"
     ]
   },
   "mixins": [
     "mixins.libIPN-common.json"
   ],
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    },
+    "modmenu:api": true
+  },
   "depends": {
     "fabric-resource-loader-v0": "*",
     "minecraft": ">=1.14.1 <1.15",

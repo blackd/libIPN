@@ -35,7 +35,6 @@ fun Project.configureDistribution(is18: Boolean) {
     //convention.getPlugin<BasePluginExtension>().archivesBaseName = project.name
 
     tasks.named<DefaultTask>("build") {
-        dependsOn(tasks.findByPath(":common:build"))
         dependsOn(tasks["shadowJar"])
     }
 
@@ -50,7 +49,6 @@ fun Project.configureDistributionLib(is18: Boolean) {
     //convention.getPlugin<BasePluginExtension>().archivesBaseName = project.name
 
     tasks.named<DefaultTask>("build") {
-        dependsOn(tasks.findByPath(":common:build"))
         dependsOn(tasks["shadowJar"])
     }
 

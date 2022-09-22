@@ -83,10 +83,12 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
         dependsOn(tasks["copyProGuardJar"])
         //input = shadow.archiveFile.orNull?.asFile
     }
+
     tasks.named<Task>("proguard") {
         val shadow = tasks.getByName<Task>("shadowJar");
         dependsOn(shadow)
     }
+
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
     registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar").dependsOn("reobfJar")
@@ -139,29 +141,13 @@ fun Project.registerCopyJarForPublishTask(source: Jar, mod_loader: Any, minecraf
 fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
     val remapped = tasks.named<Task>("remapJar")
 
-    tasks.register<Copy>("injectCommonResources") {
-        dependsOn(":common:processResources")
-        from(project(":common").layout.buildDirectory.dir("resources/main"))
-        include("assets/**")
-        into(project.layout.buildDirectory.dir("resources/main"))
-    }
-
     tasks.register<Delete>("removeCommonResources") {
         this.delete(project.layout.buildDirectory.dir("resources/main/assets"))
-    }
-
-    tasks.getByName("runClient") {
-        dependsOn("injectCommonResources")
-        finalizedBy("removeCommonResources")
     }
 
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     registerCopyJarForPublishTask(fabricRemapJar,mod_loader, minecraft_version, mod_artefact_version).get().dependsOn(remapped)
 
-    tasks.named<Task>("prepareRemapJar") {
-        val proGuardTask = tasks.getByName<Task>("proguard")
-        mustRunAfter(proGuardTask)
-    }
 
 
     rootAfterEvaluate()
@@ -169,46 +155,7 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
 
 fun Project.fabricRegisterCommonTasks(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
 
-    tasks.register<Copy>("copyJavadoc") {
-        dependsOn(":common:packageJavadoc")
-
-        val javadocJar = project(":common").tasks.named<Jar>("packageJavadoc").get()
-        from(javadocJar)
-        into(layout.buildDirectory.dir("publish"))
-        rename {
-            "$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar"
-        }
-        logger.debug("will rename ${javadocJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
-    }
-
-    val prepareSourceJar = tasks.register<Copy>("prepareSourceJar") {
-        dependsOn(":common:generateGrammarSource")
-        dependsOn(":common:generateTestGrammarSource")
-        val commonKotlinSources = project(":common").layout.projectDirectory.dir("src/main/java")
-        val commonAntlrSources = project(":common").layout.projectDirectory.dir("src/main/java")
-        val commonGeneratedSources = project(":common").layout.buildDirectory.dir("generated-src/antlr/main")
-        val platformSources = layout.projectDirectory.dir("src/main/java")
-        from(commonKotlinSources) {
-            include("**/*.java")
-            include("**/*.kt")
-        }
-        from(commonGeneratedSources) {
-            include("**/*.java")
-            include("**/*.tokens")
-            include("**/*.interp")
-        }
-        from(commonAntlrSources) {
-            include("**/*.g4")
-        }
-        from(platformSources) {
-            include("**/*.java")
-            include("**/*.kt")
-        }
-        into(layout.buildDirectory.dir("srcJarContent"))
-    }
-
     tasks.register<Jar>("packageSources") {
-        dependsOn("prepareSourceJar")
         archiveClassifier.set("sources")
         archiveBaseName.set("$mod_loader-$minecraft_version-$mod_artefact_version")
         archiveVersion.set("")

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "libipn",
+  "version": "@VERSION@",
+  "name": "libIPN",
+  "description": "Inventory Profiles Next GUI Library",
+  "authors": [
+    "mirinimi/blackd"
+  ],
+  "contributors": [],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
+    "sources": "https://github.com/blackd/Inventory-Profiles"
+  },
+  "license": "@LICENSE@",
+  "icon": "assets/libIPN/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "org.anti_ad.mc.common.LibIPNKt::init"
+    ]
+  },
+  "mixins": [
+    "mixins.libIPN-common.json"
+  ],
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    },
+    "modmenu:api": true
+  },
+  "depends": {
+    "fabric-resource-loader-v0": "*",
+    "fabricloader": ">=0.13.3",
+    "minecraft": ">=1.18.2 <1.19",
+    "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.0"
+  }
+}

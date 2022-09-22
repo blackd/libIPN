@@ -78,12 +78,13 @@ tasks.named<KotlinCompile>("compileKotlin") {
     }
 }
 
-evaluationDependsOnChildren()
+
 
 allprojects {
     version = versionObj.toString()
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
+    ext.set("mod_artefact_is_release", versionObj.isRelease())
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -98,6 +99,8 @@ allprojects {
     }
 
 }
+
+evaluationDependsOnChildren()
 
 
 tasks.named<Jar>("jar") {
@@ -206,7 +209,7 @@ class Version(val major: String, val minor: String, val revision: String, val pr
         return if (!preRelease)
             "$major.$minor.$revision"
         else //Only use git hash if it's a prerelease.
-            "$major.$minor.$revision-BETA+C$gitHash-SNAPSHOT"
+            "$major.$minor.$revision-SNAPSHOT"
     }
 
     fun toCleanString(): String {
@@ -215,4 +218,6 @@ class Version(val major: String, val minor: String, val revision: String, val pr
         else //Only use git hash if it's a prerelease.
             "$major.$minor.$revision-SNAPSHOT"
     }
+
+    fun isRelease() = !preRelease
 }

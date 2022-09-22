@@ -19,9 +19,6 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.matthewprenger.cursegradle.CurseExtension
-import com.matthewprenger.cursegradle.CurseProject
-import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommonLib
 import org.anti_ad.mc.fabricCommonAfterEvaluate
@@ -87,6 +84,7 @@ val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
     jvmTarget = "1.8"
+    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 repositories {
@@ -103,19 +101,33 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version)
 dependencies {
+
+
+
+    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    "compileOnlyApi"(group = "org.apache.logging.log4j",
+                     name = "log4j-api",
+                     version = "2.18.0")
+    "compileOnlyApi"(group = "org.lwjgl",
+                     name = "lwjgl-glfw",
+                     version = "3.3.1")
     modImplementation("io.github.prospector:modmenu:1.7.17+build.1")
 }
 
+apply(plugin = "kotlinx-serialization")
 
 
 loom {
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("libIPN-refmap.json")
+
 }
 
 afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
+        this.java.srcDirs("./src/shared/kotlin")
+        //this.antlr.srcDirs(project.layout.projectDirectory.dir("src/shared/antlr"))
     }
 }
 
@@ -126,20 +138,20 @@ tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set("shaded")
     setVersion(project.version)
 
-    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    exclude("org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
 
-    exclude("META-INF/**")
-    exclude("**/*.kotlin_metadata")
-    exclude("**/*.kotlin_module")
-    exclude("**/*.kotlin_builtins")
+    //exclude("META-INF/**")
+    //exclude("**/*.kotlin_metadata")
+    //exclude("**/*.kotlin_module")
+    //exclude("**/*.kotlin_builtins")
     //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
     //exclude("**/*_ws$*.class")
-    exclude("**/*.stg")
-    exclude("**/*.st")
+    //exclude("**/*.stg")
+    //exclude("**/*.st")
     exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("com/ibm/**")
     exclude("org/glassfish/**")
@@ -150,11 +162,12 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("io/netty/**")
     //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
-    exclude("META-INF/LICENSE")
-    exclude("META-INF/README")
+    //exclude("META-INF/LICENSE")
+    //exclude("META-INF/README")
 
     minimize()
 }
+
 
 val proguard by tasks.registering(ProGuardTask::class) {
 
@@ -180,11 +193,13 @@ val proguard by tasks.registering(ProGuardTask::class) {
 val remapped = tasks.named<RemapJarTask>("remapJar") {
     group = "fabric"
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+    //dependsOn(shadowJar)
+
     val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
     dependsOn(proGuardTask)
-    //dependsOn("prepareRemapShadedJar")
     this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
-    //input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+
+    //this.inputFile.set(shadowJar.archiveFile)
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
     //addDefaultNestedDependencies.set(false)
@@ -197,96 +212,42 @@ registerMinimizeJarTask()
 
 afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+    tasks.named<Task>("prepareRemapJar") {
+        mustRunAfter("proguard")
+    }
 }
 
 tasks.named<DefaultTask>("build") {
     dependsOn(remapped)
-    dependsOn("copyJavadoc")
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
 //    dependsOn("minimizeJar")
 }
 
 
+
+
 // ============
 // curseforge
 // ============
 
-configure<CurseExtension> {
-
-    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
-        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+publishing {
+    repositories {
+        maven {
+            val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
+            val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+            url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
+        }
     }
-
-    project(closureOf<CurseProject> {
-        id = "495267"
-        changelogType = "markdown"
-        changelog = file("../../description/out/pandoc-release_notes.md")
-        releaseType = "release"
-        supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
-                this.addGameVersion(it)
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.anti_ad.mc"
+            artifactId = "${rootProject.name}-${project.name}"
+            version = project.version.toString()
+            artifact(remapped)
+            loom {
+                this.disableDeprecatedPomGeneration(this@create)
             }
         }
-        this.addGameVersion("Fabric")
-        this.addGameVersion("Quilt")
-        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-        val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
-        logger.lifecycle("""
-            +*************************************************+
-            Will release ${remappedJarFile.path}
-            +*************************************************+
-        """.trimIndent())
-        mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-fabric-$minecraft_version_string-$mod_version"
-        })
-
-        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
-            requiredDependency("fabric-api")
-            requiredDependency("fabric-language-kotlin")
-            optionalDependency("modmenu")
-        })
-    })
-    options(closureOf<com.matthewprenger.cursegradle.Options> {
-        debug = false
-        javaIntegration = false
-        forgeGradleIntegration = mod_loader == "forge"
-    })
-}
-// ============
-// modrith
-// ============
-
-modrinth {
-
-    this.failSilently.set(true)
-
-    if (System.getenv("IPNEXT_RELEASE") != null) {
-        token.set(System.getenv("MODRINTH_TOKEN"))
     }
-
-    projectId.set("O7RBXm3n")
-    versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
-    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-    val remappedJarFile = fabricRemapJar.archiveFile
-    uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    gameVersions.addAll(supported_minecraft_versions.filter {
-        !it.toLowerCase().contains("snapshot")
-    })
-    logger.lifecycle("""
-        +*************************************************+
-        Will release ${remappedJarFile.get().asFile.path}
-        +*************************************************+
-    """.trimIndent())
-    versionName.set("IPN $mod_version for $mod_loader $minecraft_version_string")
-    this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
-    loaders.add(mod_loader)
-
-    dependencies.set(
-        mutableListOf(
-            ModDependency("P7dR8mSH", "required"),
-            ModDependency("Ha28R6CL", "required"),
-            ModDependency("mOgUt4GM", "optional")))
-
-    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
 }

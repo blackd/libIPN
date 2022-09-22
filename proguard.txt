@@ -11,7 +11,7 @@
 
 #-ignorewarnings
 -optimizationpasses 100 # (828K -> 811K)
-#-dontobfuscate
+-dontobfuscate
 
 -dontwarn org.jetbrains.annotations.**
 -dontwarn javax.annotation.**
@@ -23,7 +23,6 @@
 -verbose
 
 
-#-dontoptimize
 
 # https://stackoverflow.com/questions/33189249/how-to-tell-proguard-to-keep-enum-constants-and-fields
 #-keepclassmembers class * extends java.lang.Enum {
@@ -40,7 +39,21 @@
 #-keep class org.anti_ad.embedded.kotlinx.serialization.json.*Serializer* { *; }
 
 #normal build
+
+-keepparameternames
+-renamesourcefileattribute SourceFile
+-keepattributes Signature,Exceptions,*Annotation*,
+                InnerClasses,PermittedSubclasses,EnclosingMethod,
+                Deprecated,SourceFile,LineNumberTable
+
+-keep public class !org.anti_ad.embedded.** { *; }
+
 -keep class !org.anti_ad.embedded.** { *; }
+
+-dontoptimize
+#-donotshrink
+
+
 # min build
 #-keepnames class !org.anti_ad.embedded.** { *; }
 #-keep class org.anti_ad.mc.common.mixin.** { *; }

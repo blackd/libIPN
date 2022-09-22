@@ -70,7 +70,6 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    modmenu_version: Any? = null) {
     dependencies {
 
-        "shadedApi"(project(":common"))
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
@@ -92,7 +91,6 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
                                   loader_version: Any,
                                   kotlin_for_forge_version: Any) {
     dependencies {
-        "shadedApi"(project(":common"))
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")

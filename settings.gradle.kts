@@ -19,10 +19,14 @@
 
 
 rootProject.name = "libIPN"
-include("common")
 
 include("libIPN:fabric-1.14")
-
+include("libIPN:fabric-1.15")
+include("libIPN:fabric-1.16")
+include("libIPN:fabric-1.17")
+include("libIPN:fabric-1.18")
+include("libIPN:fabric-1.18.2")
+include("libIPN:fabric-1.19")
 
 
 
