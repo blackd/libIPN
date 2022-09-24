@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 
 var __glue_rStandardGlState: () -> Unit = {
     Log.glueError("__glue_rStandardGlState is not initialized!")

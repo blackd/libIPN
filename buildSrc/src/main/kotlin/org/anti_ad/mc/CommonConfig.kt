@@ -55,7 +55,7 @@ fun Project.registerMinimizeJarTask() {
         group = "build"
 
         val isForge = !project.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
+        val taskName = if (isForge) { "deobfJar" } else { "remapJar" }
         val jarTask = project.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
         dependsOn(jarTask)
         if (isForge) {
@@ -77,17 +77,7 @@ fun Project.registerMinimizeJarTask() {
 }
 
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
-    tasks.named<Task>("reobfJar") {
-        val shadow = tasks.getByName("customJar");
-        dependsOn(shadow)
-        dependsOn(tasks["copyProGuardJar"])
-        //input = shadow.archiveFile.orNull?.asFile
-    }
 
-    tasks.named<Task>("proguard") {
-        val shadow = tasks.getByName<Task>("shadowJar");
-        dependsOn(shadow)
-    }
 
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()

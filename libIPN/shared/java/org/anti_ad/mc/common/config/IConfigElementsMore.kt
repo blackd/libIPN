@@ -24,7 +24,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.toJsonPrimitive
 import org.anti_ad.mc.common.extensions.value
 

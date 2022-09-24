@@ -138,9 +138,6 @@ tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set("shaded")
     setVersion(project.version)
 
-    exclude("org.antlr")
-    relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-
     exclude("kotlin/**")
     exclude("kotlinx/**")
 

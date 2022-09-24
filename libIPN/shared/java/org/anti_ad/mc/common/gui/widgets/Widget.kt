@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue

@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.glue
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 
 var __glue_vanillaScreenUtil: IVanillaScreenUtil? = null

@@ -21,7 +21,7 @@
 package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.IInputHandler
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue

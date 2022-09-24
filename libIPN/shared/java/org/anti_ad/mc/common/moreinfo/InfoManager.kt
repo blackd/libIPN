@@ -22,7 +22,7 @@ package org.anti_ad.mc.common.moreinfo
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import java.net.URL
 import java.util.concurrent.*
 

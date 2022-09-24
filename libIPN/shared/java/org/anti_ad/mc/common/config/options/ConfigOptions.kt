@@ -22,7 +22,7 @@ package org.anti_ad.mc.common.config.options
 
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.ConfigOptionBase
 import org.anti_ad.mc.common.config.ConfigOptionNumericBase
 import org.anti_ad.mc.common.config.IConfigOptionPrimitive

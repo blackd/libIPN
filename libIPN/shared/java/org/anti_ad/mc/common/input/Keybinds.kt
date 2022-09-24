@@ -24,7 +24,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.IConfigElementObject
 import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.DIFFERENTIATE
 import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.NORMAL

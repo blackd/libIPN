@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.util
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 
 class IndentedDataFileParser(lines: List<String>,
                              private val fileName: String,

@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.glue
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import java.io.File
 import java.net.URL

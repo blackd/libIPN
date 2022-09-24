@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common
 
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.libipn.Log
 
 object TellPlayer {
 
@@ -34,7 +35,7 @@ object TellPlayer {
         VanillaUtil.chat(message)
     }
 
-    inline fun listenLog(level: Log.LogLevel,
+    inline fun listenLog(level: LogBase.LogLevel,
                          block: () -> Unit) {
         Log.withLogListener(level,
                             { chat(it.message) },

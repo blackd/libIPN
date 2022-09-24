@@ -46,11 +46,12 @@
                 InnerClasses,PermittedSubclasses,EnclosingMethod,
                 Deprecated,SourceFile,LineNumberTable
 
--keep public class !org.anti_ad.embedded.** { *; }
+-keep public class org.anti_ad.mc.** { *; }
 
--keep class !org.anti_ad.embedded.** { *; }
+-keep class org.anti_ad.mc.** { *; }
 
 -dontoptimize
+
 #-donotshrink
 
 

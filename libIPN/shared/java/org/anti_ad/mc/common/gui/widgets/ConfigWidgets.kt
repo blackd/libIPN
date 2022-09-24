@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.IConfigOptionNumeric
 import org.anti_ad.mc.common.config.options.ConfigBoolean

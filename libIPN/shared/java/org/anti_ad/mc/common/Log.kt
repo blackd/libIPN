@@ -20,14 +20,16 @@
 
 package org.anti_ad.mc.common
 
-import org.anti_ad.mc.common.Log.LogLevel.*
+import org.anti_ad.mc.common.LogBase.LogLevel.*
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-object Log {
-    private const val id = "inventoryprofilesnext"
-    val innerLogger: Logger = LogManager.getLogger(id)
+open class LogBase {
+
+    protected open val id = "inventoryprofilesnext"
+
+    private val innerLogger: Logger = LogManager.getLogger(id)
 
     var shouldDebug: () -> Boolean = { true }
     var shouldTrace: () -> Boolean = { true }

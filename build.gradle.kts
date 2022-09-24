@@ -132,7 +132,7 @@ tasks.register<Copy>("copyPlatformJars") {
         isFabric || isForge
     }.forEach {
         val isForge = !it.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
+        val taskName = if (isForge) { "deobfJar" } else { "remapJar" }
         val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
         dependsOn(jarTask)
         if (isForge) {

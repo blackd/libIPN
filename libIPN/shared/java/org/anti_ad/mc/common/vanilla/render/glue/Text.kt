@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.math2d.Rectangle
 
 var __glue_Vanilla_textRenderer_getWidth: (String) -> Int = { _: String ->

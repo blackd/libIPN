@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.glue
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 
 var __glue_vanillaSound: IVanillaSound? = null
 

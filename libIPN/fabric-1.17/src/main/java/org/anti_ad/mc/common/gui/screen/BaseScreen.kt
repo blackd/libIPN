@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.gui.screen
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.widgets.RootWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
