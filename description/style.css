@@ -1,0 +1,19 @@
+h1, h2, h3 {
+    font-weight: bold;
+}
+
+p, li, strong, a {
+    font-size: 14px;
+}
+
+.center {
+    text-align: center;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}

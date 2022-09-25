@@ -104,7 +104,7 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version)
 dependencies {
-    
+
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",
@@ -142,14 +142,6 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("kotlin/**")
     exclude("kotlinx/**")
 
-    //exclude("META-INF/**")
-    //exclude("**/*.kotlin_metadata")
-    //exclude("**/*.kotlin_module")
-    //exclude("**/*.kotlin_builtins")
-    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
-    //exclude("**/*_ws$*.class")
-    //exclude("**/*.stg")
-    //exclude("**/*.st")
     exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("com/ibm/**")
     exclude("org/glassfish/**")
@@ -158,10 +150,8 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("org/jline/**")
     exclude("net/minecraftforge/**")
     exclude("io/netty/**")
-    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+
     exclude("META-INF/maven/**")
-    //exclude("META-INF/LICENSE")
-    //exclude("META-INF/README")
 
     minimize()
 }
@@ -205,6 +195,7 @@ publishing {
         maven {
             val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
             val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+            logger.lifecycle("project.ext[\"mod_artefact_is_release\"] = ${project.ext["mod_artefact_is_release"]}")
             url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
         }
     }
@@ -219,4 +210,86 @@ publishing {
             }
         }
     }
+}
+
+
+// ============
+// curseforge
+// ============
+
+configure<CurseExtension> {
+
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
+        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+    }
+
+    project(closureOf<CurseProject> {
+        id = "679177"
+        changelogType = "markdown"
+        changelog = file("../../description/out/pandoc-release_notes.md")
+        releaseType = "release"
+        supported_minecraft_versions.forEach {
+            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+                this.addGameVersion(it)
+            }
+        }
+        this.addGameVersion("Fabric")
+        this.addGameVersion("Quilt")
+        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
+        val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        logger.lifecycle("""
+            +*************************************************+
+            Will release ${remappedJarFile.path}
+            +*************************************************+
+        """.trimIndent())
+        mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+            displayName = "libIPN-fabric-$minecraft_version_string-$mod_version"
+        })
+
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("fabric-api")
+            requiredDependency("fabric-language-kotlin")
+        })
+    })
+    options(closureOf<com.matthewprenger.cursegradle.Options> {
+        debug = false
+        javaIntegration = false
+        forgeGradleIntegration = mod_loader == "forge"
+    })
+}
+// ============
+// modrith
+// ============
+
+modrinth {
+
+    this.failSilently.set(true)
+
+    if (System.getenv("IPNEXT_RELEASE") != null) {
+        token.set(System.getenv("MODRINTH_TOKEN"))
+    }
+
+    projectId.set("onSQdWhM")
+    versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
+    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
+    val remappedJarFile = fabricRemapJar.archiveFile
+    uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    gameVersions.addAll(supported_minecraft_versions.filter {
+        !it.toLowerCase().contains("snapshot")
+    })
+    logger.lifecycle("""
+        +*************************************************+
+        Will release ${remappedJarFile.get().asFile.path}
+        +*************************************************+
+    """.trimIndent())
+    versionName.set("libIPN $mod_version for $mod_loader $minecraft_version_string")
+    this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
+    loaders.add(mod_loader)
+
+    dependencies.set(
+        mutableListOf(
+            ModDependency("P7dR8mSH", "required"),
+            ModDependency("Ha28R6CL", "required")))
+
+    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
 }

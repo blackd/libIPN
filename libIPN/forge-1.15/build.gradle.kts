@@ -182,22 +182,11 @@ configure<UserDevExtension> {
             args("--width=1280", "--height=720", "--username=DEV")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
-/*
-            if (sourceSets.findByName("assetsFixtemp") == null) {
-                sourceSets.create("assetsFixtemp") {
-                    project(":common").layout.buildDirectory.dir("resources/main")
-                }
-            }
 
- */
- //           this.sources.add(sourceSets["assetsFixtemp"])
-            /*
             if (JavaVersion.current() >= JavaVersion.VERSION_11) {
                 jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
                 jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             }
-             */
-            //taskName = "plamenRunClient"
             this.forceExit = false
         }
         create("client", runConfig)
@@ -223,7 +212,6 @@ val deobfJar = tasks.register<Jar>("deobfJar") {
 }
 
 val deobfElements = configurations.register("deobfElements") {
-    /*
     isVisible = false
     description = "De-obfuscated elements for libs"
     isCanBeResolved = false
@@ -235,8 +223,6 @@ val deobfElements = configurations.register("deobfElements") {
         attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, project.objects.named(LibraryElements.JAR))
         attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
     }
-
-     */
     outgoing.artifact(tasks.named("deobfJar"))
 }
 
@@ -251,6 +237,7 @@ publishing {
         maven {
             val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
             val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+            logger.lifecycle("project.ext[\"mod_artefact_is_release\"] = ${project.ext["mod_artefact_is_release"]}")
             url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
         }
     }
@@ -263,4 +250,85 @@ publishing {
         }
     }
 
+}
+
+configure<CurseExtension> {
+
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
+        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+    }
+
+    val clasifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+        System.getenv("IPN_CLASSIFIER")
+    } else {
+        ""
+    }
+
+    project(closureOf<CurseProject> {
+        id = "679177"
+        changelogType = "markdown"
+        changelog = file("../../description/out/pandoc-release_notes.md")
+        releaseType = "beta"
+        supported_minecraft_versions.forEach {
+            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+                this.addGameVersion(it)
+            }
+        }
+        val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
+        val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
+        mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+            displayName = "libIPN-$mod_loader-$minecraft_version_string-$mod_version$clasifier"
+        })
+
+        afterEvaluate {
+            uploadTask.dependsOn("build")
+        }
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("kotlin-for-forge")
+            requiredDependency("mixinbootstrap")
+        })
+    })
+    options(closureOf<com.matthewprenger.cursegradle.Options> {
+        debug = false
+        javaIntegration = false
+        forgeGradleIntegration = mod_loader == "forge"
+    })
+}
+
+// ============
+// modrith
+// ============
+
+
+modrinth {
+
+    this.failSilently.set(true)
+
+    if (System.getenv("IPNEXT_RELEASE") != null) {
+        token.set(System.getenv("MODRINTH_TOKEN"))
+    }
+
+    val clasifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+        System.getenv("IPN_CLASSIFIER")
+    } else {
+        ""
+    }
+
+    projectId.set("onSQdWhM")
+    versionNumber.set("$mod_loader-$minecraft_version-$mod_version$clasifier") // Will fail if Modrinth has this version already
+    val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
+    val remappedJarFile = forgeReobfJar.archiveFile
+    uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    gameVersions.addAll(supported_minecraft_versions)
+    logger.lifecycle("""
+        +*************************************************+
+        Will release ${remappedJarFile.get().asFile.path}
+        +*************************************************+
+    """.trimIndent())
+    versionName.set("libIPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
+    this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
+    loaders.add(mod_loader)
+    dependencies.set(
+        mutableListOf(
+            ModDependency("ordsPcFz", "required")))
 }
