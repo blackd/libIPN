@@ -65,7 +65,6 @@ plugins {
     kotlin("plugin.serialization")
     `java-library`
     `maven-publish`
-    antlr
     signing
     id("fabric-loom")
     id("com.matthewprenger.cursegradle")
@@ -106,10 +105,6 @@ fabricCommonDependency(minecraft_version,
                        modmenu_version)
 dependencies {
 
-    val antlrVersion = "4.9.3"
-    "antlr"("org.antlr:antlr4:$antlrVersion")
-    "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
-
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",
@@ -117,42 +112,10 @@ dependencies {
     "compileOnlyApi"(group = "org.lwjgl",
                      name = "lwjgl-glfw",
                      version = "3.3.1")
-    modImplementation("io.github.prospector:modmenu:1.7.17+build.1")
 }
 
 apply(plugin = "kotlinx-serialization")
 
-
-tasks.named<AntlrTask>("generateGrammarSource").configure {
-    val pkg = "org.anti_ad.mc.common.gen"
-    outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
-    arguments = listOf(
-        "-visitor", "-package", pkg,
-        "-Xexact-output-dir"
-    )
-}
-
-tasks.named("compileKotlin") {
-    dependsOn("generateGrammarSource")
-}
-
-tasks.named("compileJava") {
-    dependsOn("generateGrammarSource")
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    dependsOn("generateGrammarSource")
-}
-
-plugins.withId("idea") {
-    configure<org.gradle.plugins.ide.idea.model.IdeaModel> {
-        afterEvaluate {
-            module.sourceDirs.add(file("src/shared/antlr"))
-            module.sourceDirs.add(file("build/generated-src/antlr/main"))
-            //module.generatedSourceDirs.add(file("build/generated-src/antlr/main"))
-        }
-    }
-}
 
 loom {
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
@@ -174,9 +137,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     archiveClassifier.set("shaded")
     setVersion(project.version)
-
-    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
-    relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
 
     exclude("kotlin/**")
     exclude("kotlinx/**")

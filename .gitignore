@@ -35,6 +35,7 @@ run
 description/out
 repo
 /common/src/main/gen/
+repos/snapshots
 
 # macOS
 .DS_Store

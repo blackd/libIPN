@@ -19,6 +19,9 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
+import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommonLib
 import org.anti_ad.mc.fabricCommonAfterEvaluate
@@ -26,7 +29,6 @@ import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
 import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
-import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.14.1", "1.14.2", "1.14.3", "1.14.4")
 val mod_loader = "fabric"
@@ -101,9 +103,7 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version)
 dependencies {
-
-
-
+    
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",
@@ -165,38 +165,12 @@ tasks.named<ShadowJar>("shadowJar") {
     minimize()
 }
 
-
-val proguard by tasks.registering(ProGuardTask::class) {
-
-    configuration("../../proguard.txt")
-    printmapping {
-        project.layout.buildDirectory.file("proguard/mappings.map")
-    }
-    // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
-    val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
-
-    injars(inName)
-    outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
-
-    doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
-            !it.name.contains("InventoryProfilesNext-common")
-        })
-    }
-    dependsOn(tasks["shadowJar"])
-}
-
 val remapped = tasks.named<RemapJarTask>("remapJar") {
     group = "fabric"
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
-    //dependsOn(shadowJar)
-
-    val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
-    dependsOn(proGuardTask)
-    this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
-
-    //this.inputFile.set(shadowJar.archiveFile)
+    dependsOn(shadowJar)
+    //dependsOn("prepareRemapShadedJar")
+    this.inputFile.set(shadowJar.archiveFile)
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
     //addDefaultNestedDependencies.set(false)
@@ -209,9 +183,6 @@ registerMinimizeJarTask()
 
 afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
-    tasks.named<Task>("prepareRemapJar") {
-        mustRunAfter("proguard")
-    }
 }
 
 tasks.named<DefaultTask>("build") {
