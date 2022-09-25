@@ -17,15 +17,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc
+package org.anti_ad.mc.libipn.buildsrc
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.bundling.ZipEntryCompression
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources

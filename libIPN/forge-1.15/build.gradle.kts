@@ -25,13 +25,12 @@ import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import org.anti_ad.mc.configureCommonLib
-import org.anti_ad.mc.forgeCommonAfterEvaluate
-import org.anti_ad.mc.forgeCommonDependency
-import org.anti_ad.mc.platformsCommonConfig
-import org.anti_ad.mc.registerMinimizeJarTask
+import org.anti_ad.mc.libipn.buildsrc.configureCommonLib
+import org.anti_ad.mc.libipn.buildsrc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.libipn.buildsrc.forgeCommonDependency
+import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
+import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.15.2")
 val mod_loader = "forge"

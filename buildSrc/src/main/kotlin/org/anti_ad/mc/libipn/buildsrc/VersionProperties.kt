@@ -17,4 +17,6 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.libipn.buildsrc
+
 const val loom_version = "0.12-SNAPSHOT"

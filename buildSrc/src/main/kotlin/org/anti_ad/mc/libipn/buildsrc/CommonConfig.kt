@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc
+package org.anti_ad.mc.libipn.buildsrc
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project

@@ -23,12 +23,13 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
-import org.anti_ad.mc.configureCommonLib
-import org.anti_ad.mc.fabricCommonAfterEvaluate
-import org.anti_ad.mc.fabricCommonDependency
-import org.anti_ad.mc.fabricRegisterCommonTasks
-import org.anti_ad.mc.platformsCommonConfig
-import org.anti_ad.mc.registerMinimizeJarTask
+import org.anti_ad.mc.libipn.buildsrc.configureCommonLib
+import org.anti_ad.mc.libipn.buildsrc.fabricCommonAfterEvaluate
+import org.anti_ad.mc.libipn.buildsrc.fabricCommonDependency
+import org.anti_ad.mc.libipn.buildsrc.fabricRegisterCommonTasks
+import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
+import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
+import org.anti_ad.mc.libipn.buildsrc.loom_version
 
 val supported_minecraft_versions = listOf("1.15", "1.15.1", "1.15.2")
 val mod_loader = "fabric"

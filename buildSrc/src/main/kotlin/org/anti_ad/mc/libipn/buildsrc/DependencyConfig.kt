@@ -17,10 +17,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc
+package org.anti_ad.mc.libipn.buildsrc
 
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
 import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.dependencies
 
