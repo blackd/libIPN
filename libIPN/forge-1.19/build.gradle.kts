@@ -274,7 +274,7 @@ configure<CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
+        val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
         val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "libIPN-$mod_loader-$minecraft_version_string-$mod_version$clasifier"
@@ -316,7 +316,7 @@ modrinth {
 
     projectId.set("onSQdWhM")
     versionNumber.set("$mod_loader-$minecraft_version-$mod_version$clasifier") // Will fail if Modrinth has this version already
-    val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
+    val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
     val remappedJarFile = forgeReobfJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions)
