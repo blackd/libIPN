@@ -36,7 +36,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
-private val WIDGETS_TEXTURE = IdentifierHolder("inventoryprofilesnext",
+private val WIDGETS_TEXTURE = IdentifierHolder("libipn",
                                                "textures/gui/widgets.png")
 private val baseSprite = Sprite(WIDGETS_TEXTURE,
                                 Rectangle(20,
@@ -44,7 +44,7 @@ private val baseSprite = Sprite(WIDGETS_TEXTURE,
                                           20,
                                           20))
 private val modifiedSprite = baseSprite.right()
-private const val textPrefix = "inventoryprofiles.common.gui.config."
+private const val textPrefix = "libipn.common.gui.config."
 private fun translate(suffix: String): String {
     return I18n.translate(textPrefix + suffix)
 }
@@ -131,14 +131,14 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
 class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : ConfigWidgetBase<ConfigKeyToggleBoolean>(configOption) {
 
     var trueText = if (configOption.importance == IConfigOption.Importance.IMPORTANT) {
-        I18n.translate("inventoryprofiles.common.gui.config.true")
+        I18n.translate("libipn.common.gui.config.true")
     } else {
-        I18n.translate("inventoryprofiles.common.gui.config.yes")
+        I18n.translate("libipn.common.gui.config.yes")
     }
     var falseText = if (configOption.importance == IConfigOption.Importance.IMPORTANT) {
-        I18n.translate("inventoryprofiles.common.gui.config.false")
+        I18n.translate("libipn.common.gui.config.false")
     } else {
-        I18n.translate("inventoryprofiles.common.gui.config.no")
+        I18n.translate("libipn.common.gui.config.no")
     }
     val booleanButton = ConfigOptionToggleableButtonWidget(configOption) {
         if (configOption.booleanValue) trueText else falseText

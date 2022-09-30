@@ -59,7 +59,7 @@ fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this
 
 //endregion
 
-private val WIDGETS_TEXTURE = IdentifierHolder("inventoryprofilesnext",
+private val WIDGETS_TEXTURE = IdentifierHolder("libipn",
                                                "textures/gui/widgets.png")
 
 private val PATTERN_INTEGER = Regex("-?[0-9]*")

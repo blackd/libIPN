@@ -149,6 +149,8 @@ dependencies {
 afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
+        this.java.srcDirs("./src/shared/kotlin")
+        resources.srcDirs("src/shared/resources")
     }
 }
 

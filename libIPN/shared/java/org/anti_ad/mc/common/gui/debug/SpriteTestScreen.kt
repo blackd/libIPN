@@ -30,7 +30,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rScreenBounds
 import org.anti_ad.mc.common.vanilla.render.opaque
 
-private val WIDGETS_TEXTURE = IdentifierHolder("inventoryprofilesnext", "textures/gui/widgets.png")
+private val WIDGETS_TEXTURE = IdentifierHolder("libipn", "textures/gui/widgets.png")
 
 class SpriteTestScreen: BaseOverlay() {
 

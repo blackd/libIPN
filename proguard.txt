@@ -3,11 +3,11 @@
 #-keep class !org.anti_ad.embedded.** { *; }
 
 
-#-keep class org.anti_ad.mc.ipnext.InventoryProfilesKt { *; }
-#-keep class org.anti_ad.mc.ipnext.compat.** { *; }
-#-keep class org.anti_ad.mc.ipnext.mixin.** { *; }
+#-keep class org.anti_ad.mc.ipnrejects.InventoryProfilesKt { *; }
+#-keep class org.anti_ad.mc.ipnrejects.compat.** { *; }
+#-keep class org.anti_ad.mc.ipnrejects.mixin.** { *; }
 #-keep class org.anti_ad.mc.common.mixin.** { *; }
-#-keepnames class org.anti_ad.mc.ipnext.config.**
+#-keepnames class org.anti_ad.mc.ipnrejects.config.**
 
 #-ignorewarnings
 -optimizationpasses 100 # (828K -> 811K)
@@ -58,14 +58,14 @@
 # min build
 #-keepnames class !org.anti_ad.embedded.** { *; }
 #-keep class org.anti_ad.mc.common.mixin.** { *; }
-#-keep class org.anti_ad.mc.ipnext.mixin.** { *; }
-#-keep class org.anti_ad.mc.ipnext.InventoryProfilesKt { *; }
-#-keep class org.anti_ad.mc.ipnext.compat.** { *; }
-#-keep class org.anti_ad.mc.ipnext.config.** { *; }
-#-keep class org.anti_ad.mc.ipnext.event.LockSlotsHandler { *; }
-#-keep class org.anti_ad.mc.ipnext.ForgeModEntry { *; }
-#-keep class org.anti_ad.mc.ipnext.ModInfo { *; }
-#-keep class org.anti_ad.mc.ipnext.forge.** { *; }
+#-keep class org.anti_ad.mc.ipnrejects.mixin.** { *; }
+#-keep class org.anti_ad.mc.ipnrejects.InventoryProfilesKt { *; }
+#-keep class org.anti_ad.mc.ipnrejects.compat.** { *; }
+#-keep class org.anti_ad.mc.ipnrejects.config.** { *; }
+#-keep class org.anti_ad.mc.ipnrejects.event.LockSlotsHandler { *; }
+#-keep class org.anti_ad.mc.ipnrejects.ForgeModEntry { *; }
+#-keep class org.anti_ad.mc.ipnrejects.ModInfo { *; }
+#-keep class org.anti_ad.mc.ipnrejects.forge.** { *; }
 
 #-keep class org.anti_ad.mc.ipn.** { *; }
 

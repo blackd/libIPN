@@ -64,7 +64,7 @@ data class KeybindSettings(val context: Context,
         }
 
         override fun toString(): String {
-            return I18n.translate("inventoryprofiles.common.enum.key_action." + name.lowercase())
+            return I18n.translate("libipn.common.enum.key_action." + name.lowercase())
         }
     }
 
@@ -72,7 +72,7 @@ data class KeybindSettings(val context: Context,
         INGAME, GUI, ANY;
 
         override fun toString(): String {
-            return I18n.translate("inventoryprofiles.common.enum.context." + name.lowercase())
+            return I18n.translate("libipn.common.enum.context." + name.lowercase())
         }
     }
 
@@ -86,7 +86,7 @@ data class KeybindSettings(val context: Context,
         }
 
         override fun toString(): String {
-            return I18n.translate("inventoryprofiles.common.enum.modifier_key." + name.lowercase())
+            return I18n.translate("libipn.common.enum.modifier_key." + name.lowercase())
         }
     }
 

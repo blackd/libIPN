@@ -1,0 +1,25 @@
+{
+    "libipn.common.gui.config.reset": "Resetuj",
+    "libipn.common.gui.config.true": "§2true §r§o§7(prawda)",
+    "libipn.common.gui.config.false": "§4false §r§o§7(fałsz)",
+    "libipn.common.gui.config.yes": "tak",
+    "libipn.common.gui.config.no": "nie",
+    "libipn.common.gui.config.more": " ...(więcej)",
+
+    "libipn.common.gui.config.advanced_keybind_settings": "Zaawansowane ustawienia klawiszy",
+    "libipn.common.gui.config.activate_on": "Aktywacja przy",
+    "libipn.common.gui.config.context": "Kontekst",
+    "libipn.common.gui.config.allow_extra_keys": "Dodatk. klaw.",
+    "libipn.common.gui.config.order_sensitive": "Uwzg. kolejność",
+    "libipn.common.gui.config.modifier_key": "Ctrl/Alt/Shift",
+    "libipn.common.gui.config.keybind_settings_tips": "- LPM – konfiguruj\n- PPM przywróć domyślne",
+
+    "libipn.common.enum.key_action.press": "kliknięciu",
+    "libipn.common.enum.key_action.release": "zwolnieniu",
+    "libipn.common.enum.key_action.both": "klik. / zwoln.",
+    "libipn.common.enum.context.ingame": "W grze",
+    "libipn.common.enum.context.gui": "Interfejs",
+    "libipn.common.enum.context.any": "W grze / interf.",
+    "libipn.common.enum.modifier_key.differentiate": "Rozr. prawy/lewy",
+    "libipn.common.enum.modifier_key.normal": "Normalnie"
+}

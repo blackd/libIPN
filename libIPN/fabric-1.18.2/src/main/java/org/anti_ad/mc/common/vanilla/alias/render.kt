@@ -62,3 +62,6 @@ typealias Formatting = Formatting
 fun getTranslatable(s: String, vararg args: Any): Text = net.minecraft.text.TranslatableText(s, *args)
 
 fun getLiteral(s: String): Text = net.minecraft.text.LiteralText(s)
+
+val Text.`(formattedText)`
+    get() = asString() ?: "null"

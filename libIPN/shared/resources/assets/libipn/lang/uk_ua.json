@@ -1,0 +1,23 @@
+{
+    "libipn.common.gui.config.reset":                                   "Скинути",
+    "libipn.common.gui.config.true":                                    "§2ТАК",
+    "libipn.common.gui.config.false":                                   "§4НІ",
+    "libipn.common.gui.config.yes":                                     "так",
+    "libipn.common.gui.config.no":                                      "ні",
+    "libipn.common.gui.config.more":                                    " ...(більше)",
+    "libipn.common.gui.config.advanced_keybind_settings":               "Розширені Налаштування Прив’язки Клавіш",
+    "libipn.common.gui.config.activate_on":                             "Активувати При",
+    "libipn.common.gui.config.context":                                 "Контекст",
+    "libipn.common.gui.config.allow_extra_keys":                        "Дозволити Додаткові Клавіші",
+    "libipn.common.gui.config.order_sensitive":                         "Важливість Порядку",
+    "libipn.common.gui.config.modifier_key":                            "Ctrl/Alt/Shift",
+    "libipn.common.gui.config.keybind_settings_tips":                   "- ЛКМ налаштувати\n- ПКМ значення за замовчуванням",
+    "libipn.common.enum.key_action.press":                              "Натиск",
+    "libipn.common.enum.key_action.release":                            "Відпуск",
+    "libipn.common.enum.key_action.both":                               "Натиск / Відпуск",
+    "libipn.common.enum.context.ingame":                                "У грі",
+    "libipn.common.enum.context.gui":                                   "Інтерфейс",
+    "libipn.common.enum.context.any":                                   "У грі / Інтерфейс",
+    "libipn.common.enum.modifier_key.differentiate":                    "Розрізняти ліво/право",
+    "libipn.common.enum.modifier_key.normal":                           "Нормально"
+ }

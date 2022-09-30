@@ -1,0 +1,23 @@
+{
+    "libipn.common.gui.config.reset": "Resetar",
+    "libipn.common.gui.config.true": "§2ativado",
+    "libipn.common.gui.config.false": "§4desativado",
+    "libipn.common.gui.config.yes": "sim",
+    "libipn.common.gui.config.no": "não",
+    "libipn.common.gui.config.more": " ...(mais)",
+    "libipn.common.gui.config.advanced_keybind_settings": "Configurações avançadas de controles.",
+    "libipn.common.gui.config.activate_on": "Ativando em",
+    "libipn.common.gui.config.context": "Contexto",
+    "libipn.common.gui.config.allow_extra_keys": "Ativar teclas extras",
+    "libipn.common.gui.config.order_sensitive": "Order Sensitive",
+    "libipn.common.gui.config.modifier_key": "Ctrl/Alt/Shift",
+    "libipn.common.gui.config.keybind_settings_tips": "- Clique esquerdo para configurar\n- Clique direito para re-definir ao padrão.",
+    "libipn.common.enum.key_action.press": "Pressione",
+    "libipn.common.enum.key_action.release": "Release",
+    "libipn.common.enum.key_action.both": "Pressione / Release",
+    "libipn.common.enum.context.ingame": "In-game",
+    "libipn.common.enum.context.gui": "Gui",
+    "libipn.common.enum.context.any": "In-game / Gui",
+    "libipn.common.enum.modifier_key.differentiate": "Diferença esquerdo/direito",
+    "libipn.common.enum.modifier_key.normal": "Normal"
+}

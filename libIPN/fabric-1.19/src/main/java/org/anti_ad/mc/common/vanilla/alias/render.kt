@@ -35,6 +35,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.math.MathHelper
 
+
 typealias Text = Text
 typealias TextSerializer = Text.Serializer
 //typealias LiteralText = LiteralTextContent
@@ -62,3 +63,6 @@ typealias Formatting = Formatting
 fun getTranslatable(s: String, vararg args: Any): Text = Text.translatable(s, *args)
 
 fun getLiteral(s: String): Text = Text.literal(s)
+
+val Text.`(formattedText)`
+    get() = (this as MutableText).toString()

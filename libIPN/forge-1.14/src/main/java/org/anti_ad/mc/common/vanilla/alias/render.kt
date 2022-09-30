@@ -60,3 +60,6 @@ typealias Formatting = TextFormatting
 fun getTranslatable(s: String, vararg args: Any): Text = TranslatableText(s, *args)
 
 fun getLiteral(s: String): Text = LiteralText(s)
+
+val Text.`(formattedText)`
+    get() = (this as TranslatableText).formattedText

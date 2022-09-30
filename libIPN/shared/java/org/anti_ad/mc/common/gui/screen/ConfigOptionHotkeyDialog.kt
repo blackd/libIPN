@@ -37,7 +37,7 @@ import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1
 
-class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTranslatable("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
+class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTranslatable("libipn.common.gui.config.advanced_keybind_settings")) {
 
     private val keybindSettingElement = with(configHotkey.mainKeybind) {
         ConfigKeybindSettings(defaultSettings, settings)
@@ -45,9 +45,9 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTr
     val configs = keybindSettingElement.getConfigOptionList()
 
     private val IConfigOption.displayName
-        get() = I18n.translate("inventoryprofiles.common.gui.config.$key")
+        get() = I18n.translate("libipn.common.gui.config.$key")
     private val IConfigOption.description
-        get() = I18n.translate("inventoryprofiles.common.gui.config.description.$key")
+        get() = I18n.translate("libipn.common.gui.config.description.$key")
 
     private val maxTextWidth = configs.map { rMeasureText(it.displayName) }.maxOrNull() ?: 0
 

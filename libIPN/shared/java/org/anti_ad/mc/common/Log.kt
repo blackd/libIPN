@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger
 
 open class LogBase {
 
-    protected open val id = "inventoryprofilesnext"
+    protected open val id = "libIPN"
 
     private val innerLogger: Logger = LogManager.getLogger(id)
 

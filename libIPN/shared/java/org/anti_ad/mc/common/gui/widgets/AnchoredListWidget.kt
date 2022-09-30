@@ -92,7 +92,7 @@ open class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
     // AnchorHeader
     // ============
     inner class AnchorHeader : Widget() {
-        private val ellipsisText = I18n.translate("inventoryprofiles.common.gui.config.more")
+        private val ellipsisText = I18n.translate("libipn.common.gui.config.more")
         private val ellipsisTextWidth = rMeasureText(ellipsisText)
 
         init {

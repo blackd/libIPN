@@ -60,3 +60,6 @@ typealias Formatting = ChatFormatting
 fun getTranslatable(s: String, vararg args: Any): Text = Text.translatable(s, *args)
 
 fun getLiteral(s: String): Text = Text.literal(s)
+
+val Text.`(formattedText)`
+    get() = this.string
