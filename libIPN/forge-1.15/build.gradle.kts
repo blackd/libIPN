@@ -287,7 +287,6 @@ configure<CurseExtension> {
         }
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("kotlin-for-forge")
-            requiredDependency("mixinbootstrap")
         })
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
