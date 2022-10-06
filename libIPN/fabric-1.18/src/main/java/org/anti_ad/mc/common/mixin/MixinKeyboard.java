@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common.mixin;
 
 import net.minecraft.client.Keyboard;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import org.anti_ad.mc.common.input.GlobalInputHandler;
 import org.anti_ad.mc.common.input.GlobalScreenEventListener;
@@ -78,6 +79,7 @@ public class MixinKeyboard {
             "wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), cancellable = true)
     private void onScreenKey(long handle, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
         Screen lastScreen = Vanilla.INSTANCE.screen();
+        if (lastScreen instanceof ChatScreen) return;
 /*
         Log.INSTANCE.debug("INVOKE");
         boolean checkPressing = pressedCount != 0 || releasedCount != 0;
