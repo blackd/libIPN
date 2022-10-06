@@ -34,6 +34,28 @@ open class LogBase {
     var shouldDebug: () -> Boolean = { true }
     var shouldTrace: () -> Boolean = { true }
 
+
+    companion object {
+        @JvmStatic
+        val traceSet = mutableSetOf<() -> Boolean>()
+        @JvmStatic
+        val debugSet = mutableSetOf<() -> Boolean>()
+    }
+
+    constructor() {
+        traceSet.add {
+            this.shouldTrace()
+        }
+        debugSet.add {
+            this.shouldDebug()
+        }
+    }
+
+    constructor(b: Boolean) {
+        
+    }
+
+
     fun error(message: String) = innerLogger.error("[$id] $message").also {
         onLog(ERROR,
               message)
@@ -209,6 +231,20 @@ open class LogBase {
                             }
                         },
                         block)
+    }
+
+    private fun falseByDefault(): Boolean {
+        return false
+    }
+
+    fun Set<()->Boolean>.orElements(): Boolean {
+        if (isEmpty()) return false
+        if (size == 1) return this.elementAt(0)()
+        return let {
+            find {
+                it()
+            } ?: this@LogBase::falseByDefault
+        }()
     }
 
 }
