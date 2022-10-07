@@ -82,8 +82,7 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
     inner class ConfigOptionEntry(val configOption: IConfigOption) : Entry() {
         val displayName
             get() = displayNameOf(configOption.key)
-        val description
-            get() = descriptionOf(configOption.key)
+        val description  = descriptionOf(configOption.key)
 
         init {
             height = when(configOption.importance) {
