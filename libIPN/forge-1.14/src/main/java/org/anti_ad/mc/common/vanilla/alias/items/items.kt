@@ -26,6 +26,7 @@ import net.minecraft.item.ArmorItem
 import net.minecraft.item.AxeItem
 import net.minecraft.item.BucketItem
 import net.minecraft.item.FishBucketItem
+import net.minecraft.item.FishingRodItem
 import net.minecraft.item.HoeItem
 import net.minecraft.item.MilkBucketItem
 import net.minecraft.item.PickaxeItem
@@ -50,4 +51,5 @@ typealias PickaxeItem = PickaxeItem
 typealias AxeItem = AxeItem
 typealias HoeItem = HoeItem
 typealias ToolItem = ToolItem
+typealias FishingRodItem = FishingRodItem
 typealias EquipmentSlot = EquipmentSlotType
