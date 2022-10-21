@@ -31,6 +31,8 @@ import net.minecraft.nbt.TagParser
 import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagCollection
 import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.food.Foods
+import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -45,6 +47,10 @@ import net.minecraft.tags.Tag as TagTag
 typealias Item = Item
 typealias Items = Items
 typealias ItemStack = ItemStack
+
+typealias FoodComponent = FoodProperties
+
+typealias FoodComponents = Foods
 
 typealias ItemGroup = CreativeModeTab
 

@@ -25,6 +25,8 @@ import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.item.FoodComponent
+import net.minecraft.item.FoodComponents
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
@@ -47,6 +49,10 @@ typealias Items = Items
 typealias ItemStack = ItemStack
 
 typealias ItemGroup = ItemGroup
+
+typealias FoodComponent = FoodComponent
+
+typealias FoodComponents = FoodComponents
 
 typealias ItemTags = ItemTags
 typealias TagTag<T> = TagTag<T>

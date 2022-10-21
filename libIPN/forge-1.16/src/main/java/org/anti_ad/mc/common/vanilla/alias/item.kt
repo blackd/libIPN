@@ -24,6 +24,8 @@ import net.minecraft.command.arguments.NBTPathArgument
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
+import net.minecraft.item.Food
+import net.minecraft.item.Foods
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
@@ -47,6 +49,10 @@ typealias Items = Items
 typealias ItemStack = ItemStack
 
 typealias ItemGroup = ItemGroup
+
+typealias FoodComponent = Food
+
+typealias FoodComponents = Foods
 
 typealias ItemTags = ItemTags
 typealias TagTag<T> = TagTag<T>
