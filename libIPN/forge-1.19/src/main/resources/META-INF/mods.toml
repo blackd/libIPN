@@ -22,7 +22,7 @@ license="@LICENSE@"
     version="@VERSION@" #mandatory
 
     # A display name for the mod
-    displayName="Inventory Profiles Next" #mandatory
+    displayName="libIPN" #mandatory
 
     # A URL to query for updates for this mod. See the JSON update specification <here>
 #    updateJSONURL="http://myurl.me/" #optional
