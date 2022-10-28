@@ -1,13 +1,19 @@
 <!-- latest begin -->
-### 1.0.2
+### 1.0.4
 
-- Added support for fishing rods.
+- Adds support for foods as a group of items.
 
-### All mods developed against v1.0.0 are compatible with v1.0.1
+
+### All mods developed against v1.0.0 are compatible with v1.0.x
 
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.0.2
+
+- Added support for fishing rods.
+
+
 ### 1.0.1
 
 - Hotkeys will no longer be activated while in chat.
