@@ -26,6 +26,9 @@ import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.debug.DebugInfos
+import org.anti_ad.mc.common.gui.screen.ConfigOptionHotkeyDialog
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.lwjgl.glfw.GLFW.*
 
@@ -97,6 +100,12 @@ object GlobalInputHandler {
             }
             return true
         }
+
+        val screen = Vanilla.screen()
+        if (screen != null && (screen is ConfigScreenBase || screen is ConfigOptionHotkeyDialog)) {
+            return false
+        }
+
         if (registeredCancellable.any { it.onInput(lastKey,
                                                    lastAction) }) {
             return true
