@@ -25,25 +25,40 @@ import kotlinx.serialization.json.encodeToJsonElement
 import org.anti_ad.mc.libipn.Log
 import java.net.URL
 import java.util.concurrent.*
+import java.security.MessageDigest;
 
 import javax.net.ssl.HttpsURLConnection
 
-object InfoManager {
+/*
+object DefaultInfoManager: InfoManager() {
+    override var mcVersion = "game-version-missing"
+    override var version = "version-missing"
+    override var modId = "id-missing"
+    override var modName = "name-missing"
+    override var loader: String = "loader-missing"
 
-    var mcVersion = "game-version-missing"
-    var version = "version-missing"
-    var modId = "id-missing"
-    var modName = "name-missing"
-    var loader: String = "loader-missing"
+    override val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
+                                                             "name" to "pageview")
 
-    private val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
-                                                            "name" to "pageview")
+    override val target: URL = URL("https://p.anti-ad.org/api/event")
+
+    override var isEnabled: () -> Boolean  = { true }
+}
+*/
+
+abstract class InfoManager {
+
+    abstract var mcVersion: String
+    abstract var version: String
+    abstract var modId: String
+    abstract var modName: String
+    abstract var loader: String
+
+    protected abstract val defaultRequest: Map<String, String>
     private val session: MutableMap<String, String> = mutableMapOf()
-    private val target = URL("https://p.anti-ad.org/api/event")
+    protected abstract val target: URL
 
-    private val versionUrl = URL("https://ipn.anti-ad.org/ipn/versionCheckV2")
-
-    var isEnabled: () -> Boolean = { true }
+    abstract var isEnabled: () -> Boolean
 
     private val isBeta by lazy { version.contains("BETA") }
     private val currentVer by lazy { SemVer.parse(if (isBeta) version.substringBefore("-")  else { version }) }
@@ -53,25 +68,25 @@ object InfoManager {
     private val executor = Executors.newFixedThreadPool(2)
 
 
-    fun event(name: Lazy<String>, value: Lazy<String>) {
+    open fun event(name: Lazy<String>, value: Lazy<String>) {
         if (isEnabled()) {
             doEvent(name.value, value.value)
         }
     }
 
-    fun event(name: String, value: Lazy<String>) {
+    open fun event(name: String, value: Lazy<String>) {
         if (isEnabled()) {
             doEvent(name, value.value)
         }
     }
 
-    fun event(name: String, value: String = "") {
+    open fun event(name: String, value: String = "") {
         if (isEnabled()) {
             doEvent(name, value)
         }
     }
 
-    fun event(name: Lazy<String>, value: String = "") {
+    open fun event(name: Lazy<String>, value: String = "") {
         if (isEnabled()) {
             doEvent(name.value, value)
         }
@@ -119,21 +134,44 @@ object InfoManager {
         Log.trace("Event Sent!")
     }
 
-    fun checkVersion(function: (SemVer, SemVer, Boolean) -> Unit) {
+    protected fun String.sha256() = hashString("SHA-256", this)
+
+    private fun ByteArray.toHex(): String {
+        return joinToString("") { "%02x".format(it) }
+    }
+
+    private fun hashString(type: String, input: String): String {
+        val bytes = MessageDigest
+            .getInstance(type)
+            .digest(input.toByteArray())
+        return bytes.toHex()
+    }
+
+    open fun checkVersion(versionCheckURL: URL,
+                          modId: String,
+                          salt: String,
+                          function: (SemVer, SemVer, Boolean) -> Unit) {
+
         executor.execute {
             try {
-                doCheckVersion(function)
+                doCheckVersion(versionCheckURL,
+                               modId,
+                               if (salt != " InvalidName") salt.sha256() else "Invalid!!!",
+                               function)
             } catch (t: Throwable) {
                 Log.warn("Update check failed with message - ${t.message}")
             }
         }
     }
 
-    private fun doCheckVersion(function: (SemVer, SemVer, Boolean) -> Unit) {
-        with(versionUrl.openConnection() as HttpsURLConnection) {
+    private fun doCheckVersion(versionCheckURL: URL,
+                               modId: String,
+                               salt: String,
+                               function: (SemVer, SemVer, Boolean) -> Unit) {
+        with(versionCheckURL.openConnection() as HttpsURLConnection) {
             val isBeta = version.contains("BETA")
             val currentVer = SemVer.parse(if (isBeta) version.substringBefore("-")  else { version })
-            setRequestProperty("User-Agent", "Minecraft/$mcVersion; $loader; IPN/$currentVer;" + if (isBeta) " Beta" else "")
+            setRequestProperty("User-Agent", "Minecraft/$mcVersion; $loader; ${modId}/$currentVer; $salt;" + if (isBeta) " Beta" else "")
 
             instanceFollowRedirects = false
             val xIpn = getHeaderField("X-IPN")
