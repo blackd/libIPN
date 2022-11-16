@@ -24,26 +24,21 @@ import net.minecraftforge.fml.IExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 
-import org.apache.commons.lang3.tuple.Pair
-import java.util.function.*
 import org.anti_ad.mc.common.init
 
 class LibIPNClientInit: Runnable {
 
     override fun run() {
 
+        init()
+
+        MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
+        MinecraftForge.EVENT_BUS.register(ForgePostponedInit())
+
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
             IExtensionPoint.DisplayTest({ ModLoadingContext.get().activeContainer.modInfo.version.toString() }) {
                     remote: String?, isServer: Boolean? -> true
             }
         }
-
-        MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
-
-        MinecraftForge.EVENT_BUS.register(ForgePostponedInit())
-
-
-
-        init()
     }
 }

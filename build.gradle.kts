@@ -23,7 +23,7 @@ import org.anti_ad.mc.libipn.buildsrc.getGitHash
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "0", "5",
+val versionObj = Version("1", "0", "6",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loomv = loom_version

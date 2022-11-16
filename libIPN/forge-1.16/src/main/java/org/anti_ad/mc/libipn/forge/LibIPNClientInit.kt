@@ -31,8 +31,10 @@ import org.anti_ad.mc.common.init
 class LibIPNClientInit: Runnable {
 
     override fun run() {
-        MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
 
+        init()
+
+        MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
         MinecraftForge.EVENT_BUS.register(ForgePostponedInit())
 
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST) {
@@ -40,7 +42,5 @@ class LibIPNClientInit: Runnable {
                 Supplier { "anything. i don't care" },
                 BiPredicate { remoteversionstring: String?, networkbool: Boolean? -> networkbool!! })
         }
-
-        init()
     }
 }
