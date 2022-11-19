@@ -1,16 +1,20 @@
 <!-- latest begin -->
-### 1.0.5
+### 1.0.6
 
-- fixed situation where the all buttons in the settings become inaccessible preventing the player using the settings screen.
-- added support for 1.19.3/1.20 snapshots. Available to patreons. 
+- workaround for forge out of order mod initialisation that causes crash for very small number of users.
 
-### Become a [Patreon](https://www.patreon.com/mirinimi/membership) too gain access to snapshot builds
+### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain access to snapshot builds
 
 ### All mods developed against v1.0.0 are compatible with v1.0.x
 
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.0.5
+
+- fixed situation where the all buttons in the settings become inaccessible preventing the player using the settings screen.
+- added support for 1.19.3/1.20 snapshots. Available to patreons.
+
 ### 1.0.4
 
 - Adds support for foods as a group of items.
