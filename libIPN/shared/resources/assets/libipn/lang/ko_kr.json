@@ -1,0 +1,23 @@
+{
+    "libipn.common.gui.config.reset":                                   "초기화",
+    "libipn.common.gui.config.true":                                    "§2활성화",
+    "libipn.common.gui.config.false":                                   "§4비활성화",
+    "libipn.common.gui.config.yes":                                     "네",
+    "libipn.common.gui.config.no":                                      "아니오",
+    "libipn.common.gui.config.more":                                    " ...(그 외)",
+    "libipn.common.gui.config.advanced_keybind_settings":               "조합키 고급 설정",
+    "libipn.common.gui.config.activate_on":                             "실행 조건",
+    "libipn.common.gui.config.context":                                 "어떤 화면에서",
+    "libipn.common.gui.config.allow_extra_keys":                        "다른 키와 함께 눌러도 실행",
+    "libipn.common.gui.config.order_sensitive":                         "순서 확인",
+    "libipn.common.gui.config.modifier_key":                            "Ctrl/Alt/Shift",
+    "libipn.common.gui.config.keybind_settings_tips":                   "- 좌클릭: 설정\n- 우클릭: 초기화",
+    "libipn.common.enum.key_action.press":                              "누르기",
+    "libipn.common.enum.key_action.release":                            "떼기",
+    "libipn.common.enum.key_action.both":                               "누르기/떼기",
+    "libipn.common.enum.context.ingame":                                "In-game",
+    "libipn.common.enum.context.gui":                                   "GUI",
+    "libipn.common.enum.context.any":                                   "In-game/GUI",
+    "libipn.common.enum.modifier_key.differentiate":                    "좌/우 구분",
+    "libipn.common.enum.modifier_key.normal":                           "일반"
+}
