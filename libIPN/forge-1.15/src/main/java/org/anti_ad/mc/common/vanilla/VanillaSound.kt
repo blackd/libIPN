@@ -20,9 +20,6 @@
 
 package org.anti_ad.mc.common.vanilla
 
-import net.minecraftforge.fml.RegistryObject
-import net.minecraftforge.registries.DeferredRegister
-import net.minecraftforge.registries.ForgeRegistries
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.PositionedSoundInstance
 import org.anti_ad.mc.common.vanilla.alias.SoundEvent
@@ -30,7 +27,6 @@ import org.anti_ad.mc.common.vanilla.alias.SoundEvents
 import org.anti_ad.mc.common.vanilla.alias.SoundInstance
 import org.anti_ad.mc.common.vanilla.glue.IVanillaSound
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaSound
-import org.anti_ad.mc.libipn.LibIPNModInfo
 
 fun initVanillaSound() {
     __glue_vanillaSound = VanillaSound
@@ -47,6 +43,8 @@ object VanillaSound: IVanillaSound {
 
     fun play(sound: SoundInstance, delay: Int) = Vanilla.soundManager().playDelayed(sound, delay)
 
-
+    fun createSoundEvent(id: Identifier): SoundEvent {
+        return SoundEvent(id)
+    }
 
 }

@@ -161,6 +161,28 @@ object GlobalScreenEventListener {
         return false
     }
 
+    fun onKey120(key: Int,
+                 scanCode: Int,
+                 action: Int,
+                 modifiers: Int,
+                 pre: Boolean): Boolean {
+
+        if (action != 1 && (action != 2)) {
+            if (action == 0) {
+                return onKeyReleased(key,
+                                     scanCode,
+                                     modifiers,
+                                     pre)
+            }
+        } else {
+            return onKeyPressed(key,
+                                scanCode,
+                                modifiers,
+                                pre)
+        }
+        return false
+    }
+
     // return of post is no use
     fun onMouse(button: Int,
                 action: Int,

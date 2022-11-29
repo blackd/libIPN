@@ -44,4 +44,8 @@ object VanillaSound: IVanillaSound {
 
     fun play(sound: SoundInstance, delay: Int) = Vanilla.soundManager().play(sound, delay)
 
+    fun createSoundEvent(id: Identifier): SoundEvent {
+        return SoundEvent(id)
+    }
+
 }

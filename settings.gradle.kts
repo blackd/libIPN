@@ -28,7 +28,7 @@ include("libIPN:fabric-1.18")
 include("libIPN:fabric-1.18.2")
 include("libIPN:fabric-1.19")
 
-//include("libIPN:fabric-1.20")
+include("libIPN:fabric-1.19.3")
 
 include("libIPN:forge-1.14")
 include("libIPN:forge-1.15")

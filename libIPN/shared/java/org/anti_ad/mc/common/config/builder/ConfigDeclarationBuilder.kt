@@ -56,7 +56,26 @@ fun ConfigDeclaration.keyToggleBool(defaultValue: Boolean,
 
 fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) = ConfigEnum(defaultValue).addTo(this)
 
+fun <T : Enum<T>> ConfigDeclaration.enumForMinMCVersion(minMCVersion:Int,
+                                                        currentMCVersion: Int,
+                                                        defaultValue: T) =
+        if (currentMCVersion >= minMCVersion) {
+            ConfigEnum(defaultValue).addTo(this)
+        } else {
+            ConfigEnum(defaultValue).fakeAddTo(this)
+        }
+
 fun ConfigDeclaration.string(defaultValue: String) = ConfigString(defaultValue).addTo(this)
+
+fun ConfigDeclaration.handledStringForMinMCVersion(minMCVersion:Int,
+                                                   currentMCVersion: Int,
+                                                   defaultValue: String,
+                                                   changeHandler: () -> Unit) =
+        if (currentMCVersion >= minMCVersion) {
+            HandledConfigString(defaultValue, changeHandler).addTo(this)
+        } else {
+            HandledConfigString(defaultValue, changeHandler).fakeAddTo(this)
+        }
 
 fun ConfigDeclaration.handledString(defaultValue: String, changeHandler: () -> Unit) =
         HandledConfigString(defaultValue, changeHandler).addTo(this)
@@ -69,7 +88,12 @@ fun ConfigDeclaration.createBuilder() = ConfigDeclarationBuilder().apply {
     innerConfig.key = this@createBuilder.javaClass.simpleName
 }
 
+fun ConfigDeclaration.createBuilder(mcVersion: Int) = ConfigDeclarationBuilder().apply {
+    innerConfig.key = this@createBuilder.javaClass.simpleName
+}
+
 interface ConfigDeclaration {
+
     val builder: ConfigDeclarationBuilder
 }
 
@@ -88,6 +112,11 @@ class ConfigDeclarationBuilder {
 
 fun <T : IConfigOption> T.addTo(declaration: ConfigDeclaration): ConfigOptionDelegateProvider<T> {
     declaration.builder.innerConfig.addConfigOption(this)
+    return ConfigOptionDelegateProvider(this,
+                                        declaration)
+}
+
+fun <T : IConfigOption> T.fakeAddTo(declaration: ConfigDeclaration): ConfigOptionDelegateProvider<T> {
     return ConfigOptionDelegateProvider(this,
                                         declaration)
 }

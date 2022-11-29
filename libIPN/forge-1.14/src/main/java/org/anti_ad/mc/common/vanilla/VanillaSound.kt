@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla
 
-import net.minecraftforge.fml.RegistryObject
+import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.PositionedSoundInstance
 import org.anti_ad.mc.common.vanilla.alias.SoundEvent
 import org.anti_ad.mc.common.vanilla.alias.SoundEvents
@@ -43,6 +43,8 @@ object VanillaSound: IVanillaSound {
 
     fun play(sound: SoundInstance, delay: Int) = Vanilla.soundManager().playDelayed(sound, delay)
 
-
+    fun createSoundEvent(id: Identifier): SoundEvent {
+        return SoundEvent(id)
+    }
 
 }
