@@ -31,15 +31,15 @@ import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.libipn.buildsrc.loom_version
 
-val supported_minecraft_versions = listOf("1.20-snapshot", "22w44a")
+val supported_minecraft_versions = listOf("1.19.3-pre2", "1.19-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "22w44a"
-val minecraft_version_string = "1.19.3/1.20"
-val mappings_version = "22w44a+build.8"
+val minecraft_version = "1.19.3-pre2"
+val minecraft_version_string = "1.19.3"
+val mappings_version = "1.19.3-pre2+build.6"
 val loader_version = "0.14.10"
-val modmenu_version = "4.0.6"
-val fabric_api_version = "0.65.3+1.19.3"
+val modmenu_version = "5.0.0-alpha.4"
+val fabric_api_version = "0.67.2+1.19.3"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
@@ -121,7 +121,9 @@ apply(plugin = "kotlinx-serialization")
 loom {
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("libIPN-refmap.json")
-
+    accessWidenerPath.set {
+        project.layout.projectDirectory.file("src/main/resources/ipn.accesswidener").asFile
+    }
 }
 
 afterEvaluate {
@@ -217,83 +219,79 @@ publishing {
 // curseforge
 // ============
 
-if (false) {
+configure<CurseExtension> {
 
-    configure<CurseExtension> {
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
+        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+    }
 
-        if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
-            apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
-        }
-
-        project(closureOf<CurseProject> {
-            id = "679177"
-            changelogType = "markdown"
-            changelog = file("../../description/out/pandoc-release_notes.md")
-            releaseType = "release"
-            supported_minecraft_versions.forEach {
-                if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
-                    this.addGameVersion(it)
-                }
+    project(closureOf<CurseProject> {
+        id = "679177"
+        changelogType = "markdown"
+        changelog = file("../../description/out/pandoc-release_notes.md")
+        releaseType = "release"
+        supported_minecraft_versions.forEach {
+            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+                this.addGameVersion(it)
             }
-            this.addGameVersion("Fabric")
-            this.addGameVersion("Quilt")
-            val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-            val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
-            logger.lifecycle("""
+        }
+        this.addGameVersion("Fabric")
+        this.addGameVersion("Quilt")
+        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
+        val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        logger.lifecycle("""
             +*************************************************+
             Will release ${remappedJarFile.path}
             +*************************************************+
         """.trimIndent())
-            mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-                displayName = "libIPN-fabric-$minecraft_version_string-$mod_version"
-            })
+        mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+            displayName = "libIPN-fabric-$minecraft_version_string-$mod_version"
+        })
 
-            relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
-                requiredDependency("fabric-api")
-                requiredDependency("fabric-language-kotlin")
-            })
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("fabric-api")
+            requiredDependency("fabric-language-kotlin")
         })
-        options(closureOf<com.matthewprenger.cursegradle.Options> {
-            debug = false
-            javaIntegration = false
-            forgeGradleIntegration = mod_loader == "forge"
-        })
+    })
+    options(closureOf<com.matthewprenger.cursegradle.Options> {
+        debug = false
+        javaIntegration = false
+        forgeGradleIntegration = mod_loader == "forge"
+    })
+}
+// ============
+// modrith
+// ============
+
+modrinth {
+
+    this.failSilently.set(true)
+
+    if (System.getenv("IPNEXT_RELEASE") != null) {
+        token.set(System.getenv("MODRINTH_TOKEN"))
     }
-    // ============
-    // modrith
-    // ============
 
-    modrinth {
-
-        this.failSilently.set(true)
-
-        if (System.getenv("IPNEXT_RELEASE") != null) {
-            token.set(System.getenv("MODRINTH_TOKEN"))
-        }
-
-        projectId.set("onSQdWhM")
-        versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
-        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-        val remappedJarFile = fabricRemapJar.archiveFile
-        uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-        gameVersions.addAll(supported_minecraft_versions.filter {
-            !it.toLowerCase().contains("snapshot")
-        })
-        logger.lifecycle("""
+    projectId.set("onSQdWhM")
+    versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
+    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
+    val remappedJarFile = fabricRemapJar.archiveFile
+    uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    gameVersions.addAll(supported_minecraft_versions.filter {
+        !it.toLowerCase().contains("snapshot")
+    })
+    logger.lifecycle("""
         +*************************************************+
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-        versionName.set("libIPN $mod_version for $mod_loader $minecraft_version_string")
-        this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
-        loaders.add(mod_loader)
+    versionName.set("libIPN $mod_version for $mod_loader $minecraft_version_string")
+    this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
+    loaders.add(mod_loader)
 
-        dependencies.set(
-            mutableListOf(
-                ModDependency("P7dR8mSH", "required"),
-                ModDependency("Ha28R6CL", "required")))
+    dependencies.set(
+        mutableListOf(
+            ModDependency("P7dR8mSH", "required"),
+            ModDependency("Ha28R6CL", "required")))
 
-        this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
-    }
-
+    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
 }

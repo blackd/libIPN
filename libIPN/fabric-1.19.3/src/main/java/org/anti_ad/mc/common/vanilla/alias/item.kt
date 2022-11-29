@@ -29,6 +29,7 @@ import net.minecraft.item.FoodComponent
 import net.minecraft.item.FoodComponents
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemGroups
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.AbstractNbtList
@@ -46,6 +47,8 @@ typealias Items = Items
 typealias ItemStack = ItemStack
 
 typealias ItemGroup = ItemGroup
+typealias ItemGroupType = ItemGroup.Type
+typealias ItemGroups = ItemGroups
 
 typealias FoodComponent = FoodComponent
 

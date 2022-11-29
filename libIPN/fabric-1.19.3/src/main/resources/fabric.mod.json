@@ -20,6 +20,7 @@
       "org.anti_ad.mc.common.LibIPNKt::init"
     ]
   },
+  "accessWidener": "ipn.accesswidener",
   "mixins": [
     "mixins.libIPN-common.json"
   ],

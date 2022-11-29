@@ -32,8 +32,9 @@ import net.minecraft.server.integrated.IntegratedServer
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.util.Util
-import net.minecraft.util.registry.DefaultedRegistry
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.DefaultedRegistry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.Registries
 import net.minecraft.client.network.ClientPlayerInteractionManager
 import net.minecraft.client.sound.SoundInstance
 import net.minecraft.entity.player.PlayerEntity
@@ -49,6 +50,7 @@ typealias Window = Window
 typealias Identifier = Identifier
 
 typealias Registry<T> = Registry<T>
+typealias Registries = Registries
 typealias DefaultedRegistry<T> = DefaultedRegistry<T>
 
 typealias PositionedSoundInstance = PositionedSoundInstance
@@ -69,16 +71,16 @@ typealias SoundEvent = SoundEvent
 
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
-    get() = Registry.BLOCK_ENTITY_TYPE.ids
+    get() = Registries.BLOCK_ENTITY_TYPE.ids
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-BLOCK-IDS)`
-    get() = Registry.BLOCK.ids
+    get() = Registries.BLOCK.ids
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-CONTAINER-IDS)`
-    get() = Registry.SCREEN_HANDLER.ids
+    get() = Registries.SCREEN_HANDLER.ids
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-ITEM-IDS)`
-    get() = Registry.ITEM.ids
+    get() = Registries.ITEM.ids
 
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.translate(string,

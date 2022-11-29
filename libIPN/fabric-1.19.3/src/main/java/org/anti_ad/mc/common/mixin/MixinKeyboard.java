@@ -27,7 +27,6 @@ import org.anti_ad.mc.common.input.GlobalInputHandler;
 import org.anti_ad.mc.common.input.GlobalScreenEventListener;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -38,8 +37,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 @Mixin(value = Keyboard.class, priority = 0)
 public class MixinKeyboard {
-    @Shadow
-    private boolean repeatEvents;
 
     private int pressedCount = 0;
     private int releasedCount = 0;
@@ -58,7 +55,7 @@ public class MixinKeyboard {
                 }
                 res = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers, checkPressing, handle);
             } else {
-                res = GlobalScreenEventListener.INSTANCE.onKey(key, scanCode, action, modifiers, repeatEvents, false);
+                res = GlobalScreenEventListener.INSTANCE.onKey120(key, scanCode, action, modifiers, false);
             }
         }
         if (res) {
@@ -80,16 +77,9 @@ public class MixinKeyboard {
     private void onScreenKey(long handle, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
         Screen lastScreen = Vanilla.INSTANCE.screen();
         if (lastScreen instanceof ChatScreen) return;
-/*
-        Log.INSTANCE.debug("INVOKE");
-        boolean checkPressing = pressedCount != 0 || releasedCount != 0;
-        if (checkPressing) {
-            pressedCount = 0;
-            releasedCount = 0;
-        }
-*/
+
         boolean result = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers, false, handle)
-                || GlobalScreenEventListener.INSTANCE.onKey(key, scanCode, action, modifiers, repeatEvents, true);
+                || GlobalScreenEventListener.INSTANCE.onKey120(key, scanCode, action, modifiers, true);
 
         if (result || lastScreen != Vanilla.INSTANCE.screen()) { // detect gui change, cancel vanilla
             ci.cancel();

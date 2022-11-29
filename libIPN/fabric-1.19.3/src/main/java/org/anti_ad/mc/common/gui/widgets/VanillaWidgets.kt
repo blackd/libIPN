@@ -48,9 +48,6 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
             // TODO set height
         }
         screenLocationChanged += {
-            //vanilla.x = screenX
-            //vanilla.y = screenY
-
             vanilla.x = screenX
             vanilla.y = screenY
         }
@@ -156,15 +153,7 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                                                                                     20,
                                                                                     Text.literal(""),
                                                                                     0.5) {
-/*
-    var x
-        get() = this.method_46426()
-        set(value) = this.method_46421(value)
 
-    var y
-        get() = this.method_46427()
-        set(value) = this.method_46419(value)
-*/
     var valueChangedEvent: () -> Unit = { }
 
     override fun updateMessage() {}
