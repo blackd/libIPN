@@ -1,15 +1,20 @@
 <!-- latest begin -->
-### 1.0.6
+### 1.0.7
 
-- workaround for forge out of order mod initialisation that causes crash for very small number of users.
+- adds support for 1.19.3
+- some non-user facing changes because of the 1.19.3 support
 
-### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain access to snapshot builds
+### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
 ### All mods developed against v1.0.0 are compatible with v1.0.x
 
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.0.6
+
+- workaround for forge out of order mod initialization that causes crash for very small number of users.
+
 ### 1.0.5
 
 - fixed situation where the all buttons in the settings become inaccessible preventing the player using the settings screen.
