@@ -1,8 +1,8 @@
 <!-- latest begin -->
-### 1.0.7
+### 1.0.8
 
-- adds support for 1.19.3
-- some non-user facing changes because of the 1.19.3 support
+- adds support for 1.19.3-rc1 and hopefully 1.19.3 proper
+
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
@@ -11,6 +11,11 @@
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.0.7
+
+- adds support for 1.19.3
+- some non-user facing changes because of the 1.19.3 support
+
 ### 1.0.6
 
 - workaround for forge out of order mod initialization that causes crash for very small number of users.
