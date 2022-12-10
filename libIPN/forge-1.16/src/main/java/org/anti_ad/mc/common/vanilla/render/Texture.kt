@@ -39,36 +39,17 @@ import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeMode
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_VANILLA_TEXTURE_WIDGETS
-import org.anti_ad.mc.common.vanilla.render.glue.__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_make_Identifier
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_rBlit
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDrawDynamicSizeSprite
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 
 inline operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
 }
 
-private val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
+val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
     get() = IdentifierHolder(ClickableWidget.WIDGETS_LOCATION)
 
-private fun makeIdentifier(ns: String, path: String): Any {
+fun makeIdentifier(ns: String, path: String): Any {
     return Identifier(ns, path)
-}
-
-fun initTextureGlue() {
-    __glue_make_Identifier = ::makeIdentifier
-
-    __glue_rBlit = ::rBlit
-    __glue_rDrawSprite = ::internal_rDrawSprite
-    __glue_rDrawDynamicSizeSprite = ::internal_rDrawDynamicSizeSprite
-
-    __glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite = {
-        internal_rVanillaButtonSpriteF
-    }
-    __glue_VANILLA_TEXTURE_WIDGETS = VANILLA_TEXTURE_WIDGETS
 }
 
 private fun rBindTexture(identifier: Identifier) {
@@ -97,7 +78,7 @@ private fun rBlit(x: Int,
 }
 
 // screen xy wh sprite xy wh texture wh
-private fun rBlit(x: Int,
+fun vanilla_rBlit(x: Int,
                   y: Int,
                   w: Int,
                   h: Int,
@@ -137,16 +118,16 @@ fun internal_rDrawSprite(sprite: Sprite,
     rBindTexture(sprite.identifier())
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
-    rBlit(x,
-          y,
-          sw,
-          sh,
-          sx,
-          sy,
-          sw,
-          sh,
-          tw,
-          th)
+    vanilla_rBlit(x,
+                  y,
+                  sw,
+                  sh,
+                  sx,
+                  sy,
+                  sw,
+                  sh,
+                  tw,
+                  th)
 }
 
 
@@ -154,11 +135,11 @@ fun internal_rDrawSprite(sprite: Sprite,
 // dynamic
 // ============
 
-private val internal_rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
-                                                    Rectangle(0,
-                                                     46,
-                                                     200,
-                                                     20))
+val rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
+                                   Rectangle(0,
+                                             46,
+                                             200,
+                                             20))
 
 
 private fun Int.split(a: Int = this / 2): Pair<Int, Int> {
@@ -196,7 +177,7 @@ private fun resizeClips(clips: List<Rectangle>,
     )
 }
 
-fun internal_rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
+fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
                            bounds: Rectangle,
                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
     val (x, y, width, height) = bounds

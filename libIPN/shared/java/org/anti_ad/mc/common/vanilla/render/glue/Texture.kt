@@ -20,58 +20,20 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
-import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.math2d.*
 import org.anti_ad.mc.common.math2d.Corner.*
+import org.anti_ad.mc.common.vanilla.render.internal_rDrawSprite
+import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSpriteF
+import org.anti_ad.mc.common.vanilla.render.makeIdentifier
+import org.anti_ad.mc.common.vanilla.render.vanilla_rBlit
+import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 
-var __glue_VANILLA_TEXTURE_WIDGETS: IdentifierHolder = IdentifierHolder(Any())
-
-var __glue_make_Identifier: (String, String) -> Any = { _: String, _: String ->
-    Log.glueError("__glue_make_Identifier not initialized! This hard breaks stuff!")
-    throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
-}
-
-var __glue_rBlit: (x: Int, y: Int, w: Int, h: Int, sx: Int, sy: Int, sw: Int, sh: Int, tw: Int, th: Int) -> Unit = {
-        _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int ->
-    Log.glueError("__glue_rBlit not initialized! This hard breaks stuff!")
-    throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
-}
-
-var __glue_rDrawSprite: (sprite: Sprite,
-                         tIndex: Int,
-                         x: Int,
-                         y: Int) -> Unit = { _: Sprite, _: Int, _: Int, _: Int ->
-    Log.glueError("__glue_rBlit not initialized! This hard breaks stuff!")
-    throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
-}
-
-var __glue_rDrawDynamicSizeSprite: (sprite: DynamicSizeSprite,
-                                     bounds: Rectangle,
-                                     mode: DynamicSizeMode)  -> Unit  =
-    { _: DynamicSizeSprite, _: Rectangle, _: DynamicSizeMode ->
-        Log.glueError("__glue_rDrawDynamicSizeSprite not initialized! This hard breaks stuff!")
-        throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
-    }
-
-var __glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite: () -> Sprite = {
-    Log.glueError("__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite not initialized! This hard breaks stuff!")
-    throw UninitializedPropertyAccessException("__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite not initialized! This hard breaks stuff!")
-}
-
-private val rVanillaButtonSpriteF
-    get() = __glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite()
 
 val rVanillaButtonSprite: DynamicSizeSprite
     get() {
         return DynamicSizeSprite(rVanillaButtonSpriteF,
                                  3)
     }
-
-fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
-                           bounds: Rectangle,
-                           mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
-    __glue_rDrawDynamicSizeSprite(sprite, bounds, mode)
-}
 
 fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
                            x: Int,
@@ -93,7 +55,7 @@ private fun rBlit(drawArea: Rectangle,
     val (x, y, w, h) = drawArea
     val (sx, sy, sw, sh) = spriteBounds
     val (tw, th) = textureSize
-    __glue_rBlit(x, y, w, h, sx, sy, sw, sh, tw, th)
+    vanilla_rBlit(x, y, w, h, sx, sy, sw, sh, tw, th)
 }
 
 // ============
@@ -101,17 +63,17 @@ private fun rBlit(drawArea: Rectangle,
 // ============
 
 fun rDrawSprite(sprite: Sprite,
-                location: Point) = __glue_rDrawSprite(sprite,
-                                               0,
-                                               location.x,
-                                               location.y)
+                location: Point) = internal_rDrawSprite(sprite,
+                                                        0,
+                                                        location.x,
+                                                        location.y)
 
 fun rDrawSprite(sprite: Sprite,
                 x: Int,
-                y: Int) = __glue_rDrawSprite(sprite,
-                                             0,
-                                             x,
-                                             y)
+                y: Int) = internal_rDrawSprite(sprite,
+                                               0,
+                                               x,
+                                               y)
 
 fun rDrawCenteredSprite(sprite: Sprite,
                         location: Point) = rDrawCenteredSprite(sprite,
@@ -131,10 +93,10 @@ fun rDrawCenteredSprite(sprite: Sprite,
                         x: Int,
                         y: Int) {
     val (w, h) = sprite.size
-    __glue_rDrawSprite(sprite,
-                       tIndex,
-                       x - w / 2,
-                       y - h / 2)
+    internal_rDrawSprite(sprite,
+                         tIndex,
+                         x - w / 2,
+                         y - h / 2)
 }
 
 fun rDrawCenteredSprite(sprite: Sprite,
@@ -148,7 +110,7 @@ fun rDrawCenteredSprite(sprite: Sprite,
 
 
 class IdentifierHolder(var id: Any) {
-    constructor(ns: String, name: String) : this(__glue_make_Identifier(ns, name))
+    constructor(ns: String, name: String) : this(makeIdentifier(ns, name))
 }
 
 

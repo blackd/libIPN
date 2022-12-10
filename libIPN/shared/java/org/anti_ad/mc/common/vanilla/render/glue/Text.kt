@@ -20,23 +20,11 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
-import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.vanilla.render.VanillaTextRenderer
 
-var __glue_Vanilla_textRenderer_getWidth: (String) -> Int = { _: String ->
-    Log.glueError("__glue_Vanilla_textRenderer_getWidth not initialized!")
-    100
-}
 
-var __glue_Vanilla_textRenderer_drawWithShadow: (String, Double, Double, Int) -> Unit = {_: String, _: Double, _: Double, _: Int ->
-    Log.glueError("__glue_Vanilla_textRenderer_drawWithShadow not initialized!")
-}
-
-var __glue_Vanilla_textRenderer_draw: (String, Double, Double, Int) -> Unit = {_: String, _: Double, _: Double, _: Int ->
-    Log.glueError("__glue_Vanilla_textRenderer_draw not initialized!")
-}
-
-fun rMeasureText(string: String): Int = __glue_Vanilla_textRenderer_getWidth(string)
+fun rMeasureText(string: String): Int = VanillaTextRenderer.getWidth(string)
 
 fun rDrawText(string: String,
               x: Int,
@@ -44,15 +32,15 @@ fun rDrawText(string: String,
               color: Int,
               shadow: Boolean = true) {
     if (shadow) {
-        __glue_Vanilla_textRenderer_drawWithShadow(string,
-                                                   x.toDouble(),
-                                                   y.toDouble(),
-                                                   color)
+        VanillaTextRenderer.drawWithShadow(string,
+                                           x.toDouble(),
+                                           y.toDouble(),
+                                           color)
     } else {
-        __glue_Vanilla_textRenderer_draw(string,
-                                         x.toDouble(),
-                                         y.toDouble(),
-                                         color)
+        VanillaTextRenderer.draw(string,
+                                 x.toDouble(),
+                                 y.toDouble(),
+                                 color)
     }
 }
 
@@ -80,11 +68,7 @@ fun rDrawCenteredText(string: String,
               color,
               shadow)
 }
-var __glue_Vanilla_textRenderer_textHandler_wrapLines: (String, Int) -> String = { s: String, _: Int ->
-    Log.glueError("glue__Vanilla_textRenderer_textHandler_wrapLines not initialized!")
-    s
-}
 
 fun rWrapText(string: String,
-              maxWidth: Int): String = __glue_Vanilla_textRenderer_textHandler_wrapLines(string,
-                                                                                         maxWidth)
+              maxWidth: Int): String = VanillaTextRenderer.wrapLines(string,
+                                                                     maxWidth)

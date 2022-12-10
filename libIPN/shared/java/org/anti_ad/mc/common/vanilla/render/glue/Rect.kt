@@ -27,22 +27,32 @@ import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
+import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 
+object DrawableHelperAccess: DrawableHelper() {
+    fun fillGradient(i: Int,
+                     j: Int,
+                     k: Int,
+                     l: Int,
+                     m: Int,
+                     n: Int) {
+        super.fillGradient(rMatrixStack,
+                           i,
+                           j,
+                           k,
+                           l,
+                           m,
+                           n)
+    }
 
-var __glue_rFillRect: (x1: Int, y1: Int, x2: Int, y2: Int,
-                       color: Int) -> Unit = { x1: Int,
-                                               y1: Int,
-                                               x2: Int,
-                                               y2: Int,
-                                               color: Int ->
-    Log.glueError("__glue_rDepthMask is not initialized!")
-}
-
-
-var __glue_dummyDrawableHelper_fillGradient: (i: Int, j: Int, k: Int,
-                                              l: Int, m: Int, n: Int) -> Unit = { i: Int, j: Int, k: Int,
-                                                                                  l: Int, m: Int, n: Int ->
-    Log.glueError("__glue_dummyDrawableHelper_fillGradient is not initialized!")
+    fun fillRect(x1: Int,
+                 y1: Int,
+                 x2: Int,
+                 y2: Int,
+                 color: Int) {
+        fill(rMatrixStack, x1, y1, x2, y2, color)
+    }
 }
 
 // top to bottom
@@ -52,7 +62,7 @@ fun rFillGradient(x1: Int,
                   y2: Int,
                   color1: Int,
                   color2: Int) {
-    __glue_dummyDrawableHelper_fillGradient(x1,
+    DrawableHelperAccess.fillGradient(x1,
                                      y1,
                                      x2,
                                      y2,
@@ -80,7 +90,7 @@ fun rFillRect(x1: Int,
               x2: Int,
               y2: Int,
               color: Int) {
-   __glue_rFillRect(x1, y1, x2, y2, color)
+    DrawableHelperAccess.fillRect(x1, y1, x2, y2, color)
 }
 
 fun rFillRect(bounds: Rectangle,

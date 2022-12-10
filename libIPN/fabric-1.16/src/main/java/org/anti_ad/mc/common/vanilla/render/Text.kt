@@ -23,36 +23,23 @@ package org.anti_ad.mc.common.vanilla.render
 import net.minecraft.text.Style
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_draw
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_drawWithShadow
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_getWidth
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_textHandler_wrapLines
 
+object VanillaTextRenderer {
+    fun wrapLines(s: String, maxWidth: Int) = Vanilla.textRenderer().textHandler.wrapLines(LiteralText(s),
+                                                                                           maxWidth,
+                                                                                           Style.EMPTY).joinToString("\n") { it.string }
 
-fun initTextGlue() {
-    __glue_Vanilla_textRenderer_textHandler_wrapLines = { s: String, i: Int ->
-        // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
-        Vanilla.textRenderer().textHandler.wrapLines(LiteralText(s),
-                                                     i,
-                                                     Style.EMPTY).joinToString("\n") { it.string }
-    }
-    __glue_Vanilla_textRenderer_getWidth = {s: String ->
-        Vanilla.textRenderer().getWidth(s) // getStringWidth() = getWidth()
-    }
+    fun getWidth(s: String) = Vanilla.textRenderer().getWidth(s)
 
-    __glue_Vanilla_textRenderer_drawWithShadow = {string: String, x: Double, y: Double, color: Int ->
-        Vanilla.textRenderer().drawWithShadow(rMatrixStack,
-                                              string,
-                                              x.toFloat(),
-                                              y.toFloat(),
-                                              color)
-    }
+    fun drawWithShadow(string: String, x: Double, y: Double, color: Int) = Vanilla.textRenderer().drawWithShadow(rMatrixStack,
+                                                                                                                 string,
+                                                                                                                 x.toFloat(),
+                                                                                                                 y.toFloat(),
+                                                                                                                 color)
 
-    __glue_Vanilla_textRenderer_draw = {string: String, x: Double, y: Double, color: Int ->
-        Vanilla.textRenderer().draw(rMatrixStack,
-                                    string,
-                                    x.toFloat(),
-                                    y.toFloat(),
-                                    color)
-    }
+    fun draw(string: String, x: Double, y: Double, color: Int) = Vanilla.textRenderer().draw(rMatrixStack,
+                                                                                             string,
+                                                                                             x.toFloat(),
+                                                                                             y.toFloat(),
+                                                                                             color)
 }

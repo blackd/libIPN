@@ -30,17 +30,6 @@ import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 
 /// Screen.kt
 
-fun __glue_rDepthMask__Default(bounds: Rectangle,
-                               block: () -> Unit) {
-    block()
-}
-
-var __glue_rDepthMask: (bounds: Rectangle,
-                        block: () -> Unit) -> Unit =  { _: Rectangle,
-                                                        block : () -> Unit ->
-    Log.glueError("__glue_rDepthMask is not initialized!")
-    block()
-}
 
 fun rRenderBlackOverlay() { // Screen.renderBackground
     rFillGradient(0,

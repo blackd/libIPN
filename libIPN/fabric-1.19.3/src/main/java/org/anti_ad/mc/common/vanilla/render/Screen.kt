@@ -25,7 +25,6 @@ import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDepthMask
 
 val rScreenSize
     get() = Size(rScreenWidth,
@@ -41,8 +40,3 @@ fun rRenderDirtBackground() {
 }
 
 private val dummyScreen = object : Screen(Text.literal("")) {}
-
-
-fun initScreenGlue() {
-    __glue_rDepthMask = { rectangle: Rectangle, block: () -> Unit -> block() }
-}

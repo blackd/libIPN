@@ -31,6 +31,7 @@ import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.TextRenderer
 import org.anti_ad.mc.common.vanilla.alias.TextSerializer
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
