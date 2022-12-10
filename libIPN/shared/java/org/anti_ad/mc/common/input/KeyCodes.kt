@@ -23,7 +23,7 @@ package org.anti_ad.mc.common.input
 import org.anti_ad.mc.common.vanilla.alias.`(formattedText)`
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.libipn.Log
 import org.lwjgl.glfw.GLFW
 

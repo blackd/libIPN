@@ -29,7 +29,7 @@ import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.gui.screen.ConfigOptionHotkeyDialog
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.lwjgl.glfw.GLFW.*
 
 object GlobalInputHandler {

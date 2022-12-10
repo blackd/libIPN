@@ -21,7 +21,7 @@
 package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.ScreenEventListener
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 
 object GlobalScreenEventListener {
     private val registeredPre = mutableSetOf<ScreenEventListener>()

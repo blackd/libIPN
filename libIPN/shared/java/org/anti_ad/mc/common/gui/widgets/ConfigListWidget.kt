@@ -24,7 +24,7 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import kotlin.math.roundToInt
 
@@ -128,7 +128,7 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
                 TooltipsManager.addTooltip(description,
                                            mouseX,
                                            mouseY,
-                                           glue_rScreenWidth * 2 / 3)
+                                           rScreenWidth * 2 / 3)
             }
         }
 

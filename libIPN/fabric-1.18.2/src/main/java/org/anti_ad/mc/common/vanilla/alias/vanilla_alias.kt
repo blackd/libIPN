@@ -39,7 +39,6 @@ import net.minecraft.client.sound.SoundInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.screen.ScreenHandlerFactory
 import net.minecraft.sound.SoundEvent
-import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
 typealias MinecraftClient = MinecraftClient
 typealias IntegratedServer = IntegratedServer
@@ -80,10 +79,6 @@ inline val `(REGISTRIES-CONTAINER-IDS)`
 inline val `(REGISTRIES-ITEM-IDS)`
     get() = Registry.ITEM.ids
 
-private fun translate(string: String,
-                      vararg objects: Any?): String = I18n.translate(string,
-                                                                     *objects)
-
-fun initI18nGlue() {
-    __glue_I18n_translate = ::translate
-}
+fun vanillaTranslate(string: String,
+                     vararg objects: Any?): String = I18n.translate(string,
+                                                                    *objects)

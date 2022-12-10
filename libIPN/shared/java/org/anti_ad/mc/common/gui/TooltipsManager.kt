@@ -22,6 +22,7 @@ package org.anti_ad.mc.common.gui
 
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.*
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 
 /*
   COLOR_BG = -0xfeffff0
@@ -65,7 +66,7 @@ object TooltipsManager {
             val boxW = maxTextWidth + 8
             val boxH = list.size * 10 + 6
             val boxX = run { // minimum 5 away from screen boundary
-                val maxBoxX = glue_rScreenWidth - hMargin - boxW
+                val maxBoxX = rScreenWidth - hMargin - boxW
                 val boxXLeft = mouseX - boxW + 1 // right = mouseX
                 return@run when {
                     mouseX <= maxBoxX -> mouseX

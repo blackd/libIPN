@@ -20,17 +20,12 @@
 
 package org.anti_ad.mc.common.vanilla.alias.glue
 
-import org.anti_ad.mc.libipn.Log
-
-var __glue_I18n_translate: (String, objects: Array<out Any?>) -> String = {string: String, objects: Array<out Any?> ->
-    Log.glueError("__glue_I18n_translate not initialized!")
-    string
-}
+import org.anti_ad.mc.common.vanilla.alias.vanillaTranslate
 
 object I18n {
     fun translate(string: String,
-                  vararg objects: Any?): String = __glue_I18n_translate(string,
-                                                                        objects)
+                  vararg objects: Any?): String =  vanillaTranslate(string,
+                                                                    *objects)
 
     fun translateOrNull(string: String,
                         vararg objects: Any?): String? =

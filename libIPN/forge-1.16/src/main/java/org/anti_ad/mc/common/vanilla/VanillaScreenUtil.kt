@@ -24,22 +24,16 @@ import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.gui.screen.ConfigOptionHotkeyDialog
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.glue.IScreenMarker
-import org.anti_ad.mc.common.vanilla.glue.IVanillaScreenUtil
-import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaScreenUtil
 
-fun initVanillaScreenUtil() {
-    __glue_vanillaScreenUtil = VanillaScreenUtil
-}
-
-object VanillaScreenUtil: IVanillaScreenUtil {
-    override fun closeScreen() = Vanilla.mc().displayGuiScreen(null)
-    override fun openScreen(screen: IScreenMarker) = Vanilla.mc().displayGuiScreen(screen as Screen)
-    override fun openScreenNullable(screen: IScreenMarker?) = Vanilla.mc().displayGuiScreen(screen as Screen)
-    override fun openDistinctScreen(screen: IScreenMarker) { // do nothing if screen is same type as current
+object VanillaScreenUtil {
+    fun closeScreen() = Vanilla.mc().displayGuiScreen(null)
+    fun openScreen(screen: IScreenMarker) = Vanilla.mc().displayGuiScreen(screen as Screen)
+    fun openScreenNullable(screen: IScreenMarker?) = Vanilla.mc().displayGuiScreen(screen as Screen)
+    fun openDistinctScreen(screen: IScreenMarker) { // do nothing if screen is same type as current
         if (Vanilla.screen()?.javaClass != screen.javaClass) openScreen(screen)
     }
 
-    override fun openDistinctScreenQuiet(screen: IScreenMarker) { // don't trigger Screen.remove()
+    fun openDistinctScreenQuiet(screen: IScreenMarker) { // don't trigger Screen.remove()
         if (Vanilla.screen()?.javaClass != screen.javaClass) {
             Vanilla.mc().currentScreen = null
             openScreen(screen)
@@ -47,17 +41,16 @@ object VanillaScreenUtil: IVanillaScreenUtil {
         }
     }
 
-    override fun openScreenConfigOptionHotkeyDialog(configOption: ConfigHotkey) {
+    fun openScreenConfigOptionHotkeyDialog(configOption: ConfigHotkey) {
         openScreen(ConfigOptionHotkeyDialog(configOption))
     }
 
-    override fun closeScreenGracefully() {
+    fun closeScreenGracefully() {
         Vanilla.screen()?.onClose()
         Vanilla.mc().displayGuiScreen(null)
     }
 
-}
-
-fun openScreenNullable(screen: Screen?) {
-    Vanilla.mc().displayGuiScreen(screen)
+    fun openScreenNullable(screen: Screen?) {
+        Vanilla.mc().displayGuiScreen(screen)
+    }
 }

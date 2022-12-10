@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common
 
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.libipn.Log
 
 object TellPlayer {

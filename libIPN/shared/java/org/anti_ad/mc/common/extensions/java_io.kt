@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.extensions
 
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -80,3 +81,6 @@ infix fun Path.pathFrom(other: Path): Path {
         return this
     }
 }
+
+val Path.loggingPath
+    get() = VanillaUtil.loggingString(this)

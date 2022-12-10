@@ -26,7 +26,9 @@ import org.anti_ad.mc.common.vanilla.alias.SoundEvent
 import org.anti_ad.mc.common.vanilla.alias.SoundEvents
 import org.anti_ad.mc.common.vanilla.alias.SoundInstance
 
+
 object VanillaSound {
+
     fun playClick() {
         Vanilla.soundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(),
                                                                    1.0f))

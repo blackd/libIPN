@@ -39,7 +39,6 @@ import net.minecraft.util.Util
 import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
 import net.minecraftforge.registries.ForgeRegistries
-import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
 typealias MinecraftClient = Minecraft
 typealias IntegratedServer = IntegratedServer
@@ -78,10 +77,6 @@ inline val `(REGISTRIES-CONTAINER-IDS)`
 inline val `(REGISTRIES-ITEM-IDS)`
     get() = ForgeRegistries.ITEMS.keys
 
-private fun translate(string: String,
-                      vararg objects: Any?): String = I18n.format(string,
-                                                                  *objects)
-
-fun initI18nGlue() {
-    __glue_I18n_translate = ::translate
-}
+fun vanillaTranslate(string: String,
+                     vararg objects: Any?): String = I18n.format(string,
+                                                                 *objects)

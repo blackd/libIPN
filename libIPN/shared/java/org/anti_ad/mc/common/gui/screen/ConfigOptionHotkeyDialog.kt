@@ -30,7 +30,7 @@ import org.anti_ad.mc.common.input.ConfigKeybindSettings
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import kotlin.math.max
@@ -72,7 +72,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTr
                                     partialTicks: Float) {
                     super.render(mouseX, mouseY, partialTicks)
                     if (showTooltips && contains(mouseX, mouseY)) {
-                        TooltipsManager.addTooltip(configOption.description, mouseX, mouseY, glue_rScreenWidth * 2 / 3)
+                        TooltipsManager.addTooltip(configOption.description, mouseX, mouseY, rScreenWidth * 2 / 3)
                     }
                 }
             }.apply {

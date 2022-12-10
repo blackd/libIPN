@@ -31,10 +31,9 @@ import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.util.Node
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenSize
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
-
+import org.anti_ad.mc.common.vanilla.render.rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.rScreenSize
 
 data class LocationChangedEvent(val oldValue: Point,
                                 val newValue: Point)
@@ -233,11 +232,11 @@ private interface IWidgetPositioning {
     // ============
 
     val containerWidth
-        get() = parent?.width ?: glue_rScreenWidth
+        get() = parent?.width ?: rScreenWidth
     val containerHeight
-        get() = parent?.height ?: glue_rScreenHeight
+        get() = parent?.height ?: rScreenHeight
     val containerSize
-        get() = parent?.size ?: glue_rScreenSize
+        get() = parent?.size ?: rScreenSize
     val containerScreenX
         get() = parent?.screenX ?: 0
     val containerScreenY

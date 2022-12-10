@@ -23,17 +23,13 @@
 package org.anti_ad.mc.common
 
 import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
-import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
 import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
-import org.anti_ad.mc.common.vanilla.vanillaInitGlue
 
 private var initGlueProc: (() -> Unit) = ::initGlues
 private fun nop() {}
 
 private fun initGlues() {
     renderInitTheGlue()
-    aliasInitGlue()
-    vanillaInitGlue()
     widgetsInitGlue()
     initGlueProc = ::nop
 }

@@ -23,31 +23,12 @@ package org.anti_ad.mc.common.vanilla.render.glue
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
+import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.render.rRenderDirtBackground
+import org.anti_ad.mc.common.vanilla.render.rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 
 /// Screen.kt
-
-var __glue_rScreenHeight: () -> Int = {
-    Log.glueError("__glue_rScreenHeight is not initialized!")
-    400
-}
-val glue_rScreenHeight: Int
-    get() = __glue_rScreenHeight.invoke()
-
-
-var __glue_rScreenWidth: () -> Int = {
-    Log.glueError("__glue_rScreenWidth is not initialized!")
-    400
-}
-val glue_rScreenWidth: Int
-    get() = __glue_rScreenWidth()
-
-var __glue_rScreenSize: () -> Size = {
-    Log.glueError("__glue_rScreenSize is not initialized!")
-    Size(glue_rScreenWidth, glue_rScreenHeight)
-}
-val glue_rScreenSize: Size
-    get() = __glue_rScreenSize.invoke()
-
 
 fun __glue_rDepthMask__Default(bounds: Rectangle,
                                block: () -> Unit) {
@@ -61,31 +42,17 @@ var __glue_rDepthMask: (bounds: Rectangle,
     block()
 }
 
-var __glue_rRenderDirtBackground: () -> Unit = {
-    Log.glueError("____glue_rRenderDirtBackground is not initialized!")
-}
-
-fun rRenderDirtBackground() {
-    __glue_rRenderDirtBackground()
-}
-
 fun rRenderBlackOverlay() { // Screen.renderBackground
     rFillGradient(0,
                   0,
-                  glue_rScreenWidth,
-                  glue_rScreenHeight,
+                  rScreenWidth,
+                  rScreenHeight,
                   -1072689136,
                   -804253680)
 }
 
-var __glue_VanillaUtil_inGame: () -> Boolean = {
-    Log.glueError("__glue_VanillaUtil_inGame is not initialized!")
-    false
-}
-
-
 fun rRenderVanillaScreenBackground() { // Screen.renderBackground
-    if (__glue_VanillaUtil_inGame()) {
+    if (VanillaUtil.inGame()) {
         rRenderBlackOverlay()
     } else {
         rRenderDirtBackground()
@@ -95,5 +62,5 @@ fun rRenderVanillaScreenBackground() { // Screen.renderBackground
 val rScreenBounds
     get() = Rectangle(0,
                       0,
-                      glue_rScreenWidth,
-                      glue_rScreenHeight)
+                      rScreenWidth,
+                      rScreenHeight)
