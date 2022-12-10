@@ -22,7 +22,7 @@ package org.anti_ad.mc.common.gui
 
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.*
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.*
 
 /*
   COLOR_BG = -0xfeffff0

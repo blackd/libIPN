@@ -25,5 +25,4 @@ fun renderInitTheGlue() {
     initRectGlue()
     initTextGlue()
     initTextureGlue()
-    initGLGlue()
 }

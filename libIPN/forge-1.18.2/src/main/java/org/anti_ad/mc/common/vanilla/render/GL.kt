@@ -26,37 +26,27 @@ import org.anti_ad.mc.common.vanilla.alias.DstFactor
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.alias.SrcFactor
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_rClearDepth
-import org.anti_ad.mc.common.vanilla.render.glue.__glue_rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rScreenBounds
 import org.lwjgl.opengl.GL11
-
-fun initGLGlue() {
-    __glue_rStandardGlState = ::rStandardGlState
-    __glue_rClearDepth = ::rClearDepth
-}
 
 // ============
 // api
 // ============
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
-private fun rStandardGlState() { // reset to standard state (for screen rendering)
-
+fun rStandardGlState() { // reset to standard state (for screen rendering)
     rEnableBlend()
     //gDisableDiffuse()
     gEnableDepthTest()
     RenderSystem.depthMask(true)
-
-
 }
 
 // ============
 // depth
 // ============
 
-private fun rClearDepth() {
+fun rClearDepth() {
     gEnableDepthTest()
     RenderSystem.depthMask(true)
     RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT,

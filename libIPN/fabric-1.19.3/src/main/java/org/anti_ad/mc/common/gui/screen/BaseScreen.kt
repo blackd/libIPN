@@ -31,8 +31,8 @@ import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.glue.IScreenMarker
-import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
-import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
+import org.anti_ad.mc.common.vanilla.render.rClearDepth
+import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 
 // ============

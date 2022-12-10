@@ -46,7 +46,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.__glue_make_Identifier
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_rBlit
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDrawSprite
-import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
+import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 
 inline operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
