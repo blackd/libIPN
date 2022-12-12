@@ -225,7 +225,7 @@ private class SliderWidget(override val minValue: Double = 0.0,
         }
 }
 
-private class CustomTextFieldWidget(textRenderer: TextRenderer?,
+private class CustomTextFieldWidget(textRenderer: TextRenderer,
                                     i: Int,
                                     j: Int,
                                     k: Int,

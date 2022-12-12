@@ -22,17 +22,6 @@
 
 package org.anti_ad.mc.common
 
-import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
-
-private var initGlueProc: (() -> Unit) = ::initGlues
-private fun nop() {}
-
-private fun initGlues() {
-    widgetsInitGlue()
-    initGlueProc = ::nop
-}
-
 @Suppress("unused")
 fun init() {
-    initGlueProc()
 }

@@ -22,12 +22,8 @@ package org.anti_ad.mc.common.gui.widgets.glue
 
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.widgets.Widget
-
-var __glue_SliderWidgetContructor: (minValue: Double, maxValue: Double) -> ISliderWidget = { _: Double, _: Double ->
-    Log.glueError("SliderWidgetContructor Not Initialized!")
-    TODO("Glue Not Initialized! Report an ISSUE")
-}
-
+import org.anti_ad.mc.common.gui.widgets.newSliderWidget
+import org.anti_ad.mc.common.gui.widgets.newTextFieldWidget
 
 interface IBaseGlueWidget {
 
@@ -53,14 +49,9 @@ interface ISliderWidget: IBaseGlueWidget {
     companion object {
         operator fun invoke(minValue: Double = 0.0,
                             maxValue: Double = 1.0): ISliderWidget {
-            return __glue_SliderWidgetContructor(minValue, maxValue)
+            return newSliderWidget(minValue, maxValue)
         }
     }
-}
-
-var __glue_TextFieldWidgetContructor: (height: Int) -> ITextFieldWidget = { _ ->
-    Log.glueError("TextFieldWidgetContructor Not Initialized!")
-    TODO("Glue Not Initialized! Report an ISSUE")
 }
 
 interface ITextFieldWidget: IBaseGlueWidget {
@@ -74,7 +65,7 @@ interface ITextFieldWidget: IBaseGlueWidget {
 
     companion object {
         operator fun invoke(height: Int): ITextFieldWidget {
-            return __glue_TextFieldWidgetContructor(height)
+            return newTextFieldWidget(height)
         }
     }
 }
