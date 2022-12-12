@@ -53,8 +53,8 @@ abstract class BaseConfigKeyToggleBooleanInputHandler {
 }
 
 class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
-                             val finishHandler: () -> Unit = {},
-                             val notificationHandler: (value: Boolean, message: String) -> Unit = { _: Boolean, _: String ->  } ,
+                             val finish: () -> Unit = {},
+                             val toggleNotificationHandler: (value: Boolean, message: String) -> Unit = { _: Boolean, _: String ->  } ,
                              defaultSettings: KeybindSettings = INGAME_DEFAULT): ConfigHotkey("", defaultSettings),
                                                                                  IConfigOptionPrimitive<Boolean>,
                                                                                  IConfigOptionToggleable,
@@ -115,9 +115,6 @@ class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
         }
         return null
     }
-
-    var toggleNotificationHandler: (value: Boolean, message: String) -> Unit = { _, _ -> }
-
-    var finish: () -> Unit = { }
+    
 
 }
