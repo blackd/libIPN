@@ -1,16 +1,30 @@
 <!-- latest begin -->
-### 1.0.8
 
-- adds support for 1.19.3-rc1 and hopefully 1.19.3 proper
+## Warning
+
+Do not update if you haven't update IPN to the latest verion too!
+
+### 2.0.0
+
+- added support for 1.19.3 forge
+- lots of under the hood changes that makes 2.0.0 incompatible whit mods build agains 1.0.x
+
+### End of Life Announcement:
+
+Minecraft versions 1.14.x, 1.15.x, 1.17.x and 1.18[.1] are no longer supported.
 
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
-### All mods developed against v1.0.0 are compatible with v1.0.x
+### All mods developed against v1.0.x are **incompatible* with v2.0.x
 
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.0.8
+
+- adds support for 1.19.3-rc1 and hopefully 1.19.3 proper
+
 ### 1.0.7
 
 - adds support for 1.19.3

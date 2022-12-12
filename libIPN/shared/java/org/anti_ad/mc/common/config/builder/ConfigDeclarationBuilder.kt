@@ -51,8 +51,12 @@ fun ConfigDeclaration.hotkey(defaultValue: String, defaultSettings: KeybindSetti
                  defaultSettings).addTo(this)
 
 fun ConfigDeclaration.keyToggleBool(defaultValue: Boolean,
+                                    finishHandler: () -> Unit,
+                                    notificationHandler: (value: Boolean, message: String) -> Unit,
                                     defaultSettings: KeybindSettings = INGAME_DEFAULT) = ConfigKeyToggleBoolean(defaultValue,
-                                                                                                                defaultSettings).addTo(this)
+                                                                                                                finishHandler,
+                                                                                                                notificationHandler,
+                                                                                                                defaultSettings = defaultSettings).addTo(this)
 
 fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) = ConfigEnum(defaultValue).addTo(this)
 

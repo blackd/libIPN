@@ -34,6 +34,8 @@ import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 
 class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
+                             val finishHandler: () -> Unit = {},
+                             val notificationHandler: (value: Boolean, message: String) -> Unit = { _: Boolean, _: String ->  } ,
                              defaultSettings: KeybindSettings = INGAME_DEFAULT): ConfigHotkey("", defaultSettings),
                                                                                  IConfigOptionPrimitive<Boolean>,
                                                                                  IConfigOptionToggleable,
@@ -86,36 +88,42 @@ class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
         super<ConfigHotkey>.fromJsonObject(obj)
     }
 
-    fun toggleIfActivated() {
+    fun toggleIfActivated(): (() -> Unit)? {
         if (mainKeybind.isModified && isActivated()) {
             value = !value
             toggleNotificationHandler(value, key)
-            dirty = true
+            return finish
         }
+        return null
     }
 
     init {
         allToggleSettings.add(this)
     }
 
+    var toggleNotificationHandler: (value: Boolean, message: String) -> Unit = { _, _ -> }
+
+    var finish: () -> Unit = { }
+
+
     companion object {
 
         fun checkAll() {
+            val finishToCall = mutableSetOf<() -> Unit>()
             allToggleSettings.forEach {
-                it.toggleIfActivated()
+                it.toggleIfActivated()?.also {
+                    finishToCall.add(it)
+                }
             }
-            if (dirty) {
-                dirty = false
-                finish()
+            finishToCall.forEach {
+                it()
             }
         }
         val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
 
-        var dirty: Boolean = false
 
-        var toggleNotificationHandler: (value: Boolean, message: String) -> Unit = { _, _ -> }
 
-        var finish: () -> Unit = { }
+
     }
 
 
