@@ -33,6 +33,25 @@ import org.anti_ad.mc.common.extensions.value
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 
+
+abstract class BaseConfigKeyToggleBooleanInputHandler {
+
+    fun checkAll() {
+        val finishToCall = mutableSetOf<() -> Unit>()
+        allToggleSettings.forEach {
+            it.toggleIfActivated()?.also {
+                finishToCall.add(it)
+            }
+        }
+        finishToCall.forEach {
+            it()
+        }
+    }
+    val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
+
+
+}
+
 class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
                              val finishHandler: () -> Unit = {},
                              val notificationHandler: (value: Boolean, message: String) -> Unit = { _: Boolean, _: String ->  } ,
@@ -97,34 +116,8 @@ class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
         return null
     }
 
-    init {
-        allToggleSettings.add(this)
-    }
-
     var toggleNotificationHandler: (value: Boolean, message: String) -> Unit = { _, _ -> }
 
     var finish: () -> Unit = { }
-
-
-    companion object {
-
-        fun checkAll() {
-            val finishToCall = mutableSetOf<() -> Unit>()
-            allToggleSettings.forEach {
-                it.toggleIfActivated()?.also {
-                    finishToCall.add(it)
-                }
-            }
-            finishToCall.forEach {
-                it()
-            }
-        }
-        val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
-
-
-
-
-    }
-
 
 }
