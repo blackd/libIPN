@@ -185,6 +185,12 @@ tasks.named<DefaultTask>("build") {
 }
 
 
+val sourceJar = tasks.create<Jar>("sourcesJar") {
+    from(sourceSets["main"]?.allSource)
+    exclude("org/anti_ad/mc/common/gen/*.tokens")
+}
+
+
 
 
 // ============
@@ -206,6 +212,9 @@ publishing {
             artifactId = "${rootProject.name}-${project.name}"
             version = project.version.toString()
             artifact(remapped)
+            artifact(sourceJar) {
+                classifier = "sources"
+            }
             loom {
                 this.disableDeprecatedPomGeneration(this@create)
             }

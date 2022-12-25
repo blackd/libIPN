@@ -36,7 +36,7 @@ import static org.anti_ad.mc.common.input.KeyCodes.*;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
-@Mixin(Mouse.class)
+@Mixin(value = Mouse.class,priority = -1)
 public class MixinMouse {
     @Inject(method = "onCursorPos", at = @At("RETURN"))
     private void onCursorPos(long handle, double xpos, double ypos, CallbackInfo ci) {
@@ -54,8 +54,7 @@ public class MixinMouse {
         }
     }
 
-    @Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
-            "wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), cancellable = true)
+    @Inject(method = "onMouseButton", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;IS_SYSTEM_MAC:Z", ordinal = 0), cancellable = true)
     private void onScreenMouseButton(long handle, int button, int action, int mods, CallbackInfo ci) {
         Screen lastScreen = Vanilla.INSTANCE.screen();
         boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods)
