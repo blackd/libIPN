@@ -39,6 +39,7 @@ import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.player.Player
 import net.minecraftforge.registries.ForgeRegistries
+import net.minecraft.world.level.GameType
 
 typealias MinecraftClient = Minecraft
 typealias IntegratedServer = IntegratedServer
@@ -67,6 +68,8 @@ typealias ClientPlayerInteractionManager = MultiPlayerGameMode
 typealias PlayerEntity = Player
 
 typealias SoundEvent = SoundEvent
+
+typealias GameType = GameType
 
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`

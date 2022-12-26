@@ -82,6 +82,8 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook
 
+    fun gameMode() = mc().playerController?.currentGameType
+
     @Suppress("FunctionName")
     fun ClientPlayerEntity.`(sendCommandMessage)`(msg: String)  = sendChatMessage(msg)
 

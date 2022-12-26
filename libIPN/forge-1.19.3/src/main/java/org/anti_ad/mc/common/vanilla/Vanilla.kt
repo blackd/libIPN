@@ -82,6 +82,8 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook
 
+    fun gameMode() = mc().gameMode?.playerMode
+
     @Suppress("FunctionName")
     fun LocalPlayer.`(sendCommandMessage)`(msg: String) = this.connection.sendCommand(msg.replaceFirst("/", ""))
 

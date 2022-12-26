@@ -82,6 +82,8 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook ?: throw AssertionError("unreachable")
 
+    fun gameMode() = mc().interactionManager?.currentGameMode
+
     @Suppress("FunctionName")
     fun ClientPlayerEntity.`(sendCommandMessage)`(msg: String) = this.networkHandler.sendCommand(msg.replaceFirst("/","")) // sendCommand(msg.replaceFirst("/",""))
 

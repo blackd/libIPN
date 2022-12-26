@@ -39,6 +39,7 @@ import net.minecraft.util.Util
 import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
 import net.minecraftforge.registries.ForgeRegistries
+import net.minecraft.world.GameType
 
 typealias MinecraftClient = Minecraft
 typealias IntegratedServer = IntegratedServer
@@ -63,6 +64,8 @@ typealias ClientPlayerInteractionManager = PlayerController
 typealias PlayerEntity = ClientPlayerEntity
 
 typealias SoundEvent = SoundEvent
+
+typealias GameType = GameType
 
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
