@@ -203,7 +203,7 @@ afterEvaluate {
         logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
     }
 
-    tasks.getByName("publishAllPublicationsToMavenRepository").dependsOn("minimizeJar")
+    tasks.getByName("publishMavenPublicationToIpnOfficialRepoRepository").dependsOn("minimizeJar")
 }
 
 val deobfJar = tasks.register<Jar>("deobfJar") {
@@ -233,13 +233,23 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
     mapToMavenScope("runtime")
 }
 
+val sourceJar = tasks.create<Jar>("sourcesJar") {
+    from(sourceSets["main"]?.allSource)
+    archiveClassifier.set("sources")
+    exclude("org/anti_ad/mc/common/gen/*.tokens")
+}
 
 publishing {
     repositories {
         maven {
-            val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
-            val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+            val releasesRepoUrl = "https://maven.ipn-mod.org/releases"
+            val snapshotsRepoUrl = "https://maven.ipn-mod.org/snapshots"
             logger.lifecycle("project.ext[\"mod_artefact_is_release\"] = ${project.ext["mod_artefact_is_release"]}")
+            name = "ipnOfficialRepo"
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
             url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
         }
     }
@@ -249,6 +259,9 @@ publishing {
             artifactId = "${rootProject.name}-${project.name}"
             version = project.version.toString()
             artifact(deobfJar)
+            artifact(sourceJar) {
+                classifier = "sources"
+            }
         }
     }
 

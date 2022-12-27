@@ -5,4 +5,4 @@
 
 
 
-../../gradlew --max-workers 2 clean build publishAllPublicationsToMavenRepository modrinth curseforge
+../../gradlew --max-workers 2 clean build publishMavenPublicationToIpnOfficialRepoRepository modrinth curseforge
