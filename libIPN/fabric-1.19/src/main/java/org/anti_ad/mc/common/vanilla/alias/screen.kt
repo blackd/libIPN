@@ -32,7 +32,6 @@ import net.minecraft.client.gui.screen.ingame.BrewingStandScreen
 import net.minecraft.client.gui.screen.ingame.CartographyTableScreen
 import net.minecraft.client.gui.screen.ingame.CommandBlockScreen
 import net.minecraft.client.gui.screen.ingame.CraftingScreen
-
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
 import net.minecraft.client.gui.screen.ingame.EnchantingPhrases
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen
@@ -49,13 +48,49 @@ import net.minecraft.client.gui.screen.ingame.LecternScreen
 import net.minecraft.client.gui.screen.ingame.LoomScreen
 import net.minecraft.client.gui.screen.ingame.MerchantScreen
 import net.minecraft.client.gui.screen.ingame.MinecartCommandBlockScreen
-
 import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen
 import net.minecraft.client.gui.screen.ingame.SignEditScreen
 import net.minecraft.client.gui.screen.ingame.SmithingScreen
 import net.minecraft.client.gui.screen.ingame.SmokerScreen
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen
 import net.minecraft.client.gui.screen.ingame.StructureBlockScreen
+
+
+typealias AbstractCommandBlockScreen = AbstractCommandBlockScreen
+typealias AbstractFurnaceScreen<T> = AbstractFurnaceScreen<T>
+typealias AbstractInventoryScreen<T> = AbstractInventoryScreen<T>
+typealias AnvilScreen = AnvilScreen
+typealias BeaconScreen = BeaconScreen
+typealias BlastFurnaceScreen = BlastFurnaceScreen
+typealias BookEditScreen = BookEditScreen
+typealias BookScreen = BookScreen
+typealias BrewingStandScreen = BrewingStandScreen
+typealias CartographyTableScreen = CartographyTableScreen
+typealias CommandBlockScreen = CommandBlockScreen
+typealias CraftingScreen = CraftingScreen
+typealias CreativeInventoryScreen = CreativeInventoryScreen
+typealias EnchantingPhrases = EnchantingPhrases
+typealias EnchantmentScreen = EnchantmentScreen
+typealias ForgingScreen<T> = ForgingScreen<T>
+typealias FurnaceScreen = FurnaceScreen
+typealias Generic3x3ContainerScreen = Generic3x3ContainerScreen
+typealias GenericContainerScreen = GenericContainerScreen
+typealias GrindstoneScreen = GrindstoneScreen
+typealias HopperScreen = HopperScreen
+typealias HorseScreen = HorseScreen
+typealias InventoryScreen = InventoryScreen
+typealias JigsawBlockScreen = JigsawBlockScreen
+typealias LecternScreen = LecternScreen
+typealias LoomScreen = LoomScreen
+typealias MerchantScreen = MerchantScreen
+typealias MerchantScreen_WidgetButtonPage = MerchantScreen.WidgetButtonPage
+typealias MinecartCommandBlockScreen = MinecartCommandBlockScreen
+typealias ShulkerBoxScreen = ShulkerBoxScreen
+typealias SignEditScreen = SignEditScreen
+typealias SmithingScreen = SmithingScreen
+typealias SmokerScreen = SmokerScreen
+typealias StonecutterScreen = StonecutterScreen
+typealias StructureBlockScreen = StructureBlockScreen
 
 val vanillaScreens: Set<Class<*>> = setOf(AbstractCommandBlockScreen::class.java,
                                           AbstractFurnaceScreen::class.java,

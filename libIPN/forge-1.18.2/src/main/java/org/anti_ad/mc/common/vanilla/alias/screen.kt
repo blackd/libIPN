@@ -57,8 +57,43 @@ import net.minecraft.client.gui.screens.inventory.SmokerScreen
 import net.minecraft.client.gui.screens.inventory.StonecutterScreen
 import net.minecraft.client.gui.screens.inventory.StructureBlockEditScreen
 
-val vanillaScreens: Set<Class<*>> = setOf(AbstractCommandBlockEditScreen::class.java,
-                                          AbstractContainerScreen::class.java,
+
+typealias AbstractCommandBlockScreen = AbstractCommandBlockEditScreen
+typealias AbstractFurnaceScreen<T> = AbstractFurnaceScreen<T>
+typealias AbstractInventoryScreen<T> = AbstractContainerScreen<T>
+typealias AnvilScreen = AnvilScreen
+typealias BeaconScreen = BeaconScreen
+typealias BlastFurnaceScreen = BlastFurnaceScreen
+typealias BookEditScreen = BookEditScreen
+typealias BookScreen = BookViewScreen
+typealias BrewingStandScreen = BrewingStandScreen
+typealias CartographyTableScreen = CartographyTableScreen
+typealias CommandBlockScreen = CommandBlockEditScreen
+typealias CraftingScreen = CraftingScreen
+typealias CreativeInventoryScreen = CreativeModeInventoryScreen
+typealias EnchantingPhrases = EnchantmentNames
+typealias EnchantmentScreen = EnchantmentScreen
+typealias ForgingScreen<T> = ItemCombinerScreen<T>
+typealias FurnaceScreen = FurnaceScreen
+typealias Generic3x3ContainerScreen = DispenserScreen
+typealias GenericContainerScreen = ContainerScreen
+typealias GrindstoneScreen = GrindstoneScreen
+typealias HopperScreen = HopperScreen
+typealias HorseScreen = HorseInventoryScreen
+typealias InventoryScreen = InventoryScreen
+typealias JigsawBlockScreen = JigsawBlockEditScreen
+typealias LecternScreen = LecternScreen
+typealias LoomScreen = LoomScreen
+typealias MerchantScreen = MerchantScreen
+typealias MinecartCommandBlockScreen = MinecartCommandBlockEditScreen
+typealias ShulkerBoxScreen = ShulkerBoxScreen
+typealias SignEditScreen = SignEditScreen
+typealias SmithingScreen = SmithingScreen
+typealias SmokerScreen = SmokerScreen
+typealias StonecutterScreen = StonecutterScreen
+typealias StructureBlockScreen = StructureBlockEditScreen
+
+val vanillaScreens: Set<Class<*>> = setOf(AbstractCommandBlockScreen::class.java,
                                           AbstractFurnaceScreen::class.java,
                                           AnvilScreen::class.java,
                                           BeaconScreen::class.java,

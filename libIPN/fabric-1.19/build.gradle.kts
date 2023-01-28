@@ -121,7 +121,9 @@ apply(plugin = "kotlinx-serialization")
 loom {
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("libIPN-refmap.json")
-
+    accessWidenerPath.set {
+        project.layout.projectDirectory.file("src/main/resources/ipn.accesswidener").asFile
+    }
 }
 
 afterEvaluate {

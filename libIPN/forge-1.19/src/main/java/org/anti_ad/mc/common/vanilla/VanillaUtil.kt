@@ -65,8 +65,8 @@ object VanillaUtil {
     fun mouseYRaw(): Double = Vanilla.mouse().ypos() //mouseY
     fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
     fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
-    fun mouseScaleX(amount: Double): Double = amount * rScreenWidth / Vanilla.window().width
-    fun mouseScaleY(amount: Double): Double = amount * rScreenHeight / Vanilla.window().height
+    fun mouseScaleX(amount: Double): Double = amount * rScreenWidth / Vanilla.window().screenWidth
+    fun mouseScaleY(amount: Double): Double = amount * rScreenHeight / Vanilla.window().screenHeight
 
     // this.client.getLastFrameDuration()
     fun lastFrameDuration(): Float = Vanilla.mc().frameTime //tickLength //frameTime // for render

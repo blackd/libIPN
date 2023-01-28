@@ -57,37 +57,74 @@ import net.minecraft.client.gui.screen.ingame.SmokerScreen
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen
 import net.minecraft.client.gui.screen.ingame.StructureBlockScreen
 
-val vanillaScreens: Set<Class<*>> = setOf(AbstractCommandBlockScreen::class.java,
-                                          AbstractFurnaceScreen::class.java,
-                                          AbstractInventoryScreen::class.java,
-                                          AnvilScreen::class.java,
-                                          BeaconScreen::class.java,
-                                          BlastFurnaceScreen::class.java,
-                                          BookEditScreen::class.java,
-                                          BookScreen::class.java,
-                                          BrewingStandScreen::class.java,
-                                          CartographyTableScreen::class.java,
-                                          CommandBlockScreen::class.java,
-                                          CraftingScreen::class.java,
-                                          CreativeInventoryScreen::class.java,
-                                          EnchantingPhrases::class.java,
-                                          EnchantmentScreen::class.java,
-                                          ForgingScreen::class.java,
-                                          FurnaceScreen::class.java,
-                                          Generic3x3ContainerScreen::class.java,
-                                          GenericContainerScreen::class.java,
-                                          GrindstoneScreen::class.java,
-                                          HopperScreen::class.java,
-                                          HorseScreen::class.java,
-                                          InventoryScreen::class.java,
-                                          JigsawBlockScreen::class.java,
-                                          LecternScreen::class.java,
-                                          LoomScreen::class.java,
-                                          MerchantScreen::class.java,
-                                          MinecartCommandBlockScreen::class.java,
-                                          ShulkerBoxScreen::class.java,
-                                          SignEditScreen::class.java,
-                                          SmithingScreen::class.java,
-                                          SmokerScreen::class.java,
-                                          StonecutterScreen::class.java,
-                                          StructureBlockScreen::class.java,)
+
+typealias AbstractCommandBlockScreen = AbstractCommandBlockScreen
+typealias AbstractFurnaceScreen<T> = AbstractFurnaceScreen<T>
+typealias AbstractInventoryScreen<T> = AbstractInventoryScreen<T>
+typealias AnvilScreen = AnvilScreen
+typealias BeaconScreen = BeaconScreen
+typealias BlastFurnaceScreen = BlastFurnaceScreen
+typealias BookEditScreen = BookEditScreen
+typealias BookScreen = BookScreen
+typealias BrewingStandScreen = BrewingStandScreen
+typealias CartographyTableScreen = CartographyTableScreen
+typealias CommandBlockScreen = CommandBlockScreen
+typealias CraftingScreen = CraftingScreen
+typealias CreativeInventoryScreen = CreativeInventoryScreen
+typealias EnchantingPhrases = EnchantingPhrases
+typealias EnchantmentScreen = EnchantmentScreen
+typealias ForgingScreen<T> = ForgingScreen<T>
+typealias FurnaceScreen = FurnaceScreen
+typealias Generic3x3ContainerScreen = Generic3x3ContainerScreen
+typealias GenericContainerScreen = GenericContainerScreen
+typealias GrindstoneScreen = GrindstoneScreen
+typealias HopperScreen = HopperScreen
+typealias HorseScreen = HorseScreen
+typealias InventoryScreen = InventoryScreen
+typealias JigsawBlockScreen = JigsawBlockScreen
+typealias LecternScreen = LecternScreen
+typealias LoomScreen = LoomScreen
+typealias MerchantScreen = MerchantScreen
+typealias MinecartCommandBlockScreen = MinecartCommandBlockScreen
+typealias ShulkerBoxScreen = ShulkerBoxScreen
+typealias SignEditScreen = SignEditScreen
+typealias SmithingScreen = SmithingScreen
+typealias SmokerScreen = SmokerScreen
+typealias StonecutterScreen = StonecutterScreen
+typealias StructureBlockScreen = StructureBlockScreen
+
+val vanillaScreens: Set<Class<*>> = setOf(
+    AbstractCommandBlockScreen::class.java,
+    AbstractFurnaceScreen::class.java,
+    AbstractInventoryScreen::class.java,
+    AnvilScreen::class.java,
+    BeaconScreen::class.java,
+    BlastFurnaceScreen::class.java,
+    BookEditScreen::class.java,
+    BookScreen::class.java,
+    BrewingStandScreen::class.java,
+    CartographyTableScreen::class.java,
+    CommandBlockScreen::class.java,
+    CraftingScreen::class.java,
+    CreativeInventoryScreen::class.java,
+    EnchantmentScreen::class.java,
+    ForgingScreen::class.java,
+    FurnaceScreen::class.java,
+    Generic3x3ContainerScreen::class.java,
+    GenericContainerScreen::class.java,
+    GrindstoneScreen::class.java,
+    HopperScreen::class.java,
+    HorseScreen::class.java,
+    InventoryScreen::class.java,
+    JigsawBlockScreen::class.java,
+    LecternScreen::class.java,
+    LoomScreen::class.java,
+    MerchantScreen::class.java,
+    MinecartCommandBlockScreen::class.java,
+    ShulkerBoxScreen::class.java,
+    SignEditScreen::class.java,
+    SmithingScreen::class.java,
+    SmokerScreen::class.java,
+    StonecutterScreen::class.java,
+    StructureBlockScreen::class.java,
+)
