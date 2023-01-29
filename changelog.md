@@ -1,30 +1,20 @@
 <!-- latest begin -->
 
-## Warning
+### 2.0.2
 
-Do not update if you haven't update IPN to the latest verion too!
-
-### 2.0.0
-
-- added support for 1.19.3 forge
-- fixed toogle settings not working when more then one mod uses libIPN
-
-### End of Life Announcement:
-
-#### The fallowing Minecraft versions will no longer receive updates:
-
-- 1.14.x
-- 1.15.x
-- 1.17.x
-- 1.18[.1]
+- better compatibility with mac os opengl strangeness. 
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
-
-### All mods developed against v1.0.x are **incompatible* with v2.0.x
 
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 2.0.0
+
+- added support for 1.19.3 forge
+- fixed toggle settings not working when more then one mod uses libIPN
+
 ### 1.0.8
 
 - adds support for 1.19.3-rc1 and hopefully 1.19.3 proper
