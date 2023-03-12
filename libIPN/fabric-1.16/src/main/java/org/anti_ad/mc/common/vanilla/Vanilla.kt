@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common.vanilla
 
 import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.client.util.Clipboard
 import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.vanilla.alias.IntegratedServer
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
@@ -93,5 +94,8 @@ object Vanilla {
         get() = playerNullable()?.y.orDefault { 0.0 }
     val pz
         get() = playerNullable()?.z.orDefault { 0.0 }
+
+    fun setClipboard(data: String) = mc().keyboard.setClipboard(data)
+
 
 }

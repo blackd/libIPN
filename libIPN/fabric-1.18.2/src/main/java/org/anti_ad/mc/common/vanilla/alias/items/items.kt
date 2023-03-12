@@ -31,6 +31,7 @@ import net.minecraft.item.HoeItem
 import net.minecraft.item.MilkBucketItem
 import net.minecraft.item.StewItem
 import net.minecraft.item.PickaxeItem
+import net.minecraft.item.ShearsItem
 import net.minecraft.item.ShovelItem
 import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.item.SwordItem
@@ -48,6 +49,7 @@ typealias SuspiciousStewItem = SuspiciousStewItem
 
 typealias ArmorItem = ArmorItem
 typealias SwordItem = SwordItem
+typealias ShearsItem = ShearsItem
 typealias ShovelItem = ShovelItem
 typealias PickaxeItem = PickaxeItem
 typealias AxeItem = AxeItem

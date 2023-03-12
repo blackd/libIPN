@@ -34,12 +34,12 @@ import org.anti_ad.mc.libipn.buildsrc.loom_version
 val supported_minecraft_versions = listOf("1.19.4")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "23w06a"
+val minecraft_version = "1.19.4-rc2"
 val minecraft_version_string = "1.19.4"
-val mappings_version = "23w06a+build.10"
-val loader_version = "0.14.14"
-val modmenu_version = "6.1.0-alpha.1"
-val fabric_api_version = "0.73.5+1.19.4"
+val mappings_version = "1.19.4-rc2+build.1"
+val loader_version = "0.14.17"
+val modmenu_version = "6.1.0-beta.3"
+val fabric_api_version = "0.75.3+1.19.4"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
@@ -71,6 +71,7 @@ plugins {
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("com.github.johnrengelman.shadow")
+    `idea`
 }
 
 configureCommonLib(true)
@@ -99,12 +100,19 @@ repositories {
     }
 }
 
+
 fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version)
 dependencies {
+
+    /*
+    {
+        this.isTransitive = false
+    }
+     */
 
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
@@ -119,6 +127,7 @@ apply(plugin = "kotlinx-serialization")
 
 
 loom {
+    runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("libIPN-refmap.json")
     accessWidenerPath.set {

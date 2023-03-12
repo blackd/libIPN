@@ -185,11 +185,8 @@ private class CustomVanillaSliderWidget(val minValue: Double,
         rDrawDynamicSizeSprite(sprite,
                                absoluteBounds)
 
-        // ref: AbstractButtonWidget.renderButton()
-        renderBackground(matrixStack,
-                         Vanilla.mc(),
-                         i,
-                         j)
+        super.renderButton(matrixStack, i, j, f)
+
 //    val l = if (active) 16777215 else 10526880
         val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
         drawCenteredTextWithShadow(

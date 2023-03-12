@@ -29,6 +29,7 @@ import net.minecraft.world.item.HoeItem
 import net.minecraft.world.item.MilkBucketItem
 import net.minecraft.world.item.PickaxeItem
 import net.minecraft.world.item.ShovelItem
+import net.minecraft.world.item.ShearsItem
 import net.minecraft.world.item.SuspiciousStewItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.entity.EquipmentSlot
@@ -50,6 +51,7 @@ typealias SuspiciousStewItem = SuspiciousStewItem
 
 typealias ArmorItem = ArmorItem
 typealias SwordItem = SwordItem
+typealias ShearsItem = ShearsItem
 typealias ShovelItem = ShovelItem
 typealias PickaxeItem = PickaxeItem
 typealias AxeItem = AxeItem

@@ -37,13 +37,13 @@ object DrawableHelperAccess: DrawableHelper() {
                      l: Int,
                      m: Int,
                      n: Int) {
-        super.fillGradient(rMatrixStack,
-                           i,
-                           j,
-                           k,
-                           l,
-                           m,
-                           n)
+        fillGradient(rMatrixStack,
+                     i,
+                     j,
+                     k,
+                     l,
+                     m,
+                     n)
     }
 
     fun fillRect(x1: Int,

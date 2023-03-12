@@ -26,6 +26,7 @@ import org.anti_ad.mc.common.vanilla.alias.IntegratedServer
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Window
+import java.awt.datatransfer.Clipboard
 
 // ============
 // vanillamapping code depends on mappings (package org.anti_ad.mc.common.vanilla)
@@ -93,5 +94,7 @@ object Vanilla {
         get() = playerNullable()?.y.orDefault { 0.0 }
     val pz
         get() = playerNullable()?.z.orDefault { 0.0 }
+
+    fun setClipboard(data: String) = mc().keyboardHandler.setClipboard(data)
 
 }

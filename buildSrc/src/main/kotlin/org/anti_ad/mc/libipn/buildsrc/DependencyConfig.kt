@@ -67,8 +67,15 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    loader_version: Any,
                                    fabric_api_version: Any,
                                    modmenu_version: Any? = null) {
-    dependencies {
 
+
+    configurations.all {
+        resolutionStrategy {
+            force("net.fabricmc:fabric-loader:$loader_version")
+        }
+    }
+
+    dependencies {
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
@@ -79,9 +86,11 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
         "modImplementation"("net.fabricmc:fabric-loader:$loader_version")
         "modImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
+
         modmenu_version?.let {
             "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
         }
+
         "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
     }
 }

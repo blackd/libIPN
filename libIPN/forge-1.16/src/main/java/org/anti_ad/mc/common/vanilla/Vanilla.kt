@@ -94,4 +94,6 @@ object Vanilla {
     val pz
         get() = mc().player?.entity?.posZ.orDefault { 0.0 }
 
+    fun setClipboard(data: String) = mc().keyboardListener.setClipboardString(data)
+
 }
