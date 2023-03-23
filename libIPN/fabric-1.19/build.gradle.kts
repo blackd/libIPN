@@ -44,7 +44,7 @@ val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.2.1")
+        classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
 
@@ -81,13 +81,6 @@ group = "org.anti-ad.mc"
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "17"
-    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 repositories {

@@ -37,9 +37,9 @@ val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.18.2"
 val minecraft_version_string = "1.18.2"
-val forge_version = "40.1.21"
+val forge_version = "40.2.1"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "3.6.0"
+val kotlin_for_forge_version = "3.11.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.18.2")
 
@@ -70,7 +70,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
-        classpath("com.guardsquare:proguard-gradle:7.2.1")
+        classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
 
@@ -110,13 +110,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "17"
-}
-
 
 group = "org.anti-ad.mc"
 

@@ -82,7 +82,7 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
     registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar").dependsOn("reobfJar")
-
+    tasks["reobfJar"].dependsOn(tasks["deobfJar"])
     tasks.named<DefaultTask>("build") {
 //        dependsOn("minimizeJar")
     }

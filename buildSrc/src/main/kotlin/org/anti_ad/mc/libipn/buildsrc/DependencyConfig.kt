@@ -59,6 +59,7 @@ fun Project.configureDependencies() {
     dependencies {
         "api"("org.jetbrains:annotations:20.1.0")
         "shadedApi"("com.yevdo:jwildcard:1.4")
+
     }
 }
 
@@ -76,10 +77,14 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
     }
 
     dependencies {
-        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+
+        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+        "api"(kotlin("reflect"))
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 
         "minecraft"("com.mojang:minecraft:$minecraft_version")
         "mappings"("net.fabricmc:yarn:$mappings_version:v2")
@@ -91,7 +96,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
             "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
         }
 
-        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.9.2+kotlin.1.8.10")
     }
 }
 
@@ -99,10 +104,41 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
                                   loader_version: Any,
                                   kotlin_for_forge_version: Any) {
     dependencies {
-        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+
+        val kffverstr = kotlin_for_forge_version.toString()[0]
+
+        if (kffverstr == '4' || kffverstr == '3') {
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+            "compileOnlyApi"(kotlin("reflect"))
+            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
+        } else if (kffverstr == '1') {
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+            "compileOnlyApi"(kotlin("reflect"))
+            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+        } else {
+            "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+            "api"(kotlin("reflect"))
+            "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
+
+            "runHelperApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
+        }
+
         "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
         "api"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
         "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")

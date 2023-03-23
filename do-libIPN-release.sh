@@ -3,4 +3,4 @@
 . ~/.config/secrets/modrinth.sh
 . ~/.config/secrets/curseforge.sh
 
-./gradlew --max-workers 2 clean build publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge
+./gradlew --max-workers 2 clean build modrinth curseforge

@@ -1,14 +1,29 @@
 <!-- latest begin -->
 
-### 2.0.2
+### 2.0.4
 
-- better compatibility with mac os opengl strangeness. 
+- Added support for 1.19.4 Forge.
+- Finalised support for 1.19.4 Fabric.
+- Fabric all versions now requires fabric loaded **0.14.17** or newer.
+- Fabric minimal required version of Fabric Language Kotlin is now **1.9.2+kotlin.1.8.10**
+- Forge 1.18.2 and 1.19.1-2 now require Kotlin for Forge 3.11.0 or newer.
+- Forge 1.19.3-4 now require Kotlin for Forge 4.1.0 or newer.
+
+### Note:
+
+This is probably the last version that supports minecraft 1.19.3
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 2.0.2
+
+- better compatibility with mac os opengl strangeness.
+
+
 
 ### 2.0.0
 

@@ -31,6 +31,7 @@ include("libIPN:forge-1.16")
 include("libIPN:forge-1.18.2")
 include("libIPN:forge-1.19")
 include("libIPN:forge-1.19.3")
+include("libIPN:forge-1.19.4")
 
 
 pluginManagement {

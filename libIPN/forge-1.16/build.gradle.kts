@@ -70,7 +70,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
-        classpath("com.guardsquare:proguard-gradle:7.2.1")
+        classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
 
@@ -113,7 +113,7 @@ java {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
+    languageVersion = "1.6"
     jvmTarget = "1.8"
 }
 
