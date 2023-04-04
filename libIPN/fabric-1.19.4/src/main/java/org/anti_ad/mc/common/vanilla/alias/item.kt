@@ -25,6 +25,7 @@ import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.item.BlockItem
 import net.minecraft.item.FoodComponent
 import net.minecraft.item.FoodComponents
 import net.minecraft.item.Item
@@ -43,6 +44,7 @@ import net.minecraft.nbt.StringNbtReader
 import net.minecraft.potion.PotionUtil
 
 typealias Item = Item
+typealias BlockItem = BlockItem
 typealias Items = Items
 typealias ItemStack = ItemStack
 
