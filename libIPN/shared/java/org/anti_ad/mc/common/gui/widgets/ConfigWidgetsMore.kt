@@ -21,10 +21,12 @@
 package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.config.IConfigOption
+import org.anti_ad.mc.common.config.options.ConfigColorPicker
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.screen.ColorPickerDialog
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.IKeybind
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -36,9 +38,9 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
-private val WIDGETS_TEXTURE = IdentifierHolder("libipn",
-                                               "textures/gui/widgets.png")
-private val baseSprite = Sprite(WIDGETS_TEXTURE,
+val LIBIPN_WIDGETS_TEXTURE = IdentifierHolder("libipn",
+                                              "textures/gui/widgets.png")
+private val baseSprite = Sprite(LIBIPN_WIDGETS_TEXTURE,
                                 Rectangle(20,
                                           160,
                                           20,
@@ -125,6 +127,29 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
                         20)
         flex.normal.addSpace(2)
         flex.addAndFit(setKeyButton)
+    }
+}
+
+class ConfigColorWidget(configOption: ConfigColorPicker): ConfigWidgetBase<ConfigColorPicker>(configOption) {
+
+
+    var colorSquare = ColorSquareWidget {
+        VanillaScreenUtil.openScreen(ColorPickerDialog(configOption))
+    }
+
+    override fun render(mouseX: Int,
+                        mouseY: Int,
+                        partialTicks: Float) {
+        super.render(mouseX,
+                     mouseY,
+                     partialTicks)
+    }
+
+
+    init {
+        colorSquare.color = { configOption.value }
+        colorSquare.anchor = AnchorStyles.topRight
+        flex.addAndFit(colorSquare)
     }
 }
 

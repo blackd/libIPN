@@ -22,6 +22,9 @@
 
 package org.anti_ad.mc.common
 
+import org.anti_ad.mc.libipn.config.initMainConfig
+
 @Suppress("unused")
 fun init() {
+    initMainConfig()
 }

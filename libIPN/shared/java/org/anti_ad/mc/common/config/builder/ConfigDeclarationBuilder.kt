@@ -84,6 +84,9 @@ fun ConfigDeclaration.handledStringForMinMCVersion(minMCVersion:Int,
 fun ConfigDeclaration.handledString(defaultValue: String, changeHandler: () -> Unit) =
         HandledConfigString(defaultValue, changeHandler).addTo(this)
 
+fun ConfigDeclaration.color(defaultValue: Int) =
+    ConfigColorPicker(defaultValue).addTo(this)
+
 fun ConfigDeclaration.button(info: ConfigButtonInfo) =
     ConfigButton(info).addTo(this)
 

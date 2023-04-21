@@ -18,11 +18,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.common.gui.screen
+package org.anti_ad.mc.libipn.modmenu
 
-data class ScreenInfo(val isPauseScreen: Boolean = false) {
-    companion object {
-        val default = ScreenInfo()
-        val pausing = ScreenInfo(true)
+import com.terraformersmc.modmenu.api.ConfigScreenFactory
+import com.terraformersmc.modmenu.api.ModMenuApi
+import org.anti_ad.mc.libipn.gui.ConfigScreen
+
+class ModMenuApiImpl : ModMenuApi {
+
+    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
+        return ConfigScreenFactory<ConfigScreen> { parent ->
+            val c = ConfigScreen(true)
+            c.parent = parent
+            c.dumpWidgetTree()
+            c
+        }
     }
 }

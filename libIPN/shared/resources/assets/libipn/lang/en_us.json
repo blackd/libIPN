@@ -19,5 +19,10 @@
     "libipn.common.enum.context.gui":                                   "Gui",
     "libipn.common.enum.context.any":                                   "In-game / Gui",
     "libipn.common.enum.modifier_key.differentiate":                    "Diff left/right",
-    "libipn.common.enum.modifier_key.normal":                           "Normal"
+    "libipn.common.enum.modifier_key.normal":                           "Normal",
+    "libipn.common.gui.config.colorpicker.alpha":                       "Alpha",
+    "libipn.common.gui.config.colorpicker.red":                         "Red",
+    "libipn.common.gui.config.colorpicker.green":                       "Green",
+    "libipn.common.gui.config.colorpicker.blue":                        "Blue",
+    "libipn.common.gui.config.color_picker_dialog":                     "Pick a Color"
 }

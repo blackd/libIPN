@@ -117,6 +117,7 @@ apply(plugin = "kotlinx-serialization")
 
 
 loom {
+    runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("libIPN-refmap.json")
 

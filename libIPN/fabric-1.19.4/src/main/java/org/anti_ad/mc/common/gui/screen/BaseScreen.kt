@@ -40,6 +40,7 @@ import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 // ============
 
 abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
+
     constructor() : this(Text.literal(""))
 
     var isClosing: Boolean = false
@@ -48,8 +49,22 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
 
     val titleString: String
         get() = this.title.string // todo .asFormattedString()
-    open val screenInfo
-        get() = ScreenInfo.default
+
+    open val screenInfo: ScreenInfo
+        get() {
+            parent?.let { p ->
+                if (p is BaseScreen) {
+                    return p.screenInfo
+                } else {
+                    return if (p.shouldPause()) {
+                        ScreenInfo.pausing
+                    } else {
+                        ScreenInfo.default
+                    }
+                }
+            }
+            return ScreenInfo.default
+        }
 
     open fun closeScreen() {
         this.isClosing = true
@@ -107,7 +122,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                           partialTicks)
     }
 
-    override fun render(matrixStack: MatrixStack?,
+    override fun render(matrixStack: MatrixStack,
                         mouseX: Int,
                         mouseY: Int,
                         delta: Float) {

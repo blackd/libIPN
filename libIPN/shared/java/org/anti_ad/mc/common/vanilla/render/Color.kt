@@ -87,3 +87,7 @@ fun Int.alpha(value: Float) = this.alpha((value * 255 + 0.5).toInt())
 fun Int.red(value: Float) = this.red((value * 255 + 0.5).toInt())
 fun Int.green(value: Float) = this.green((value * 255 + 0.5).toInt())
 fun Int.blue(value: Float) = this.blue((value * 255 + 0.5).toInt())
+
+fun Int.htmlColor(): String {
+    return "#%02X%02X%02X%02X".format(red, green, blue, alpha)
+}

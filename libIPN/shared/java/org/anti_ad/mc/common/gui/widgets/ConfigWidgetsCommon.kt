@@ -130,8 +130,8 @@ class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigWidgetBase<Config
 }
 
 class ConfigToggleableWidget<T : IConfigOptionToggleable>(configOption: T,
-                                                          var displayText: (T) -> String) :
-    ConfigWidgetBase<T>(configOption) {
+                                                          var displayText: (T) -> String) : ConfigWidgetBase<T>(configOption) {
+
     val toggleButton = ConfigOptionToggleableButtonWidget(configOption) { displayText(configOption) }
 
     init {

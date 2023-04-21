@@ -23,12 +23,7 @@ package org.anti_ad.mc.common.gui.widgets
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.IConfigOptionNumeric
-import org.anti_ad.mc.common.config.options.ConfigBoolean
-import org.anti_ad.mc.common.config.options.ConfigButton
-import org.anti_ad.mc.common.config.options.ConfigEnum
-import org.anti_ad.mc.common.config.options.ConfigHotkey
-import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
-import org.anti_ad.mc.common.config.options.ConfigString
+import org.anti_ad.mc.common.config.options.*
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -40,6 +35,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 
 fun ConfigHotkey.toWidget() = ConfigHotkeyWidget(this)
 fun ConfigKeyToggleBoolean.toWidget() = ConfigKeyToggleBooleanWidget(this)
+fun ConfigColorPicker.toWidget() = ConfigColorWidget(this)
 
 fun IConfigOptionNumeric<*>.toWidget() = ConfigNumericWidget(this)
 
@@ -49,6 +45,7 @@ fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this
     is ConfigBoolean -> this.toWidget()
     is IConfigOptionNumeric<*> -> this.toWidget()
     is ConfigEnum<*> -> this.toWidget()
+    is ConfigColorPicker -> this.toWidget()
     is ConfigKeyToggleBoolean -> this.toWidget()
     is ConfigHotkey -> this.toWidget()
     is ConfigString -> this.toWidget()
@@ -108,6 +105,8 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
                         screenX,
                         screenY)
         }
+    }.apply {
+        visible = true
     }
 
     override fun render(mouseX: Int,
@@ -147,6 +146,7 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
 
 class ConfigStringWidget(configOption: ConfigString,
                          height: Int = 18) : ConfigWidgetBase<ConfigString>(configOption) {
+
     val textField = ITextFieldWidget(height).apply {
         changedEvent = {
             configOption.value = vanillaText

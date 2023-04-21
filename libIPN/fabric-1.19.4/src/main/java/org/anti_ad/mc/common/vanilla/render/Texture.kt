@@ -163,8 +163,8 @@ private fun resizeClips(clips: List<Rectangle>,
 }
 
 fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
-                                            bounds: Rectangle,
-                                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
+                           bounds: Rectangle,
+                           mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
 
     val (x, y, width, height) = bounds
     // draw corners

@@ -22,14 +22,15 @@ package org.anti_ad.mc.common.config.options
 
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.jsonPrimitive
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.ConfigOptionBase
 import org.anti_ad.mc.common.config.ConfigOptionNumericBase
 import org.anti_ad.mc.common.config.IConfigOptionPrimitive
 import org.anti_ad.mc.common.config.IConfigOptionToggleable
-import org.anti_ad.mc.common.extensions.next
-import org.anti_ad.mc.common.extensions.previous
+import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
+import org.anti_ad.mc.common.vanilla.render.*
 
 class ConfigDouble(defaultValue: Double,
                    minValue: Double,
@@ -69,7 +70,38 @@ class ConfigEnum<E : Enum<E>>(override val defaultValue: E) : ConfigOptionBase()
     override fun togglePrevious() = run { value = value.previous() }
 }
 
-class HandledConfigString(override val defaultValue: String, val changeHandler: () -> Unit ) : ConfigString(defaultValue), IConfigOptionPrimitive<String> {
+
+class ConfigColorPicker(override val defaultValue: Int) : ConfigOptionBase(), IConfigOptionPrimitive<Int> {
+
+    override var value: Int = defaultValue
+
+    private var valueAsString: String
+        get() {
+            return value.htmlColor()
+        }
+        set(v) {
+            value = v.htmlColorToMinecraftColor(defaultValue)
+        }
+
+    override fun toJsonElement(): JsonElement = toJsonPrimitive(valueAsString)
+    override fun fromJsonElement(element: JsonElement) {
+        resetToDefault()
+        try {
+            valueAsString = element.jsonPrimitive.value(defaultValue.htmlColor())
+        } catch (e: Exception) {
+            Log.warn("Failed to set config value for '$key' from the JSON element '$element'")
+        }
+    }
+
+    fun copy(): ConfigColorPicker {
+        return ConfigColorPicker(defaultValue).apply {
+            value = this@ConfigColorPicker.value
+        }
+    }
+}
+
+
+class HandledConfigString(override val defaultValue: String, val changeHandler: () -> Unit) : ConfigString(defaultValue), IConfigOptionPrimitive<String> {
     override var value = defaultValue
         set(value) {
             field = value

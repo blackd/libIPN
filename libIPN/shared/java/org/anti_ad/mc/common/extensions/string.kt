@@ -19,6 +19,9 @@
 
 package org.anti_ad.mc.common.extensions
 
+import org.anti_ad.mc.common.vanilla.render.*
+import org.anti_ad.mc.libipn.Log
+
 fun String.dashedSanitized(): String {
     if (this == ".." || this == ".") return "-dot_dot"
     return if (this.isNotEmpty()) {
@@ -42,5 +45,33 @@ fun String.sanitized(): String {
             .replace("\"","(dquote)")
     } else {
         this
+    }
+}
+
+
+
+fun String.htmlColorToMinecraftColor(defaultValue: Int): Int {
+    return if (this[0] == '#') {
+        val colors =  drop(1).chunked(2).map { it.toInt(16) }
+        try {
+            if (colors.size == 3) {
+                val r = colors[0].asRed()
+                val g = colors[1].asGreen()
+                val b = colors[2].asBlue()
+                255.asAlpha() or b or g or r
+            } else {
+                val r = colors[0].asRed()
+                val g = colors[1].asGreen()
+                val b = colors[2].asBlue()
+                val a = colors[3].asAlpha()
+                a or b or g or r
+            }
+        } catch (nfe: NumberFormatException) {
+            Log.error("Cannot convert '$this' to color, using default '${defaultValue.htmlColor()}'. Invalid format!", nfe)
+            defaultValue
+        }
+    } else {
+        Log.error("Cannot convert '$this' to color, using default '${defaultValue.htmlColor()}'. Invalid format!")
+        defaultValue
     }
 }
