@@ -1,5 +1,17 @@
 <!-- latest begin -->
 
+### 2.0.5
+
+- added support for color picker dialog
+- removed support for minecraft 1.19.3
+- minecraft 1.19 and 1.19.1 are no longer officially supported. But the 1.19.2 version will probably work. Just no testing with those is done any more.
+
+### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
+
+<!-- latest end -->
+
+<!-- rest begin -->
+
 ### 2.0.4
 
 - Added support for 1.19.4 Forge.
@@ -15,9 +27,6 @@ This is probably the last version that supports minecraft 1.19.3
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 2.0.2
 
