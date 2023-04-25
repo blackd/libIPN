@@ -22,10 +22,13 @@ package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
+import org.anti_ad.mc.common.extensions.fuzzMatch
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.asAlpha
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
+import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 import kotlin.math.roundToInt
 
 private const val COLOR_WHITE = -0x1
@@ -53,6 +56,8 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
                        private val descriptionOf: (String) -> String,
                        scrollbarSize: Int = 6) :
     AnchoredListWidget(scrollbarSize) {
+
+    var searchTermSource: () -> String = {""}
 
     override fun render(mouseX: Int,
                         mouseY: Int,
@@ -91,6 +96,24 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
             }
         }
 
+
+
+        var lastTerm: String = ""
+        var lastCheck: Boolean = true
+
+        val dontDrawOverlay: Boolean
+            get() {
+                val term = searchTermSource().lowercase()
+                if (term != lastTerm) {
+                    lastTerm = term
+                    lastCheck =
+                        configWidget.text.fuzzMatch(term)
+                            || displayNameTextWidget.text.fuzzMatch(term)
+                            || configOption.key.fuzzMatch(term)
+                }
+                return lastCheck
+            }
+
         val configWidget: ConfigWidgetBase<*> = configOption.toConfigWidget().apply {
             anchor = AnchorStyles.all
             this@ConfigOptionEntry.addChild(this)
@@ -112,6 +135,14 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
             zIndex = 1
         }
 
+        override fun captures(x: Int,
+                              y: Int): Boolean {
+            return dontDrawOverlay && super.captures(x, y)
+        }
+
+        override fun disabled(): Boolean = !dontDrawOverlay
+
+
         override fun render(mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
@@ -119,17 +150,22 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
             super.render(mouseX,
                          mouseY,
                          partialTicks)
-            if (description.isNotEmpty()
-                && displayNameTextWidget.contains(mouseX,
-                                                  mouseY)
-                && !anchorHeader.contains(mouseX,
-                                          mouseY)
-            ) {
+            if (!dontDrawOverlay) {
+                this.drawOverlay()
+            }
+            if (description.isNotEmpty() && dontDrawOverlay && displayNameTextWidget.contains(mouseX, mouseY) && !anchorHeader.contains(mouseX, mouseY)) {
                 TooltipsManager.addTooltip(description,
                                            mouseX,
                                            mouseY,
                                            rScreenWidth * 2 / 3)
             }
+        }
+
+
+        private fun drawOverlay() {
+            rFillRect(this.absoluteBounds, 210.asAlpha())
+            //rFillRect(this.displayNameTextWidget.absoluteBounds, 80.asAlpha())
+            //rFillRect(this.configWidget.absoluteBounds, 80.asAlpha())
         }
 
         init {

@@ -27,8 +27,8 @@ import org.anti_ad.mc.common.config.options.ConfigButton
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.gui.layout.Axis
 import org.anti_ad.mc.common.gui.layout.BiFlex
-import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.VanillaSound
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
@@ -53,7 +53,6 @@ abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Fl
             IConfigOption.Importance.NORMAL -> "R"
         }
     }
-
 
     override fun render(mouseX: Int,
                         mouseY: Int,

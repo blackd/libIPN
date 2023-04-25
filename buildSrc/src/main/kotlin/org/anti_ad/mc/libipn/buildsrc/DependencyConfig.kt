@@ -45,6 +45,20 @@ fun Project.configureDependencies() {
     repositories {
         gradlePluginPortal()
         mavenCentral()
+        maven {
+            name = "libIPN-Snapshots"
+            this.mavenContent {
+                this.snapshotsOnly()
+            }
+            url = uri("https://maven.ipn-mod.org/snapshots")
+        }
+        maven {
+            name = "libIPN-Releases"
+            this.mavenContent {
+                this.releasesOnly()
+            }
+            url = uri("https://maven.ipn-mod.org/releases")
+        }
         maven { url = uri("https://maven.enginehub.org/repo/") }
         maven { url = uri("https://repo.codemc.org/repository/maven-public") }
         //maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
@@ -59,6 +73,7 @@ fun Project.configureDependencies() {
     dependencies {
         "api"("org.jetbrains:annotations:20.1.0")
         "shadedApi"("com.yevdo:jwildcard:1.4")
+        "shadedApi"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
 
     }
 }

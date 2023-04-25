@@ -20,20 +20,25 @@
 
 package org.anti_ad.mc.common.gui.screen
 
+import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
+import org.anti_ad.mc.common.config.options.ConfigString
+import org.anti_ad.mc.common.config.options.HandledConfigString
+import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Flex
+import org.anti_ad.mc.common.gui.layout.FlexDirection.LEFT_TO_RIGHT
 import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.gui.widgets.ConfigHotkeyWidget
-import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.gui.widgets.toWidget
+import org.anti_ad.mc.common.gui.widgets.*
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.anti_ad.mc.common.vanilla.render.glue.rRenderVanillaScreenBackground
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.libipn.Log
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
@@ -53,16 +58,62 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
             }
         }
 
+
     var openConfigMenuHotkey: ConfigHotkey? = null
         set(value) {
             field = value
             openConfigMenuHotkeyWidget = value?.toWidget()
         }
 
+    private val IConfigOption.displayName
+        get() = I18n.translate("libipn.common.gui.config.settings_screen.$key")
+    private val IConfigOption.description
+        get() = I18n.translate("libipn.common.gui.config.description.settings_screen.$key")
+
+    val searchTerm = ConfigString("").apply {
+        key = "search-box"
+        importance = IConfigOption.Importance.NORMAL
+    }
+
+    val searchBoxDescription = object: TextButtonWidget(searchTerm.displayName) {
+        override fun render(mouseX: Int,
+                            mouseY: Int,
+                            partialTicks: Float) {
+            super.render(mouseX,
+                         mouseY,
+                         partialTicks)
+            if (contains(mouseX,
+                         mouseY)
+            ) {
+                TooltipsManager.addTooltip(searchTerm.description,
+                                           mouseX,
+                                           mouseY,
+                                           rScreenWidth * 2 / 3)
+            }
+        }
+    }.apply {
+        anchor = AnchorStyles.topLeft
+        this@ConfigScreenBase.addWidget(this)
+        size = Size(rMeasureText(searchTerm.displayName) + 5, 16)
+        top = 32
+        left = 20
+    }
+
+    var searchBox: ConfigStringWidget = ConfigStringWidget(searchTerm, 10).apply {
+        anchor = AnchorStyles.topRight
+        this@ConfigScreenBase.addWidget(this)
+        left = 20 + 5 +  rMeasureText(searchTerm.displayName)
+        val width = rScreenWidth - left - 10
+        size = Size(width, 10)
+        top = 30
+
+        //left = 10 + 5 +  rMeasureText(searchTerm.displayName)
+    }
+
     val navigationButtonsContainer = Widget().apply {
         anchor = AnchorStyles.noRight
         this@ConfigScreenBase.addWidget(this)
-        top = 30
+        top = searchBox.top + searchBox.height + 5
         left = 10
         bottom = 0
     }
@@ -77,7 +128,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
             field = value?.apply {
                 anchor = AnchorStyles.all
                 this@ConfigScreenBase.addWidget(this)
-                top = 30
+                top = searchBox.top + searchBox.height + 5
                 left = 10 + navigationButtonsContainer.width + 5
                 right = 10
                 bottom = 10
@@ -124,6 +175,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
     fun addNavigationButton(buttonText: String,
                             action: () -> Unit) {
+
         val id = navigationButtonsContainer.childCount
         navigationButtonsContainer.apply {
             width = max(width,
@@ -132,7 +184,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
         navigationButtonsInfo.add(Pair(buttonText,
                                        action))
         navigationButtonsFlowLayout.add(ButtonWidget { ->
-            selectedIndex = id
+                    selectedIndex = id
         }.apply {
             text = buttonText
         },
@@ -142,7 +194,11 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
     fun addNavigationButtonWithWidget(buttonText: String,
                                       widgetSupplier: () -> Widget?) {
-        addNavigationButton(buttonText) { currentConfigList = widgetSupplier() }
+        addNavigationButton(buttonText) {
+            currentConfigList = widgetSupplier().apply {
+                (this as? ConfigListWidget)?.searchTermSource = { searchTerm.value }
+            }
+        }
     }
 
     fun addNavigationButton(buttonText: String) {
@@ -152,6 +208,16 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
     override fun closeScreen() {
         if (GlobalInputHandler.currentAssigningKeybind != null) return
         super.closeScreen()
+    }
+
+    init {
+        rootWidget.sizeChanged += { ev: SizeChangedEvent ->
+            val newWidth = ev.newValue.width - 10
+            val left = searchBoxDescription.left + searchBoxDescription.width + 5
+            searchBox.left = left
+            searchBox.width = newWidth - left
+        }
+
     }
 
 }

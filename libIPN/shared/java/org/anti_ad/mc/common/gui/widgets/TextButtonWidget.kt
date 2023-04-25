@@ -76,7 +76,6 @@ open class TextButtonWidget : ButtonWidget {
 
     override fun contains(mouseX: Int,
                           mouseY: Int): Boolean =
-        absoluteBounds.inflated(pressableMargin).contains(mouseX,
-                                                          mouseY)
+        absoluteBounds.inflated(pressableMargin).contains(mouseX, mouseY) && !disabled()
 
 }

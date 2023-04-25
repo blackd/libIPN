@@ -37,11 +37,11 @@ private const val COLOR_ANCHOR_BG_HOVER = -0x3f666667
 private const val COLOR_WHITE = -0x1
 private const val COLOR_BORDER = -0x666667
 
-private const val rowHeight = 13
+private const val rowHeight = 14
 private const val leastY = 7
 private const val SEPARATOR_WIDTH = 10
 
-open class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
+abstract class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
     var anchorHeader = AnchorHeader()
     val container = ScrollableContainerWidget(scrollbarWidth).apply {
         anchor = AnchorStyles.all

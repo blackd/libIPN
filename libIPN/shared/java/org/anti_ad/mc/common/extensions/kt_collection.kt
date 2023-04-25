@@ -95,3 +95,5 @@ private inline fun <L : List<*>> L.sliceMirrorInternal(
     return subList(a,
                    b)
 }
+
+fun Pair<Int, Int>.diff(): Int = second - first

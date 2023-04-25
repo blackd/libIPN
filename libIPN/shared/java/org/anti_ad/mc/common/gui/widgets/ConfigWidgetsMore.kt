@@ -82,9 +82,7 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
         super.render(mouseX,
                      mouseY,
                      partialTicks)
-        if (iconButton.contains(mouseX,
-                                mouseY)
-        ) { // show Advanced Keybind Settings
+        if (iconButton.contains(mouseX, mouseY)) { // show Advanced Keybind Settings
             TooltipsManager.addTooltip(keybindSettingsTooltipText,
                                        mouseX,
                                        mouseY)

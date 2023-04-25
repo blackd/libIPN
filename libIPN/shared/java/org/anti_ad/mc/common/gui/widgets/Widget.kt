@@ -123,8 +123,8 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
 
     override fun contains(mouseX: Int,
                           mouseY: Int): Boolean {
-        return visible && absoluteBounds.contains(mouseX,
-                                                  mouseY)
+        return visible && !disabled() && absoluteBounds.contains(mouseX,
+                                                                 mouseY)
     }
 
     // focus
@@ -144,6 +144,13 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
 
     final override fun equals(other: Any?) = super.equals(other)
     final override fun hashCode() = super.hashCode()
+
+    override fun disabled(): Boolean {
+        parent?.let {
+            return it.disabled()
+        }
+        return false
+    }
 }
 
 private interface IWidget<T : IWidget<T>> : IWidgetHierarchical<T>, IWidgetPositioning, IWidgetEventTarget<T>, IWidgetRenderer, IBaseGlueWidget {
@@ -459,6 +466,8 @@ private interface IWidgetRenderer {
             }
         }
     }
+
+    fun disabled(): Boolean
 }
 
 private fun Rectangle.asCorrectedBy(i: Int): Rectangle {

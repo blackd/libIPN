@@ -276,7 +276,7 @@ configure<CurseExtension> {
         id = "679177"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
-        releaseType = "beta"
+        releaseType = "release"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)

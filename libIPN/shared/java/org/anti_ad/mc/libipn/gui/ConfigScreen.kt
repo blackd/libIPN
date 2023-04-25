@@ -122,7 +122,9 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
         // hide debugs class
         val configsToUse = Configs
         configsToUse.toMultiConfigList().forEach { multi ->
-            addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
+            addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) {
+                multi.toListWidget()
+            }
         }
         selectedIndex = storedSelectedIndex
     }

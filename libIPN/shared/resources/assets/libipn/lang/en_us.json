@@ -24,5 +24,7 @@
     "libipn.common.gui.config.colorpicker.red":                         "Red",
     "libipn.common.gui.config.colorpicker.green":                       "Green",
     "libipn.common.gui.config.colorpicker.blue":                        "Blue",
-    "libipn.common.gui.config.color_picker_dialog":                     "Pick a Color"
+    "libipn.common.gui.config.color_picker_dialog":                     "Pick a Color",
+    "libipn.common.gui.config.settings_screen.search-box":              "Search",
+    "libipn.common.gui.config.description.settings_screen.search-box":  "Shows only options that match the search term in the box."
 }

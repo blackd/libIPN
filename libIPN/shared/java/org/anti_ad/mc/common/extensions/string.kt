@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.common.extensions
 
+import ca.solostudios.fuzzykt.FuzzyKt
 import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.libipn.Log
 
@@ -34,15 +35,15 @@ fun String.dashedSanitized(): String {
 fun String.sanitized(): String {
     if (this == ".." || this == ".") return "-dot_dot"
     return if (this.isNotEmpty()) {
-        this.replace("/","(slash)")
-            .replace("\\","(bslash)")
+        this.replace("/", "(slash)")
+            .replace("\\", "(bslash)")
             .replace(":", "(colon)")
             .replace("<", "(lt)")
-            .replace(">","(gt)")
-            .replace("|","(pipe)")
-            .replace("?","(qm)")
+            .replace(">", "(gt)")
+            .replace("|", "(pipe)")
+            .replace("?", "(qm)")
             .replace("*", "(asterisk)")
-            .replace("\"","(dquote)")
+            .replace("\"", "(dquote)")
     } else {
         this
     }
@@ -74,4 +75,37 @@ fun String.htmlColorToMinecraftColor(defaultValue: Int): Int {
         Log.error("Cannot convert '$this' to color, using default '${defaultValue.htmlColor()}'. Invalid format!")
         defaultValue
     }
+}
+
+fun String.fuzzMatch(term: String): Boolean {
+    if (term.length > 3) {
+        val searchWords = term.split(' ', '_', '-').filter { it.isNotBlank() }
+        val words = this.lowercase().split(' ', '_', '-').filter { it.isNotBlank() }
+        if (words.isNotEmpty()) {
+            val allMatching = searchWords.filter {
+                words.find { word ->
+                    word.startsWith(it)
+                            || FuzzyKt.longestCommonSubstring(word, it).diff() > 3
+                            || FuzzyKt.ratio(word, it) > .8
+
+                } != null
+            }
+            if (allMatching.isNotEmpty()) {
+                val diff = searchWords.filter {
+                    it !in allMatching
+                }
+                return diff.isEmpty()
+            }
+
+        }
+        return false
+/*
+        return words.find { word ->
+            word.trim().length > 2 && searchWords.find {
+                FuzzyKt.longestCommonSubstring(word, it).diff() > 3 || FuzzyKt.ratio(word, it) > .8
+            } != null
+        } != null
+*/
+    }
+    return true
 }
