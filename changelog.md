@@ -1,16 +1,20 @@
 <!-- latest begin -->
 
-### 2.0.5
+### 2.0.6
 
-- added support for color picker dialog
-- removed support for minecraft 1.19.3
-- minecraft 1.19 and 1.19.1 are no longer officially supported. But the 1.19.2 version will probably work. Just no testing with those is done any more.
+- Adds search box in the settings screen. This will be applied to all compatible mods.
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 2.0.5
+
+- added support for color picker dialog
+- removed support for minecraft 1.19.3
+- minecraft 1.19 and 1.19.1 are no longer officially supported. But the 1.19.2 version will probably work. Just no testing with those is done any more.
 
 ### 2.0.4
 
