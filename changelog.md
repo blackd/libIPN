@@ -1,14 +1,19 @@
 <!-- latest begin -->
 
-### 2.0.6
+### 2.0.7
 
-- Adds search box in the settings screen. This will be applied to all compatible mods.
+- Fixes crash in forge versions and potential conflict with other mods in fabric versions.
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 2.0.6
+
+- Adds search box in the settings screen. This will be applied to all compatible mods.
+
 
 ### 2.0.5
 
