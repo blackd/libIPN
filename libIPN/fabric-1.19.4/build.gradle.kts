@@ -157,6 +157,10 @@ tasks.named<ShadowJar>("shadowJar") {
 
     exclude("META-INF/maven/**")
 
+    relocate("ca.solostudios", "org.anti_ad.embedded.ca.solostudios")
+    relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
+
+
     minimize()
 }
 

@@ -30,7 +30,7 @@ import org.anti_ad.mc.libipn.buildsrc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.libipn.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.19", "1.19.1", "1.19.2")
 val mod_loader = "forge"
@@ -82,7 +82,7 @@ configurations.all {
 
  */
 
-//apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
+apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
 
 //I have no idea why but these MUST be here and not in plugins {}...
 apply(plugin = "net.minecraftforge.gradle")
@@ -154,10 +154,92 @@ if ("true" == System.getProperty("idea.sync.active")) {
         }
     }
 }
+
+
+
+
+tasks.register<Copy>("copyMixinMappings") {
+    dependsOn("compileJava")
+    val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
+    val outName = layout.buildDirectory.file("resources/main/")
+    from(inName)
+    into(outName)
+    rename {
+        "ipnext.refmap.json"
+    }
+}
+
+
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "X-IPN" to "ForgeGradle workaround"
+        ))
+    }
+    dependsOn("copyMixinMappings")
+}
+
+tasks.named<ShadowJar>("shadowJar") {
+
+    configurations = listOf(project.configurations["shaded"])
+
+    archiveClassifier.set("shaded")
+    setVersion(project.version)
+
+    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
+
+    exclude("kotlin/**")
+    exclude("kotlinx/**")
+
+    //exclude("META-INF/**")
+    //exclude("**/*.kotlin_metadata")
+    //exclude("**/*.kotlin_module")
+    //exclude("**/*.kotlin_builtins")
+    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+    //exclude("**/*_ws$*.class")
+    exclude("**/*.stg")
+    exclude("**/*.st")
+    exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("com/ibm/**")
+    exclude("org/glassfish/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/jline/**")
+    exclude("net/minecraftforge/**")
+    exclude("io/netty/**")
+    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("META-INF/maven/**")
+    exclude("META-INF/com.android.tools/**")
+    exclude("META-INF/proguard/**")
+    exclude("META-INF/services/**")
+    //exclude("META-INF/LICENSE")
+    //exclude("META-INF/README")
+
+    relocate("ca.solostudios", "org.anti_ad.embedded.ca.solostudios")
+    relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
+
+
+    minimize()
+}
+
+tasks.named<ShadowJar>("shadowJar") {
+    archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
+    archiveClassifier.set("") // Suffering, if you will.
+    dependsOn("copyMixinMappings")
+    //finalizedBy(tasks["customJar"])
+}
+
 registerMinimizeJarTask()
 
 afterEvaluate {
     forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+}
+
+var rcltName = ""
+
+configurations {
+    implementation.get().extendsFrom(this.findByName("shadedApi"))
 }
 
 configure<UserDevExtension> {
@@ -197,6 +279,8 @@ afterEvaluate {
     }
 
     tasks.getByName("publishMavenPublicationToIpnOfficialRepoRepository").dependsOn("minimizeJar")
+
+    tasks.findByName("reobfJar")?.dependsOn("shadowJar")
 }
 
 val deobfJar = tasks.register<Jar>("deobfJar") {

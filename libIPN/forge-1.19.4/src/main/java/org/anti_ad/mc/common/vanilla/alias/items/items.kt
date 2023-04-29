@@ -33,6 +33,8 @@ import net.minecraft.world.item.ShearsItem
 import net.minecraft.world.item.SuspiciousStewItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.item.BowItem
+import net.minecraft.world.item.CrossbowItem
 import net.minecraft.world.item.FishingRodItem
 import net.minecraft.world.item.MobBucketItem
 import net.minecraft.world.item.SolidBucketItem
@@ -58,4 +60,6 @@ typealias AxeItem = AxeItem
 typealias HoeItem = HoeItem
 typealias ToolItem = DiggerItem
 typealias FishingRodItem = FishingRodItem
+typealias BowItem = BowItem
+typealias CrossbowItem = CrossbowItem
 typealias EquipmentSlot = EquipmentSlot

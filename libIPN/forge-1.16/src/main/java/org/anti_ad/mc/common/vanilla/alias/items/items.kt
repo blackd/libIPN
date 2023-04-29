@@ -24,7 +24,9 @@ import net.minecraft.fluid.Fluids
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.AxeItem
+import net.minecraft.item.BowItem
 import net.minecraft.item.BucketItem
+import net.minecraft.item.CrossbowItem
 import net.minecraft.item.FishBucketItem
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.HoeItem
@@ -56,4 +58,6 @@ typealias AxeItem = AxeItem
 typealias HoeItem = HoeItem
 typealias ToolItem = ToolItem
 typealias FishingRodItem = FishingRodItem
+typealias BowItem = BowItem
+typealias CrossbowItem = CrossbowItem
 typealias EquipmentSlot = EquipmentSlotType

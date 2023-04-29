@@ -23,7 +23,9 @@ package org.anti_ad.mc.common.vanilla.alias.items
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.AxeItem
+import net.minecraft.item.BowItem
 import net.minecraft.item.BucketItem
+import net.minecraft.item.CrossbowItem
 import net.minecraft.item.FishBucketItem
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.HoeItem
@@ -51,5 +53,7 @@ typealias PickaxeItem = PickaxeItem
 typealias AxeItem = AxeItem
 typealias HoeItem = HoeItem
 typealias ToolItem = ToolItem
+typealias BowItem = BowItem
+typealias CrossbowItem = CrossbowItem
 typealias FishingRodItem = FishingRodItem
 typealias EquipmentSlot = EquipmentSlot
