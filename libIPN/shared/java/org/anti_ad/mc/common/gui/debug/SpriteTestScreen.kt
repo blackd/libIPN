@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.debug
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
@@ -34,13 +35,17 @@ private val WIDGETS_TEXTURE = IdentifierHolder("libipn", "textures/gui/widgets.p
 
 class SpriteTestScreen: BaseOverlay() {
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX, mouseY, partialTicks)
-        rFillRect(rScreenBounds, -1)
-        rDrawText("SpriteTestScreen", 2, 2, 0.opaque, shadow = false)
-        testDrawSprite()
+        super.render(context,
+                     mouseX, mouseY, partialTicks)
+        rFillRect(context,
+                  rScreenBounds, -1)
+        rDrawText(context,
+                  "SpriteTestScreen", 2, 2, 0.opaque, shadow = false)
+        testDrawSprite(context)
     }
 
     val s1 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20))
@@ -49,9 +54,12 @@ class SpriteTestScreen: BaseOverlay() {
     val s3 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20)) //, 0.3)
     val s7 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20)) //, 0.7)
 
-    fun testDrawSprite() {
+    fun testDrawSprite(context: NativeContext) {
         listOf(s1, s2, s5, s3, s7).forEachIndexed { index, sprite ->
-            rDrawSprite(sprite, 20 + index * 50, 20)
+            rDrawSprite(context,
+                        sprite,
+                        20 + index * 50,
+                        20)
         }
     }
 }

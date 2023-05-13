@@ -22,11 +22,13 @@ package org.anti_ad.mc.common.vanilla
 
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.util.Clipboard
+import net.minecraft.util.WorldSavePath
 import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.vanilla.alias.IntegratedServer
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Window
+import java.nio.file.Path
 
 // ============
 // vanillamapping code depends on mappings (package org.anti_ad.mc.common.vanilla)
@@ -62,6 +64,11 @@ object Vanilla {
     // ============
 
     fun runDirectoryFile() = mc().runDirectory ?: error("mc.runDirectory is not initialized!")
+
+    val savePathRoot: Path?
+        get() {
+            return server()?.getSavePath(WorldSavePath.ROOT)
+        }
 
     // ============
     // in-game objects

@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "org.anti_ad.mc.common.LibIPNKt::init"
+    ],
+    "modmenu": [
+      "org.anti_ad.mc.libipn.modmenu.ModMenuApiImpl"
     ]
   },
   "mixins": [

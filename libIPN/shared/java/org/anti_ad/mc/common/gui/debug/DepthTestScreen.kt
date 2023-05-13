@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.debug
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Overflow
@@ -37,16 +38,24 @@ import org.anti_ad.mc.common.vanilla.render.opaque
 class DepthTestScreen: BaseOverlay() { class Rect(var color: Int,
                                                   val name: String): Widget() {
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        rDrawOutline(absoluteBounds.inflated(-2), color.alpha(alpha))
-        rDrawOutline(absoluteBounds.inflated(-1), color.alpha(alpha))
-        rDrawOutline(absoluteBounds.inflated(-0), color.alpha(alpha))
-        rDrawOutline(absoluteBounds.inflated(1), 0.alpha(alpha))
-        rDrawOutline(absoluteBounds.inflated(2), 0xff808080.toInt().alpha(alpha))
-        rDrawOutline(absoluteBounds.inflated(3), 0xff808080.toInt().alpha(alpha))
-        super.render(mouseX, mouseY, partialTicks)
+        rDrawOutline(context,
+                     absoluteBounds.inflated(-2), color.alpha(alpha))
+        rDrawOutline(context,
+                     absoluteBounds.inflated(-1), color.alpha(alpha))
+        rDrawOutline(context,
+                     absoluteBounds.inflated(-0), color.alpha(alpha))
+        rDrawOutline(context,
+                     absoluteBounds.inflated(1), 0.alpha(alpha))
+        rDrawOutline(context,
+                     absoluteBounds.inflated(2), 0xff808080.toInt().alpha(alpha))
+        rDrawOutline(context,
+                     absoluteBounds.inflated(3), 0xff808080.toInt().alpha(alpha))
+        super.render(context,
+                     mouseX, mouseY, partialTicks)
     }
 }
 
@@ -71,16 +80,20 @@ class DepthTestScreen: BaseOverlay() { class Rect(var color: Int,
 
     var overflowHidden = true
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX, mouseY, partialTicks)
-        rDrawText("overflowHidden = $overflowHidden", 2, 2, -1)
-        testFillOutline()
-        rFillGradient(Rectangle(370, 10, 50, 200), 0xffff00.opaque, 255.asBlue().opaque)
+        super.render(context,
+                     mouseX, mouseY, partialTicks)
+        rDrawText(context,
+                  "overflowHidden = $overflowHidden", 2, 2, -1)
+        testFillOutline(context)
+        rFillGradient(context,
+                      Rectangle(370, 10, 50, 200), 0xffff00.opaque, 255.asBlue().opaque)
     }
 
-    private fun testFillOutline() {
+    private fun testFillOutline(context: NativeContext) {
         val possibles = listOf(
             AnchorStyles.none,
             AnchorStyles.all,
@@ -106,8 +119,10 @@ class DepthTestScreen: BaseOverlay() { class Rect(var color: Int,
         possibles.forEachIndexed { i, border ->
             val dx = (i / 8) * 25
             val dy = (i % 8) * 25
-            rFillOutline(Rectangle(x + dx, y + dy, 15, 15), fill, outline, border)
-            rFillOutline(Rectangle(x + dx + 50, y + dy, 15, 15), fill, outline, border, 4)
+            rFillOutline(context,
+                         Rectangle(x + dx, y + dy, 15, 15), fill, outline, border)
+            rFillOutline(context,
+                         Rectangle(x + dx + 50, y + dy, 15, 15), fill, outline, border, 4)
         }
     }
 

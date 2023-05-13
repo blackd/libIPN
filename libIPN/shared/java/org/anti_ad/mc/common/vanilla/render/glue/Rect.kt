@@ -23,21 +23,23 @@
 package org.anti_ad.mc.common.vanilla.render.glue
 
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 
 object DrawableHelperAccess: DrawableHelper() {
-    fun fillGradient(i: Int,
+    fun fillGradient(context: NativeContext,
+                     i: Int,
                      j: Int,
                      k: Int,
                      l: Int,
                      m: Int,
                      n: Int) {
-        fillGradient(rMatrixStack,
+        fillGradient(context.native,
                      i,
                      j,
                      k,
@@ -46,34 +48,39 @@ object DrawableHelperAccess: DrawableHelper() {
                      n)
     }
 
-    fun fillRect(x1: Int,
+    fun fillRect(context: NativeContext,
+                 x1: Int,
                  y1: Int,
                  x2: Int,
                  y2: Int,
                  color: Int) {
-        fill(rMatrixStack, x1, y1, x2, y2, color)
+        fill(context.native, x1, y1, x2, y2, color)
     }
 }
 
 // top to bottom
-fun rFillGradient(x1: Int,
+fun rFillGradient(context: NativeContext,
+                  x1: Int,
                   y1: Int,
                   x2: Int,
                   y2: Int,
                   color1: Int,
                   color2: Int) {
-    DrawableHelperAccess.fillGradient(x1,
-                                     y1,
-                                     x2,
-                                     y2,
-                                     color1,
-                                     color2)
+    DrawableHelperAccess.fillGradient(context,
+                                      x1,
+                                      y1,
+                                      x2,
+                                      y2,
+                                      color1,
+                                      color2)
 }
 
-fun rFillGradient(bounds: Rectangle,
+fun rFillGradient(context: NativeContext,
+                  bounds: Rectangle,
                   color1: Int,
                   color2: Int) {
-    rFillGradient(bounds.left,
+    rFillGradient(context,
+                  bounds.left,
                   bounds.top,
                   bounds.right,
                   bounds.bottom,
@@ -85,42 +92,47 @@ fun rFillGradient(bounds: Rectangle,
 // fill rect
 // ============
 
-fun rFillRect(x1: Int,
+fun rFillRect(context: NativeContext,
+              x1: Int,
               y1: Int,
               x2: Int,
               y2: Int,
               color: Int) {
-    DrawableHelperAccess.fillRect(x1, y1, x2, y2, color)
+    DrawableHelperAccess.fillRect(context, x1, y1, x2, y2, color)
 }
 
-fun rFillRect(bounds: Rectangle,
+fun rFillRect(context: NativeContext,
+              bounds: Rectangle,
               color: Int) {
-    rFillRect(bounds.left,
+    rFillRect(context,
+              bounds.left,
               bounds.top,
               bounds.right,
               bounds.bottom,
               color)
 }
 
-fun rFillOutline(bounds: Rectangle,
+fun rFillOutline(context: NativeContext,
+                 bounds: Rectangle,
                  fillColor: Int,
                  outlineColor: Int) {
-    rFillRect(bounds.inflated(-1),
+    rFillRect(context,
+              bounds.inflated(-1),
               fillColor)
-    rDrawOutline(bounds,
+    rDrawOutline(context,
+                 bounds,
                  outlineColor)
 }
 
-fun rFillOutline( // handle corner pixels for you
-    bounds: Rectangle,
-    fillColor: Int,
-    outlineColor: Int,
-    top: Boolean,
-    bottom: Boolean,
-    left: Boolean,
-    right: Boolean, // border switch
-    outlineWidth: Int = 1
-) {
+fun rFillOutline(context: NativeContext,
+                 bounds: Rectangle,
+                 fillColor: Int,
+                 outlineColor: Int,
+                 top: Boolean,
+                 bottom: Boolean,
+                 left: Boolean,
+                 right: Boolean, // border switch
+                 outlineWidth: Int = 1) {
     val (l, lz) = outlineWidth to outlineWidth * 2
     val (x, y, width, height) = bounds
     listOf(
@@ -163,18 +175,21 @@ fun rFillOutline( // handle corner pixels for you
                                        l),
         //@formatter:on
     ).forEach { (outline, rect) ->
-        rFillRect(rect,
+        rFillRect(context,
+                  rect,
                   if (outline) outlineColor else fillColor)
     }
 }
 
-fun rFillOutline(bounds: Rectangle,
+fun rFillOutline(context: NativeContext,
+                 bounds: Rectangle,
                  fillColor: Int,
                  outlineColor: Int,
                  borders: AnchorStyles,
                  outlineWidth: Int = 1) {
     val (top, bottom, left, right) = borders
-    rFillOutline(bounds,
+    rFillOutline(context,
+                 bounds,
                  fillColor,
                  outlineColor,
                  top,
@@ -184,72 +199,86 @@ fun rFillOutline(bounds: Rectangle,
                  outlineWidth)
 }
 
-fun rDrawPixel(x: Int,
+fun rDrawPixel(context: NativeContext,
+               x: Int,
                y: Int,
                color: Int) {
-    rFillRect(x,
+    rFillRect(context,
+              x,
               y,
               x + 1,
               y + 1,
               color)
 }
 
-fun rDrawPixel(point: Point,
+fun rDrawPixel(context: NativeContext,
+               point: Point,
                color: Int) {
-    rDrawPixel(point.x,
+    rDrawPixel(context,
+               point.x,
                point.y,
                color)
 }
 
 // fix 1.14.4 DrawableHelper hLine/vLine offsetted by 1 px
-fun rDrawHorizontalLine(x1: Int,
+fun rDrawHorizontalLine(context: NativeContext,
+                        x1: Int,
                         x2: Int,
                         y: Int,
                         color: Int) { // x1 x2 inclusive
     val (xLeast, xMost) = if (x2 < x1) x2 to x1 else x1 to x2
-    rFillRect(xLeast,
+    rFillRect(context,
+              xLeast,
               y,
               xMost + 1,
               y + 1,
               color)
 }
 
-fun rDrawVerticalLine(x: Int,
+fun rDrawVerticalLine(context: NativeContext,
+                      x: Int,
                       y1: Int,
                       y2: Int,
                       color: Int) { // y1 y2 inclusive
     val (yLeast, yMost) = if (y2 < y1) y2 to y1 else y1 to y2
-    rFillRect(x,
+    rFillRect(context,
+              x,
               yLeast,
               x + 1,
               yMost + 1,
               color)
 }
 
-fun rDrawOutline(x1: Int,
+fun rDrawOutline(context: NativeContext,
+                 x1: Int,
                  y1: Int,
                  x2: Int,
                  y2: Int,
                  color: Int) { // same size with fill(...)
-    rInclusiveOutline(x1,
+    rInclusiveOutline(context,
+                      x1,
                       y1,
                       x2 - 1,
                       y2 - 1,
                       color)
 }
 
-fun rDrawOutline(bounds: Rectangle,
+fun rDrawOutline(context: NativeContext,
+                 bounds: Rectangle,
                  color: Int) { // same size with fill(...)
-    rDrawOutline(bounds.left,
+    rDrawOutline(context,
+                 bounds.left,
                  bounds.top,
                  bounds.right,
                  bounds.bottom,
                  color)
 }
 
-fun rDrawOutlineNoCorner(bounds: Rectangle,
+fun rDrawOutlineNoCorner(context: NativeContext,
+                         bounds: Rectangle,
                          color: Int) {
-    rInclusiveOutlineNoCorner(bounds.left,
+    rInclusiveOutlineNoCorner(context,
+                              bounds.left,
                               bounds.top,
                               bounds.right - 1,
                               bounds.bottom - 1,
@@ -257,22 +286,27 @@ fun rDrawOutlineNoCorner(bounds: Rectangle,
 }
 
 // top to bottom
-fun rDrawOutlineGradient(bounds: Rectangle,
+fun rDrawOutlineGradient(context: NativeContext,
+                         bounds: Rectangle,
                          color1: Int,
                          color2: Int) { // full top/bottom, -2 left/right
     with(bounds) {
-        rFillRect(copy(height = 1),
+        rFillRect(context,
+                  copy(height = 1),
                   color1)
-        rFillRect(copy(y = bottom - 1,
+        rFillRect(context,
+                  copy(y = bottom - 1,
                        height = 1),
                   color2)
-        rFillGradient(Rectangle(x,
+        rFillGradient(context,
+                      Rectangle(x,
                                 y + 1,
                                 1,
                                 height - 2),
                       color1,
                       color2)
-        rFillGradient(Rectangle(right - 1,
+        rFillGradient(context,
+                      Rectangle(right - 1,
                                 y + 1,
                                 1,
                                 height - 2),
@@ -285,47 +319,57 @@ fun rDrawOutlineGradient(bounds: Rectangle,
 // private
 // ============
 
-private fun rInclusiveOutline(x1: Int,
+private fun rInclusiveOutline(context: NativeContext,
+                              x1: Int,
                               y1: Int,
                               x2: Int,
                               y2: Int,
                               color: Int) {
-    rDrawHorizontalLine(x1,
+    rDrawHorizontalLine(context,
+                        x1,
                         x2,
                         y1,
                         color)
-    rDrawHorizontalLine(x1,
+    rDrawHorizontalLine(context,
+                        x1,
                         x2,
                         y2,
                         color)
-    rDrawVerticalLine(x1,
+    rDrawVerticalLine(context,
+                      x1,
                       y1 + 1,
                       y2 - 1,
                       color) // -2
-    rDrawVerticalLine(x2,
+    rDrawVerticalLine(context,
+                      x2,
                       y1 + 1,
                       y2 - 1,
                       color) // -2
 }
 
-private fun rInclusiveOutlineNoCorner(x1: Int,
+private fun rInclusiveOutlineNoCorner(context: NativeContext,
+                                      x1: Int,
                                       y1: Int,
                                       x2: Int,
                                       y2: Int,
                                       color: Int) {
-    rDrawHorizontalLine(x1 + 1,
+    rDrawHorizontalLine(context,
+                        x1 + 1,
                         x2 - 1,
                         y1,
                         color)
-    rDrawHorizontalLine(x1 + 1,
+    rDrawHorizontalLine(context,
+                        x1 + 1,
                         x2 - 1,
                         y2,
                         color)
-    rDrawVerticalLine(x1,
+    rDrawVerticalLine(context,
+                      x1,
                       y1 + 1,
                       y2 - 1,
                       color) // -2
-    rDrawVerticalLine(x2,
+    rDrawVerticalLine(context,
+                      x2,
                       y1 + 1,
                       y2 - 1,
                       color) // -2

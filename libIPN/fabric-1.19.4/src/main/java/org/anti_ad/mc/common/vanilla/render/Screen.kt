@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common.vanilla.render
 
 import net.minecraft.text.Text
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
@@ -36,8 +37,8 @@ val rScreenHeight
     get() = Vanilla.window().scaledHeight
 
 
-fun rRenderDirtBackground() {
-    (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(rMatrixStack)
+fun rRenderDirtBackground(context: NativeContext) {
+    (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(context.native)
 }
 
 private val dummyScreen = object : Screen(Text.literal("")) {}

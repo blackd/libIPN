@@ -24,6 +24,7 @@ import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.IConfigOptionNumeric
 import org.anti_ad.mc.common.config.options.*
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -93,7 +94,8 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
     }
 
     val toggleButton = object : ButtonWidget({ -> useSlider = !useSlider }) {
-        override fun renderButton(hovered: Boolean) {
+        override fun renderButton(context: NativeContext,
+                                  hovered: Boolean) {
             val textureX = if (hovered) 32 else 16
             val textureY = if (useSlider) 16 else 0
             val sprite = Sprite(WIDGETS_TEXTURE,
@@ -101,7 +103,8 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
                                           textureY,
                                           16,
                                           16))
-            rDrawSprite(sprite,
+            rDrawSprite(context,
+                        sprite,
                         screenX,
                         screenY)
         }
@@ -109,7 +112,8 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
         visible = true
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         slider.vanillaMessage = configOption.value.toString()
@@ -122,7 +126,8 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
         if (!textField.editing() && !useSlider) { // is editing
             textField.vanillaText = configOption.value.toString()
         }
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -153,12 +158,14 @@ class ConfigStringWidget(configOption: ConfigString,
         }
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         if (!textField.editing())
             textField.vanillaText = configOption.value
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }

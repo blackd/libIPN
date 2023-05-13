@@ -23,6 +23,7 @@ package org.anti_ad.mc.common.gui.widgets
 import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.extensions.fuzzMatch
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.vanilla.render.asAlpha
@@ -59,13 +60,15 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
 
     var searchTermSource: () -> String = {""}
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
-        TooltipsManager.renderAll()
+        TooltipsManager.renderAll(context)
     }
 
     fun addCategory(categoryName: String) {
@@ -143,15 +146,17 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
         override fun disabled(): Boolean = !dontDrawOverlay
 
 
-        override fun render(mouseX: Int,
+        override fun render(context: NativeContext,
+                            mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
             if (outOfContainer) return
-            super.render(mouseX,
+            super.render(context,
+                         mouseX,
                          mouseY,
                          partialTicks)
             if (!dontDrawOverlay) {
-                this.drawOverlay()
+                this.drawOverlay(context)
             }
             if (description.isNotEmpty() && dontDrawOverlay && displayNameTextWidget.contains(mouseX, mouseY) && !anchorHeader.contains(mouseX, mouseY)) {
                 TooltipsManager.addTooltip(description,
@@ -162,8 +167,9 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
         }
 
 
-        private fun drawOverlay() {
-            rFillRect(this.absoluteBounds, 210.asAlpha())
+        private fun drawOverlay(context: NativeContext) {
+            rFillRect(context,
+                      this.absoluteBounds, 210.asAlpha())
             //rFillRect(this.displayNameTextWidget.absoluteBounds, 80.asAlpha())
             //rFillRect(this.configWidget.absoluteBounds, 80.asAlpha())
         }
@@ -177,11 +183,13 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
     }
 
     inner class CategoryEntry(private val categoryName: String) : Entry() {
-        override fun render(mouseX: Int,
+        override fun render(context: NativeContext,
+                            mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
             if (outOfContainer) return
-            rDrawCenteredText(categoryName,
+            rDrawCenteredText(context,
+                              categoryName,
                               absoluteBounds,
                               COLOR_WHITE)
         }

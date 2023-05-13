@@ -20,24 +20,28 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.VanillaTextRenderer
 
 
 fun rMeasureText(string: String): Int = VanillaTextRenderer.getWidth(string)
 
-fun rDrawText(string: String,
+fun rDrawText(context: NativeContext,
+              string: String,
               x: Int,
               y: Int,
               color: Int,
               shadow: Boolean = true) {
     if (shadow) {
-        VanillaTextRenderer.drawWithShadow(string,
+        VanillaTextRenderer.drawWithShadow(context,
+                                           string,
                                            x.toDouble(),
                                            y.toDouble(),
                                            color)
     } else {
-        VanillaTextRenderer.draw(string,
+        VanillaTextRenderer.draw(context,
+                                 string,
                                  x.toDouble(),
                                  y.toDouble(),
                                  color)
@@ -45,24 +49,28 @@ fun rDrawText(string: String,
 }
 
 
-fun rDrawCenteredText(string: String,
+fun rDrawCenteredText(context: NativeContext,
+                      string: String,
                       x: Int,
                       y: Int,
                       color: Int,
                       shadow: Boolean = true) {
-    rDrawText(string,
+    rDrawText(context,
+              string,
               x - rMeasureText(string) / 2,
               y,
               color,
               shadow)
 }
 
-fun rDrawCenteredText(string: String,
+fun rDrawCenteredText(context: NativeContext,
+                      string: String,
                       bounds: Rectangle,
                       color: Int,
                       shadow: Boolean = true) { // text height = 8
     val (x, y, width, height) = bounds
-    rDrawText(string,
+    rDrawText(context,
+              string,
               x + (width - rMeasureText(string)) / 2,
               y + (height - 8) / 2,
               color,

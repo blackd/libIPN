@@ -25,6 +25,7 @@ import org.anti_ad.mc.common.config.IConfigOptionToggleable
 import org.anti_ad.mc.common.config.options.ConfigBoolean
 import org.anti_ad.mc.common.config.options.ConfigButton
 import org.anti_ad.mc.common.config.options.ConfigEnum
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.Axis
 import org.anti_ad.mc.common.gui.layout.BiFlex
 import org.anti_ad.mc.common.vanilla.VanillaSound
@@ -54,11 +55,13 @@ abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Fl
         }
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         resetButton.active = resetButtonActive()
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -93,11 +96,13 @@ class ConfigOptionToggleableButtonWidget(val configOptionToggleable: IConfigOpti
                                                                                                      if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
                                                                                                      if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
                                                                                                  }) {
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         text = textProvider()
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }

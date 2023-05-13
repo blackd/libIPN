@@ -86,6 +86,7 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
     tasks.named<DefaultTask>("build") {
 //        dependsOn("minimizeJar")
     }
+
     rootAfterEvaluate()
 }
 

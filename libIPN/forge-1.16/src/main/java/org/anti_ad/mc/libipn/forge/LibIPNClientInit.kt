@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.libipn.forge
 
+import net.minecraft.client.Minecraft
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.ExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
@@ -27,6 +28,8 @@ import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 import org.apache.commons.lang3.tuple.Pair
 import java.util.function.*
 import org.anti_ad.mc.common.init
+import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.libipn.gui.ConfigScreen
 
 class LibIPNClientInit: Runnable {
 
@@ -38,9 +41,13 @@ class LibIPNClientInit: Runnable {
         MinecraftForge.EVENT_BUS.register(ForgePostponedInit())
 
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST) {
-            Pair.of(
-                Supplier { "anything. i don't care" },
-                BiPredicate { remoteversionstring: String?, networkbool: Boolean? -> networkbool!! })
+            Pair.of(Supplier { "anything. i don't care" },
+                    BiPredicate { remoteversionstring: String?, networkbool: Boolean? -> networkbool!! })
+        }
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY) {
+            BiFunction {
+                    x: Minecraft?, y: Screen? -> ConfigScreen()
+            }
         }
     }
 }

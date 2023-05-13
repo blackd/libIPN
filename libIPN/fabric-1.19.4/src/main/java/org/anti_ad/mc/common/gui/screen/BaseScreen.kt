@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.screen
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.widgets.RootWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
@@ -33,7 +34,6 @@ import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.glue.IScreenMarker
 import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 
 // ============
 // vanillamapping code depends on mappings (package org.anti_ad.mc.common.gui.screen)
@@ -46,6 +46,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     var isClosing: Boolean = false
 
     var parent: Screen? = null
+
 
     val titleString: String
         get() = this.title.string // todo .asFormattedString()
@@ -104,20 +105,24 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     // ============
     // render
     // ============
-    open fun renderWidgetPre(mouseX: Int,
+    open fun renderWidgetPre(context: NativeContext,
+                             mouseX: Int,
                              mouseY: Int,
                              partialTicks: Float) {
         rStandardGlState()
-        rClearDepth()
+        rClearDepth(context)
     }
 
-    open fun render(mouseX: Int,
+    open fun render(context: NativeContext,
+                    mouseX: Int,
                     mouseY: Int,
                     partialTicks: Float) {
-        renderWidgetPre(mouseX,
+        renderWidgetPre(context,
+                        mouseX,
                         mouseY,
                         partialTicks)
-        rootWidget.render(mouseX,
+        rootWidget.render(context,
+                          mouseX,
                           mouseY,
                           partialTicks)
     }
@@ -127,8 +132,9 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                         mouseY: Int,
                         delta: Float) {
         //rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
-        rMatrixStack = matrixStack ?: RenderSystem.getModelViewStack().also { Log.debug("null matrixStack") }
-        render(mouseX,
+        //rMatrixStack = matrixStack ?: RenderSystem.getModelViewStack().also { Log.debug("null matrixStack") }
+        render(NativeContext(matrixStack),
+               mouseX,
                mouseY,
                delta)
     }

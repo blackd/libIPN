@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
@@ -63,23 +64,29 @@ open class ButtonWidget : Widget {
         return !clickThrough
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        renderButton(contains(mouseX,
+        renderButton(context,
+                     contains(mouseX,
                               mouseY))
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
 
-    open fun renderButton(hovered: Boolean) {
+    open fun renderButton(context: NativeContext,
+                          hovered: Boolean) {
         val k = if (active) if (hovered) 2 else 1 else 0
         val sprite = rVanillaButtonSprite.down(k)
-        rDrawDynamicSizeSprite(sprite,
+        rDrawDynamicSizeSprite(context,
+                               sprite,
                                absoluteBounds)
         val textColor = if (active) if (hovered) 16777120 else 14737632 else 10526880
-        rDrawCenteredText(text,
+        rDrawCenteredText(context,
+                          text,
                           screenX + width / 2,
                           screenY + (height - 8) / 2,
                           textColor)

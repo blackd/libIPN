@@ -23,6 +23,7 @@ package org.anti_ad.mc.common.gui.debug
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.mod
 import org.anti_ad.mc.common.extensions.runIf
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.fillParent
@@ -128,7 +129,8 @@ open class BaseDebugScreen : BaseOverlay() {
                                    f)
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         page?.preRender(mouseX,
@@ -138,7 +140,8 @@ open class BaseDebugScreen : BaseOverlay() {
 //    if (hudTextContains(mouseX, mouseY)) {
 //      textPosition = (textPosition + 1) % 2 // (textPosition + 1) % 4
 //    }
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -169,16 +172,19 @@ open class BaseDebugScreen : BaseOverlay() {
                     zIndex = 0
                 }
 
-                override fun render(mouseX: Int,
+                override fun render(context: NativeContext,
+                                    mouseX: Int,
                                     mouseY: Int,
                                     partialTicks: Float) {
                     if (toggleColor < 2) {
                         val color = if (toggleColor == 0) COLOR_WHITE else COLOR_BLACK
-                        rDrawVerticalLine(mouseX,
+                        rDrawVerticalLine(context,
+                                          mouseX,
                                           1,
                                           height - 2,
                                           color)
-                        rDrawHorizontalLine(1,
+                        rDrawHorizontalLine(context,
+                                            1,
                                             width - 2,
                                             mouseY,
                                             color)

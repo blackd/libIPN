@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
@@ -35,7 +36,7 @@ val rScreenSize
     get() = Size(rScreenWidth,
                  rScreenHeight)
 
-fun rRenderDirtBackground() {
+fun rRenderDirtBackground(context: NativeContext) {
     (Vanilla.screen() ?: dummyScreen).renderDirtBackground(0)
 }
 

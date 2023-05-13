@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.render.COLOR_HUD_LABEL
 import org.anti_ad.mc.common.vanilla.render.COLOR_HUD_TEXT
@@ -35,13 +36,16 @@ class HudText(text: String) : Widget() {
                     9)
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         if (text.isEmpty()) return
-        rFillRect(absoluteBounds,
+        rFillRect(context,
+                  absoluteBounds,
                   COLOR_HUD_TEXT_BG)
-        rDrawText(text,
+        rDrawText(context,
+                  text,
                   screenX + 1,
                   screenY + 1,
                   COLOR_HUD_TEXT)
@@ -62,17 +66,21 @@ class HudLabeledText(private var label: String, text: String) : Widget() {
                     9)
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         if (text.isEmpty()) return
-        rFillRect(absoluteBounds,
+        rFillRect(context,
+                  absoluteBounds,
                   COLOR_HUD_TEXT_BG)
-        rDrawText(label,
+        rDrawText(context,
+                  label,
                   screenX + 1,
                   screenY + 1,
                   COLOR_HUD_LABEL)
-        rDrawText(text,
+        rDrawText(context,
+                  text,
                   screenX + labelLen,
                   screenY + 1,
                   COLOR_HUD_TEXT)

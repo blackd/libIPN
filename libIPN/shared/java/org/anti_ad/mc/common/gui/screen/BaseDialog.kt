@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common.gui.screen
 
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.moveToCenter
 import org.anti_ad.mc.common.gui.widgets.Widget
@@ -40,13 +41,16 @@ open class BaseDialog : BaseOverlay {
 
     val dialogWidget =
         object : Widget() {
-            override fun render(mouseX: Int,
+            override fun render(context: NativeContext,
+                                mouseX: Int,
                                 mouseY: Int,
                                 partialTicks: Float) {
-                rFillOutline(absoluteBounds,
+                rFillOutline(context,
+                             absoluteBounds,
                              COLOR_BG,
                              COLOR_BORDER)
-                super.render(mouseX,
+                super.render(context,
+                             mouseX,
                              mouseY,
                              partialTicks)
             }
@@ -63,11 +67,12 @@ open class BaseDialog : BaseOverlay {
             }
         }
 
-    override fun renderParentPost(mouseX: Int,
+    override fun renderParentPost(context: NativeContext,
+                                  mouseX: Int,
                                   mouseY: Int,
                                   partialTicks: Float) {
         if (renderBlackOverlay) {
-            rRenderBlackOverlay()
+            rRenderBlackOverlay(context)
         }
     }
 }

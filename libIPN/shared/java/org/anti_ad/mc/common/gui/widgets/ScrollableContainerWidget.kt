@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Overflow.HIDDEN
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -52,18 +53,22 @@ class ScrollableContainerWidget(scrollbarW: Int = 6) : Widget() {
     }
 
     private val _contentContainer = object : Widget() {
-        override fun render(mouseX: Int,
+        override fun render(context: NativeContext,
+                            mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
-            contentCustomRenderer(mouseX,
+            contentCustomRenderer(context,
+                                  mouseX,
                                   mouseY,
                                   partialTicks)
         }
 
-        fun superRender(mouseX: Int,
+        fun superRender(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-            super.render(mouseX,
+            super.render(context,
+                         mouseX,
                          mouseY,
                          partialTicks)
         }
@@ -88,9 +93,10 @@ class ScrollableContainerWidget(scrollbarW: Int = 6) : Widget() {
 
     val contentContainer
         get() = _contentContainer
-    val contentCustomRendererDefault: Widget.(Int, Int, Float) -> Unit =
-        { mouseX: Int, mouseY: Int, partialTicks: Float ->
-            _contentContainer.superRender(mouseX,
+    val contentCustomRendererDefault: Widget.(NativeContext, Int, Int, Float) -> Unit =
+        {context: NativeContext, mouseX: Int, mouseY: Int, partialTicks: Float ->
+            _contentContainer.superRender(context,
+                                          mouseX,
                                           mouseY,
                                           partialTicks)
         }
@@ -163,29 +169,35 @@ class ScrollableContainerWidget(scrollbarW: Int = 6) : Widget() {
 
     //endregion
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         if (renderBorder) {
-            rDrawOutline(absoluteBounds,
+            rDrawOutline(context,
+                         absoluteBounds,
                          borderColor)
         }
         // render scrollbar, ref: EntryListWidget.render
         if (scrollbar.visible) {
-            rFillRect(scrollbar.trackAbsoluteBounds,
+            rFillRect(context,
+                      scrollbar.trackAbsoluteBounds,
                       COLOR_SCROLLBAR_BG)
             val hover = scrollbar.thumbAbsoluteBounds.contains(mouseX,
                                                                mouseY) || draggingScrollbar
-            rFillRect(scrollbar.thumbAbsoluteBounds,
+            rFillRect(context,
+                      scrollbar.thumbAbsoluteBounds,
                       if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
-            rFillRect(scrollbar.thumbAbsoluteBounds.run {
+            rFillRect(context,
+                      scrollbar.thumbAbsoluteBounds.run {
                 copy(width = width - 1,
                      height = height - 1)
             },
                       if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
         }
         this.overflow = HIDDEN
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -199,13 +211,8 @@ class ScrollableContainerWidget(scrollbarW: Int = 6) : Widget() {
                               button: Int): Boolean =
         super.mouseClicked(x,
                            y,
-                           button) || if (
-            button == 0 && scrollbar.visible && scrollbar.trackAbsoluteBounds.contains(x,
-                                                                                       y)
-        ) {
-            if (!scrollbar.thumbAbsoluteBounds.contains(x,
-                                                        y)
-            ) {
+                           button) || if (button == 0 && scrollbar.visible && scrollbar.trackAbsoluteBounds.contains(x, y)) {
+            if (!scrollbar.thumbAbsoluteBounds.contains(x, y)) {
                 scrollbar.y = y - viewport.screenY - scrollbar.thumbHeight / 2 // e = y1 + yoffset + sh/2
             }
             draggingScrollbar = true

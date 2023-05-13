@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.*
 import org.anti_ad.mc.common.math2d.Corner.*
 import org.anti_ad.mc.common.vanilla.render.internal_rDrawSprite
@@ -35,13 +36,15 @@ val rVanillaButtonSprite: DynamicSizeSprite
                                  3)
     }
 
-fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
+fun rDrawDynamicSizeSprite(context: NativeContext,
+                           sprite: DynamicSizeSprite,
                            x: Int,
                            y: Int,
                            width: Int,
                            height: Int,
                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
-    rDrawDynamicSizeSprite(sprite,
+    rDrawDynamicSizeSprite(context,
+                           sprite,
                            Rectangle(x,
                                      y,
                                      width,
@@ -49,60 +52,73 @@ fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
                            mode)
 }
 
-private fun rBlit(drawArea: Rectangle,
+private fun rBlit(context: NativeContext,
+                  drawArea: Rectangle,
                   spriteBounds: Rectangle,
                   textureSize: Size) {
     val (x, y, w, h) = drawArea
     val (sx, sy, sw, sh) = spriteBounds
     val (tw, th) = textureSize
-    vanilla_rBlit(x, y, w, h, sx, sy, sw, sh, tw, th)
+    vanilla_rBlit(context, x, y, w, h, sx, sy, sw, sh, tw, th)
 }
 
 // ============
 // sprite
 // ============
 
-fun rDrawSprite(sprite: Sprite,
-                location: Point) = internal_rDrawSprite(sprite,
+fun rDrawSprite(context: NativeContext,
+                sprite: Sprite,
+                location: Point) = internal_rDrawSprite(context,
+                                                        sprite,
                                                         0,
                                                         location.x,
                                                         location.y)
 
-fun rDrawSprite(sprite: Sprite,
+fun rDrawSprite(context: NativeContext,
+                sprite: Sprite,
                 x: Int,
-                y: Int) = internal_rDrawSprite(sprite,
+                y: Int) = internal_rDrawSprite(context,
+                                               sprite,
                                                0,
                                                x,
                                                y)
 
-fun rDrawCenteredSprite(sprite: Sprite,
-                        location: Point) = rDrawCenteredSprite(sprite,
+fun rDrawCenteredSprite(context: NativeContext,
+                        sprite: Sprite,
+                        location: Point) = rDrawCenteredSprite(context,
+                                                               sprite,
                                                                location.x,
                                                                location.y)
 
-fun rDrawCenteredSprite(sprite: Sprite,
+fun rDrawCenteredSprite(context: NativeContext,
+                        sprite: Sprite,
                         tIndex: Int,
-                        location: Point) = rDrawCenteredSprite(sprite,
+                        location: Point) = rDrawCenteredSprite(context,
+                                                               sprite,
                                                                tIndex,
                                                                location.x,
                                                                location.y)
 
 
-fun rDrawCenteredSprite(sprite: Sprite,
+fun rDrawCenteredSprite(context: NativeContext,
+                        sprite: Sprite,
                         tIndex: Int,
                         x: Int,
                         y: Int) {
     val (w, h) = sprite.size
-    internal_rDrawSprite(sprite,
+    internal_rDrawSprite(context,
+                         sprite,
                          tIndex,
                          x - w / 2,
                          y - h / 2)
 }
 
-fun rDrawCenteredSprite(sprite: Sprite,
+fun rDrawCenteredSprite(context: NativeContext,
+                        sprite: Sprite,
                         x: Int,
                         y: Int) {
-    rDrawCenteredSprite(sprite,
+    rDrawCenteredSprite(context,
+                        sprite,
                        0,
                        x,
                        y)
@@ -193,24 +209,29 @@ enum class DynamicSizeMode {
     ;
 
     // drawArea to spriteBounds
-    private fun drawStretch(pair: Pair<Rectangle, Rectangle>,
+    private fun drawStretch(context: NativeContext,
+                            pair: Pair<Rectangle, Rectangle>,
                             textureSize: Size) {
         val (drawArea, spriteBounds) = pair
-        rBlit(drawArea,
+        rBlit(context,
+              drawArea,
               spriteBounds,
               textureSize)
     }
 
-    private fun drawRepeat(pair: Pair<Rectangle, Rectangle>,
+    private fun drawRepeat(context: NativeContext,
+                           pair: Pair<Rectangle, Rectangle>,
                            textureSize: Size) {
         val (drawArea, spriteBounds) = pair
-        drawRepeat(drawArea,
+        drawRepeat(context,
+                   drawArea,
                    spriteBounds,
                    textureSize,
                    TOP_LEFT)
     }
 
-    private fun drawRepeat(drawArea: Rectangle,
+    private fun drawRepeat(context: NativeContext,
+                           drawArea: Rectangle,
                            spriteBounds: Rectangle,
                            textureSize: Size,
                            corner: Corner) {
@@ -218,7 +239,8 @@ enum class DynamicSizeMode {
                                        corner)
         for (chunk in chunked) {
             if (chunk == spriteBounds) {
-                rBlit(chunk,
+                rBlit(context,
+                      chunk,
                       spriteBounds,
                       textureSize) // ref: drawStretch
             } else { // trim
@@ -233,33 +255,41 @@ enum class DynamicSizeMode {
                     BOTTOM_RIGHT -> spriteBounds.resizeTopLeft(rw,
                                                                rh)
                 }
-                rBlit(chunk,
+                rBlit(context,
+                      chunk,
                       croppedSpriteBounds,
                       textureSize)
             }
         }
     }
 
-    fun draw(drawAreas: List<Rectangle>,
+    fun draw(context: NativeContext,
+             drawAreas: List<Rectangle>,
              textureAreas: List<Rectangle>,
              textureSize: Size) {
         // draw corners
         val pairs = drawAreas zip textureAreas
-        drawStretch(pairs[1],
+        drawStretch(context,
+                    pairs[1],
                     textureSize)
-        drawStretch(pairs[3],
+        drawStretch(context,
+                    pairs[3],
                     textureSize)
-        drawStretch(pairs[7],
+        drawStretch(context,
+                    pairs[7],
                     textureSize)
-        drawStretch(pairs[9],
+        drawStretch(context,
+                    pairs[9],
                     textureSize)
         val (w, h) = drawAreas[5].size // if <= 0 don't draw
         when (this) {
             STRETCH, REPEAT -> {
                 val draw = { index: Int ->
-                    if (this == STRETCH) drawStretch(pairs[index],
+                    if (this == STRETCH) drawStretch(context,
+                                                     pairs[index],
                                                      textureSize)
-                    else drawRepeat(pairs[index],
+                    else drawRepeat(context,
+                                    pairs[index],
                                     textureSize)
                 }
                 if (w > 0) {
@@ -278,19 +308,23 @@ enum class DynamicSizeMode {
                 if (w > 0) {
                     val (a, b) = drawAreas[2].splitWidth()
                     val (c, d) = drawAreas[8].splitWidth()
-                    drawRepeat(a,
+                    drawRepeat(context,
+                               a,
                                textureAreas[2],
                                textureSize,
                                TOP_LEFT)
-                    drawRepeat(b,
+                    drawRepeat(context,
+                               b,
                                textureAreas[2],
                                textureSize,
                                TOP_RIGHT)
-                    drawRepeat(c,
+                    drawRepeat(context,
+                               c,
                                textureAreas[8],
                                textureSize,
                                BOTTOM_LEFT)
-                    drawRepeat(d,
+                    drawRepeat(context,
+                               d,
                                textureAreas[8],
                                textureSize,
                                BOTTOM_RIGHT)
@@ -298,38 +332,46 @@ enum class DynamicSizeMode {
                 if (h > 0) {
                     val (a, b) = drawAreas[4].splitHeight()
                     val (c, d) = drawAreas[6].splitHeight()
-                    drawRepeat(a,
+                    drawRepeat(context,
+                               a,
                                textureAreas[4],
                                textureSize,
                                TOP_LEFT)
-                    drawRepeat(b,
+                    drawRepeat(context,
+                               b,
                                textureAreas[4],
                                textureSize,
                                BOTTOM_LEFT)
-                    drawRepeat(c,
+                    drawRepeat(context,
+                               c,
                                textureAreas[6],
                                textureSize,
                                TOP_RIGHT)
-                    drawRepeat(d,
+                    drawRepeat(context,
+                               d,
                                textureAreas[6],
                                textureSize,
                                BOTTOM_RIGHT)
                 }
                 if (w > 0 && h > 0) {
                     val (a, b, c, d) = drawAreas[5].split()
-                    drawRepeat(a,
+                    drawRepeat(context,
+                               a,
                                textureAreas[5],
                                textureSize,
                                TOP_LEFT)
-                    drawRepeat(b,
+                    drawRepeat(context,
+                               b,
                                textureAreas[5],
                                textureSize,
                                TOP_RIGHT)
-                    drawRepeat(c,
+                    drawRepeat(context,
+                               c,
                                textureAreas[5],
                                textureSize,
                                BOTTOM_LEFT)
-                    drawRepeat(d,
+                    drawRepeat(context,
+                               d,
                                textureAreas[5],
                                textureSize,
                                BOTTOM_RIGHT)

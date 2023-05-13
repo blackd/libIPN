@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -35,7 +36,6 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -62,15 +62,17 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
             vanilla.message = getLiteral(value)
         }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         rStandardGlState() // added this todo (unknown reason fixing text field overflow)
-        vanilla.render(rMatrixStack,
+        vanilla.render(context.native,
                        mouseX,
                        mouseY,
                        partialTicks)
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -184,7 +186,8 @@ private class CustomVanillaSliderWidget(val minValue: Double,
 //    val k = if (active) if (hovered) 2 else 1 else 0
         val k = 0
         val sprite = rVanillaButtonSprite.down(k)
-        rDrawDynamicSizeSprite(sprite,
+        rDrawDynamicSizeSprite(NativeContext(matrixStack),
+                               sprite,
                                absoluteBounds)
 
         // ref: AbstractButtonWidget.renderButton()

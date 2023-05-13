@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.resizeBottom
@@ -59,13 +60,14 @@ private fun rBindTexture(identifier: Identifier) {
 }
 
 // for 256 x 256 texture
-private fun rBlit(x: Int,
+private fun rBlit(context: NativeContext,
+                  x: Int,
                   y: Int,
                   sx: Int,
                   sy: Int,
                   sw: Int,
                   sh: Int) { // screen xy sprite xy wh
-    DrawableHelper.blit(rMatrixStack,
+    DrawableHelper.blit(context.native,
                         x,
                         y,
                         0,
@@ -78,7 +80,8 @@ private fun rBlit(x: Int,
 }
 
 // screen xy wh sprite xy wh texture wh
-fun vanilla_rBlit(x: Int,
+fun vanilla_rBlit(context: NativeContext,
+                  x: Int,
                   y: Int,
                   w: Int,
                   h: Int,
@@ -88,7 +91,7 @@ fun vanilla_rBlit(x: Int,
                   sh: Int,
                   tw: Int,
                   th: Int) {
-    DrawableHelper.blit(rMatrixStack,
+    DrawableHelper.blit(context.native,
                         x,
                         y,
                         w,
@@ -111,14 +114,16 @@ fun vanilla_rBlit(x: Int,
 // ============
 
 
-fun internal_rDrawSprite(sprite: Sprite,
-                tIndex: Int,
-                x: Int,
-                y: Int) {
+fun internal_rDrawSprite(context: NativeContext,
+                         sprite: Sprite,
+                         tIndex: Int,
+                         x: Int,
+                         y: Int) {
     rBindTexture(sprite.identifier())
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
-    vanilla_rBlit(x,
+    vanilla_rBlit(context,
+                  x,
                   y,
                   sw,
                   sh,
@@ -177,7 +182,8 @@ private fun resizeClips(clips: List<Rectangle>,
     )
 }
 
-fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
+fun rDrawDynamicSizeSprite(context: NativeContext,
+                           sprite: DynamicSizeSprite,
                            bounds: Rectangle,
                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
     val (x, y, width, height) = bounds
@@ -197,7 +203,8 @@ fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
                                     textureAreas[9].size)
     rBindTexture(sprite.identifier())
 
-    mode.draw(drawAreas,
+    mode.draw(context,
+              drawAreas,
               textureAreas,
               sprite.textureSize)
 }

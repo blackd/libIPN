@@ -21,28 +21,38 @@
 package org.anti_ad.mc.common.vanilla.render
 
 import net.minecraft.util.text.Style
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 
 object VanillaTextRenderer {
-    fun wrapLines(s: String, maxWidth: Int) = Vanilla.textRenderer().characterManager.func_238362_b_(LiteralText(s),
-                                                                                                     maxWidth,
-                                                                                                     Style.EMPTY).joinToString("\n") {
+    fun wrapLines(s: String,
+                  maxWidth: Int) = Vanilla.textRenderer().characterManager.func_238362_b_(LiteralText(s),
+                                                                                          maxWidth,
+                                                                                          Style.EMPTY).joinToString("\n") {
         it.string
     }
 
 
     fun getWidth(s: String) = Vanilla.textRenderer().getStringWidth(s)
 
-    fun drawWithShadow(string: String, x: Double, y: Double, color: Int) = Vanilla.textRenderer().drawStringWithShadow(rMatrixStack,
-                                                                                                                       string,
-                                                                                                                       x.toFloat(),
-                                                                                                                       y.toFloat(),
-                                                                                                                       color)
+    fun drawWithShadow(context: NativeContext,
+                       string: String,
+                       x: Double,
+                       y: Double,
+                       color: Int) = Vanilla.textRenderer().drawStringWithShadow(context.native,
+                                                                                 string,
+                                                                                 x.toFloat(),
+                                                                                 y.toFloat(),
+                                                                                 color)
 
-    fun draw(string: String, x: Double, y: Double, color: Int) = Vanilla.textRenderer().drawString(rMatrixStack,
-                                                                                                   string,
-                                                                                                   x.toFloat(),
-                                                                                                   y.toFloat(),
-                                                                                                   color)
+    fun draw(context: NativeContext,
+             string: String,
+             x: Double,
+             y: Double,
+             color: Int) = Vanilla.textRenderer().drawString(context.native,
+                                                             string,
+                                                             x.toFloat(),
+                                                             y.toFloat(),
+                                                             color)
 }

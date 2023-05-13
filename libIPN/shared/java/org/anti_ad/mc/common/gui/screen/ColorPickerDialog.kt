@@ -3,6 +3,7 @@ package org.anti_ad.mc.common.gui.screen
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigColorPicker
 import org.anti_ad.mc.common.config.options.ConfigInteger
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.widgets.ColorSquareWidget
@@ -64,10 +65,11 @@ class ColorPickerDialog(val colorConfig: ConfigColorPicker): BaseDialog(getTrans
                 top = baseTop
             }
             object: TextButtonWidget(cfg.displayName) {
-                override fun render(mouseX: Int,
+                override fun render(context: NativeContext,
+                                    mouseX: Int,
                                     mouseY: Int,
                                     partialTicks: Float) {
-                    super.render(mouseX, mouseY, partialTicks)
+                    super.render(context, mouseX, mouseY, partialTicks)
                     if (showTooltips && contains(mouseX, mouseY)) {
                         TooltipsManager.addTooltip(cfg.description, mouseX, mouseY, rScreenWidth * 2 / 3)
                     }
@@ -91,12 +93,13 @@ class ColorPickerDialog(val colorConfig: ConfigColorPicker): BaseDialog(getTrans
         }
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX, mouseY, partialTicks) //    Diffuse disable()
-        rDrawCenteredText("§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
-        TooltipsManager.renderAll()
+        super.render(context, mouseX, mouseY, partialTicks) //    Diffuse disable()
+        rDrawCenteredText(context,"§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
+        TooltipsManager.renderAll(context)
     }
 
 }

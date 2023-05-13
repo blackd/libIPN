@@ -21,11 +21,13 @@
 package org.anti_ad.mc.common.vanilla
 
 import net.minecraft.client.entity.player.ClientPlayerEntity
+import net.minecraft.world.storage.FolderName
 import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.vanilla.alias.IntegratedServer
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Window
+import java.nio.file.Path
 
 // ============
 // vanillamapping code depends on mappings (package org.anti_ad.mc.common.vanilla)
@@ -61,6 +63,11 @@ object Vanilla {
     // ============
 
     fun runDirectoryFile() = mc().gameDir ?: error("mc.runDirectory is not initialized!")
+
+    val savePathRoot: Path?
+        get() {
+            return server()?.func_240776_a_(FolderName.DOT)
+        }
 
     // ============
     // in-game objects

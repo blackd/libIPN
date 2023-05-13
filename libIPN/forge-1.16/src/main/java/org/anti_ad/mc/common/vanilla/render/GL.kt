@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
 import org.anti_ad.mc.common.vanilla.alias.DiffuseLighting
@@ -48,20 +49,23 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
 // depth
 // ============
 
-fun rClearDepth() {
+fun rClearDepth(context: NativeContext) {
     gEnableDepthTest()
     RenderSystem.depthMask(true)
     RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT,
                        false)
-    rOverwriteDepth(rScreenBounds)
+    rOverwriteDepth(context,
+                    rScreenBounds)
     depthBounds.clear() // added this
 }
 
-inline fun rDepthMask(bounds: Rectangle,
+inline fun rDepthMask(context: NativeContext,
+                      bounds: Rectangle,
                       block: () -> Unit) {
-    rCreateDepthMask(bounds)
+    rCreateDepthMask(context,
+                     bounds)
     block()
-    rRemoveDepthMask()
+    rRemoveDepthMask(context)
 }
 
 private val depthBounds = mutableListOf<Rectangle>()
@@ -69,34 +73,42 @@ private val depthBounds = mutableListOf<Rectangle>()
 //https://stackoverflow.com/questions/13742556/best-approach-to-draw-clipped-ui-elements-in-opengl
 // can it be done without stencil?
 // (maybe yes, if rectangle mask only)
-fun rCreateDepthMask(bounds: Rectangle) {
+fun rCreateDepthMask(context: NativeContext,
+                     bounds: Rectangle) {
     rStandardGlState() // added this
     if (depthBounds.isEmpty()) {
-        rCreateDepthMaskNoCheck(bounds)
+        rCreateDepthMaskNoCheck(context,
+                                bounds)
     } else {
-        rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
+        rCreateDepthMaskNoCheck(context,
+                                depthBounds.last().intersect(bounds))
     }
 }
 
-private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
+private fun rCreateDepthMaskNoCheck(context: NativeContext,
+                                    bounds: Rectangle) {
     depthBounds.add(bounds)
     gPushMatrix()
     gTranslatef(0f,
                 0f,
                 -400.0f)
-    rOverwriteDepth(bounds)
+    rOverwriteDepth(context,
+                    bounds)
 }
 
-fun rRemoveDepthMask() {
+fun rRemoveDepthMask(context: NativeContext) {
 //  rStandardGlState() // added this
     gPopMatrix()
-    rOverwriteDepth(depthBounds.removeLast())
+    rOverwriteDepth(context,
+                    depthBounds.removeLast())
 }
 
-private fun rOverwriteDepth(bounds: Rectangle) {
+private fun rOverwriteDepth(context: NativeContext,
+                            bounds: Rectangle) {
     gDepthFunc(GL11.GL_ALWAYS)
     gDisableAlphaTest()
-    rFillRect(bounds,
+    rFillRect(context,
+              bounds,
               0)
     gEnableAlphaTest()
     gDepthFunc(GL11.GL_LEQUAL)
@@ -116,7 +128,6 @@ fun rEnableDepth() {
 // matrix
 // ============
 
-var rMatrixStack = MatrixStack()
 
 @SuppressWarnings("[deprecation]")
 fun gPushMatrix() = RenderSystem.pushMatrix()

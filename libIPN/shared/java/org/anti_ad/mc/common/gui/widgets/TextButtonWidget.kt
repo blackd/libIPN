@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 
@@ -65,10 +66,12 @@ open class TextButtonWidget : ButtonWidget {
         width = rMeasureText(displayText)
     }
 
-    override fun renderButton(hovered: Boolean) {
+    override fun renderButton(context: NativeContext,
+                              hovered: Boolean) {
         this.hovered = hovered
         updateWidth()
-        rDrawText(displayText,
+        rDrawText(context,
+                  displayText,
                   screenX,
                   screenY,
                   -0x1)

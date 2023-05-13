@@ -24,6 +24,7 @@ import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigColorPicker
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.screen.ColorPickerDialog
@@ -60,10 +61,12 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
                                                            onClickKeybindSettingsIcon()
                                                        }
                                                    }) {
-        override fun renderButton(hovered: Boolean) {
+        override fun renderButton(context: NativeContext,
+                                  hovered: Boolean) {
             val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty()) modifiedSprite else baseSprite
             val spriteY = spriteX.down(targetKeybind.settings.activateOn.ordinal)
-            rDrawSprite(spriteY,
+            rDrawSprite(context,
+                        spriteY,
                         screenX,
                         screenY)
         }
@@ -75,11 +78,13 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
             if (GlobalInputHandler.currentAssigningKeybind === targetKeybind) "> §e$it§r <" else it
         }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         setKeyButton.text = keybindDisplayText
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
         if (iconButton.contains(mouseX, mouseY)) { // show Advanced Keybind Settings
@@ -135,10 +140,12 @@ class ConfigColorWidget(configOption: ConfigColorPicker): ConfigWidgetBase<Confi
         VanillaScreenUtil.openScreen(ColorPickerDialog(configOption))
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -178,10 +185,12 @@ class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : Confi
                                                            onClickKeybindSettingsIcon()
                                                        }
                                                    }) {
-        override fun renderButton(hovered: Boolean) {
+        override fun renderButton(context: NativeContext,
+                                  hovered: Boolean) {
             val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty()) modifiedSprite else baseSprite
             val spriteY = spriteX.down(targetKeybind.settings.activateOn.ordinal)
-            rDrawSprite(spriteY,
+            rDrawSprite(context,
+                        spriteY,
                         screenX,
                         screenY)
         }
@@ -194,11 +203,13 @@ class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : Confi
             if (GlobalInputHandler.currentAssigningKeybind === targetKeybind) "> §e$it§r <" else it
         }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         setKeyButton.text = keybindDisplayText
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
         if (iconButton.contains(mouseX, mouseY)) { // show Advanced Keybind Settings

@@ -24,6 +24,7 @@ import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.config.options.HandledConfigString
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Flex
@@ -76,10 +77,12 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
     }
 
     val searchBoxDescription = object: TextButtonWidget(searchTerm.displayName) {
-        override fun render(mouseX: Int,
+        override fun render(context: NativeContext,
+                            mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
-            super.render(mouseX,
+            super.render(context,
+                         mouseX,
                          mouseY,
                          partialTicks)
             if (contains(mouseX,
@@ -160,15 +163,18 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
         }
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        rRenderVanillaScreenBackground()
-        rDrawText(this.titleString,
+        rRenderVanillaScreenBackground(context)
+        rDrawText(context,
+                  this.titleString,
                   20,
                   10,
                   COLOR_WHITE)
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }

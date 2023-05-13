@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Flex
 import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
@@ -63,14 +64,17 @@ abstract class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
         renderBorder = false
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         if (renderBorder) {
-            rDrawOutline(absoluteBounds,
+            rDrawOutline(context,
+                         absoluteBounds,
                          borderColor)
         }
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }
@@ -268,7 +272,8 @@ abstract class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
                 }
             }
 
-        override fun render(mouseX: Int,
+        override fun render(context: NativeContext,
+                            mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
             expanded = contains(mouseX,
@@ -276,17 +281,20 @@ abstract class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
             val outline = if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER
             val fill = if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG
             val rect = absoluteBounds.run { copy(height = height + 1) }
-            rFillOutline(rect,
+            rFillOutline(context,
+                         rect,
                          fill,
                          outline,
                          AnchorStyles.topBottom)
-            super.render(mouseX,
+            super.render(context,
+                         mouseX,
                          mouseY,
                          partialTicks)
             lastHighlightingAnchorIndex = anchorsManager.highlightingAnchorIndex
             if (!expanded && anchorsManager.totalTextRow > 1) {
                 anchorsManager.highlightingRowLastAnchor.textButtonWidget.run {
-                    rDrawText(ellipsisText,
+                    rDrawText(context,
+                              ellipsisText,
                               absoluteBounds.right,
                               screenY,
                               COLOR_WHITE)

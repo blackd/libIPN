@@ -22,6 +22,7 @@ package org.anti_ad.mc.common.gui.screen
 
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.widgets.TextButtonWidget
@@ -67,10 +68,14 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTr
                 top = baseTop
             }
             object: TextButtonWidget(configOption.displayName) {
-                override fun render(mouseX: Int,
+                override fun render(context: NativeContext,
+                                    mouseX: Int,
                                     mouseY: Int,
                                     partialTicks: Float) {
-                    super.render(mouseX, mouseY, partialTicks)
+                    super.render(context,
+                                 mouseX,
+                                 mouseY,
+                                 partialTicks)
                     if (showTooltips && contains(mouseX, mouseY)) {
                         TooltipsManager.addTooltip(configOption.description, mouseX, mouseY, rScreenWidth * 2 / 3)
                     }
@@ -84,13 +89,16 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTr
         }
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX, mouseY, partialTicks) //    Diffuse disable()
+        super.render(context,
+                     mouseX, mouseY, partialTicks) //    Diffuse disable()
         configHotkey.mainKeybind.settings = keybindSettingElement.settings
-        rDrawCenteredText("§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
-        TooltipsManager.renderAll()
+        rDrawCenteredText(context,
+                          "§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
+        TooltipsManager.renderAll(context)
     }
 
 }

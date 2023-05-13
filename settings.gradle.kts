@@ -20,17 +20,19 @@
 
 rootProject.name = "libIPN"
 
+//include("libIPN:fabric-1.20")
+
 include("libIPN:fabric-1.19.4")
 include("libIPN:fabric-1.19")
 include("libIPN:fabric-1.18.2")
 include("libIPN:fabric-1.16")
 
-
-
 include("libIPN:forge-1.16")
 include("libIPN:forge-1.18.2")
+
 include("libIPN:forge-1.19")
 include("libIPN:forge-1.19.4")
+
 
 
 pluginManagement {

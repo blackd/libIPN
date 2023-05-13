@@ -19,6 +19,8 @@
 
 package org.anti_ad.mc.libipn.forge
 
+import net.minecraft.client.Minecraft
+import net.minecraftforge.client.ConfigScreenHandler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.IExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
@@ -27,6 +29,8 @@ import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 import org.apache.commons.lang3.tuple.Pair
 import java.util.function.*
 import org.anti_ad.mc.common.init
+import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.libipn.gui.ConfigScreen
 
 class LibIPNClientInit: Runnable {
 
@@ -41,6 +45,9 @@ class LibIPNClientInit: Runnable {
             IExtensionPoint.DisplayTest({ ModLoadingContext.get().activeContainer.modInfo.version.toString() }) {
                     remote: String?, isServer: Boolean? -> true
             }
+        }
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
+            ConfigScreenHandler.ConfigScreenFactory { minecraft: Minecraft?, screen: Screen? -> ConfigScreen() }
         }
     }
 }

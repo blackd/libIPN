@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.resizeBottom
 import org.anti_ad.mc.common.math2d.resizeBottomLeft
@@ -59,26 +60,28 @@ fun makeIdentifier(ns: String, path: String): Any {
 }
 
 // for 256 x 256 texture
-private fun rBlit(x: Int,
+private fun rBlit(context: NativeContext,
+                  x: Int,
                   y: Int,
                   sx: Int,
                   sy: Int,
                   sw: Int,
                   sh: Int) { // screen xy sprite xy wh
-    DrawableHelper.blit(rMatrixStack,
-                               x,
-                               y,
-                               0,
-                               sx.toFloat(),
-                               sy.toFloat(),
-                               sw,
-                               sh,
-                               256,
-                               256)
+    DrawableHelper.blit(context.native,
+                        x,
+                        y,
+                        0,
+                        sx.toFloat(),
+                        sy.toFloat(),
+                        sw,
+                        sh,
+                        256,
+                        256)
 }
 
 // screen xy wh sprite xy wh texture wh
-fun vanilla_rBlit(x: Int,
+fun vanilla_rBlit(context: NativeContext,
+                  x: Int,
                   y: Int,
                   w: Int,
                   h: Int,
@@ -88,17 +91,17 @@ fun vanilla_rBlit(x: Int,
                   sh: Int,
                   tw: Int,
                   th: Int) {
-    DrawableHelper.blit(rMatrixStack,
-                               x,
-                               y,
-                               w,
-                               h,
-                               sx.toFloat(),
-                               sy.toFloat(),
-                               sw,
-                               sh,
-                               tw,
-                               th)
+    DrawableHelper.blit(context.native,
+                        x,
+                        y,
+                        w,
+                        h,
+                        sx.toFloat(),
+                        sy.toFloat(),
+                        sw,
+                        sh,
+                        tw,
+                        th)
 }
 
 
@@ -109,10 +112,11 @@ fun vanilla_rBlit(x: Int,
 
 
 
-fun internal_rDrawSprite(sprite: Sprite,
-                                 tIndex: Int,
-                                 x: Int,
-                                 y: Int) {
+fun internal_rDrawSprite(context: NativeContext,
+                         sprite: Sprite,
+                         tIndex: Int,
+                         x: Int,
+                         y: Int) {
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.setShaderTexture(tIndex,
                                   sprite.identifier())
@@ -120,7 +124,8 @@ fun internal_rDrawSprite(sprite: Sprite,
     //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
-    vanilla_rBlit(x, y, sw, sh, sx,
+    vanilla_rBlit(context,
+                  x, y, sw, sh, sx,
                   sy, sw, sh, tw, th)
     RenderSystem.enableDepthTest();
 }
@@ -161,7 +166,8 @@ private fun resizeClips(clips: List<Rectangle>,
     )
 }
 
-fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
+fun rDrawDynamicSizeSprite(context: NativeContext,
+                           sprite: DynamicSizeSprite,
                            bounds: Rectangle,
                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
 
@@ -183,7 +189,8 @@ fun rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
     RenderSystem.setShaderTexture(0,
                                   sprite.identifier())
 
-    mode.draw(drawAreas,
+    mode.draw(context,
+              drawAreas,
               textureAreas,
               sprite.textureSize)
 }

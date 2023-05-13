@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.render.*
@@ -33,7 +34,8 @@ open class ColorSquareWidget(aClickEvent: (Int) -> Unit) : Widget() {
 
         }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         val outlineColor = if (contains(mouseX, mouseY)) {
@@ -41,21 +43,25 @@ open class ColorSquareWidget(aClickEvent: (Int) -> Unit) : Widget() {
         } else {
             0
         }
-        rDrawDynamicSizeSprite(baseSprite,
+        rDrawDynamicSizeSprite(context,
+                               baseSprite,
                                screenX + 1,
                                screenY + 1,
                                width - 2,
                                height - 2)
 
-        rFillOutline(Rectangle(screenX, screenY, width, height),
+        rFillOutline(context,
+                     Rectangle(screenX, screenY, width, height),
                      color(),
                      outlineColor)
 
-        rDrawCenteredText(text,
+        rDrawCenteredText(context,
+                          text,
                           screenX + width / 2,
                           screenY + (height - 8) / 2,
                           0xffffff)
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
     }

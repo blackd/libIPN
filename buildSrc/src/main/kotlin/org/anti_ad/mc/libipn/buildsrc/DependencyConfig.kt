@@ -72,8 +72,7 @@ fun Project.configureDependencies() {
 
     dependencies {
         "api"("org.jetbrains:annotations:20.1.0")
-        "shadedApi"("com.yevdo:jwildcard:1.4")
-        "shadedApi"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
+
 
     }
 }
@@ -93,6 +92,8 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
     dependencies {
 
+        "shadedApi"("com.yevdo:jwildcard:1.4")
+        "shadedApi"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
@@ -159,5 +160,9 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
         "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
         "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
         "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
+        "runtimeOnly"("com.yevdo:jwildcard:1.4")
+        "runtimeOnly"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
+        "api"("com.yevdo:jwildcard:1.4")
+        "api"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
     }
 }

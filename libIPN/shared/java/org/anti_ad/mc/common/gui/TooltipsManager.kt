@@ -54,14 +54,14 @@ object TooltipsManager {
                                         mouseX,
                                         mouseY)
 
-        fun render() {
-            renderTooltip()
+        fun render(context: NativeContext) {
+            renderTooltip(context)
         }
 
-        private fun renderTooltip() { // ref: Screen.renderTooltip
+        private fun renderTooltip(context: NativeContext) { // ref: Screen.renderTooltip
             if (list.isEmpty()) return
             rStandardGlState()
-            rClearDepth()
+            rClearDepth(context)
             val maxTextWidth = list.map { rMeasureText(it) }.maxOrNull() ?: return
             val boxW = maxTextWidth + 8
             val boxH = list.size * 10 + 6
@@ -82,17 +82,21 @@ object TooltipsManager {
                                    boxW,
                                    boxH)
             val COLOR_BG = -0xfeffff0 // overlap with outline
-            rDrawOutlineNoCorner(bounds,
+            rDrawOutlineNoCorner(context,
+                                 bounds,
                                  COLOR_BG)
-            rFillRect(bounds.inflated(-1),
+            rFillRect(context,
+                      bounds.inflated(-1),
                       COLOR_BG)
             val COLOR_OUTLINE_TOP = 0x505000FF
             val COLOR_OUTLINE_BOTTOM = 0x5028007F
-            rDrawOutlineGradient(bounds.inflated(-1),
+            rDrawOutlineGradient(context,
+                                 bounds.inflated(-1),
                                  COLOR_OUTLINE_TOP,
                                  COLOR_OUTLINE_BOTTOM)
             list.forEachIndexed { index, s ->
-                rDrawText(s,
+                rDrawText(context,
+                          s,
                           boxX + 4,
                           boxY + 4 + 10 * index,
                           -1)
@@ -119,9 +123,9 @@ object TooltipsManager {
                    mouseY)
     }
 
-    fun renderAll() {
+    fun renderAll(context: NativeContext) {
         with(tooltips) {
-            forEach { it.render() }
+            forEach { it.render(context) }
             clear()
         }
     }

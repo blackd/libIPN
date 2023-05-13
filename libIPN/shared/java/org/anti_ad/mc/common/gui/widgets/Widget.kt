@@ -24,6 +24,7 @@ import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.widgets.glue.IBaseGlueWidget
@@ -433,34 +434,41 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
 // widget rendering
 // ============
 
+
+
 private interface IWidgetRenderer {
     var visible: Boolean
     val overflow: Overflow
     val absoluteBounds: Rectangle
     fun childrenZIndexed(): List<IWidgetRenderer>
-    fun render(mouseX: Int,
+    fun render(context: NativeContext,
+               mouseX: Int,
                mouseY: Int,
                partialTicks: Float) {
         if (overflow == Overflow.HIDDEN) { // notice that mask only apply to children (self render unaffected)
             //rDepthMask(absoluteBounds) {
-                renderChildren(mouseX,
-                               mouseY,
-                               partialTicks)
+            renderChildren(context,
+                           mouseX,
+                           mouseY,
+                           partialTicks)
             //}
         } else {
-            renderChildren(mouseX,
+            renderChildren(context,
+                           mouseX,
                            mouseY,
                            partialTicks)
         }
     }
 
-    private fun renderChildren(mouseX: Int,
+    private fun renderChildren(context: NativeContext,
+                               mouseX: Int,
                                mouseY: Int,
                                partialTicks: Float) {
         val zIndexed = childrenZIndexed()
         zIndexed.forEach {
             if (it.visible) {
-                it.render(mouseX,
+                it.render(context,
+                          mouseX,
                           mouseY,
                           partialTicks)
             }

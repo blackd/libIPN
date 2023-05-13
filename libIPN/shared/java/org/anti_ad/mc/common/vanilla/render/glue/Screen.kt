@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.render.glue
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
@@ -31,8 +32,9 @@ import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 /// Screen.kt
 
 
-fun rRenderBlackOverlay() { // Screen.renderBackground
-    rFillGradient(0,
+fun rRenderBlackOverlay(context: NativeContext) { // Screen.renderBackground
+    rFillGradient(context,
+                  0,
                   0,
                   rScreenWidth,
                   rScreenHeight,
@@ -40,11 +42,11 @@ fun rRenderBlackOverlay() { // Screen.renderBackground
                   -804253680)
 }
 
-fun rRenderVanillaScreenBackground() { // Screen.renderBackground
+fun rRenderVanillaScreenBackground(context: NativeContext) { // Screen.renderBackground
     if (VanillaUtil.inGame()) {
-        rRenderBlackOverlay()
+        rRenderBlackOverlay(context)
     } else {
-        rRenderDirtBackground()
+        rRenderDirtBackground(context)
     }
 }
 

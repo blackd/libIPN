@@ -142,7 +142,7 @@ val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyMa
 
 forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
 
-dependencies {
+dependencies{
 
 }
 
@@ -275,6 +275,7 @@ configure<UserDevExtension> {
         }
         create("client", runConfig)
         create("server", runConfig)
+
         //create("data", runConfig)
     }
 }
