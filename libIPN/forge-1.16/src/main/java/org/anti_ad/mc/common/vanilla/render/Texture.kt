@@ -81,6 +81,7 @@ private fun rBlit(context: NativeContext,
 
 // screen xy wh sprite xy wh texture wh
 fun vanilla_rBlit(context: NativeContext,
+                  identifier: IdentifierHolder,
                   x: Int,
                   y: Int,
                   w: Int,
@@ -91,6 +92,7 @@ fun vanilla_rBlit(context: NativeContext,
                   sh: Int,
                   tw: Int,
                   th: Int) {
+    rBindTexture(identifier())
     DrawableHelper.blit(context.native,
                         x,
                         y,
@@ -119,10 +121,11 @@ fun internal_rDrawSprite(context: NativeContext,
                          tIndex: Int,
                          x: Int,
                          y: Int) {
-    rBindTexture(sprite.identifier())
+    //rBindTexture(sprite.identifier())
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
     vanilla_rBlit(context,
+                  sprite.identifier,
                   x,
                   y,
                   sw,
@@ -186,6 +189,7 @@ fun rDrawDynamicSizeSprite(context: NativeContext,
                            sprite: DynamicSizeSprite,
                            bounds: Rectangle,
                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
+
     val (x, y, width, height) = bounds
     // draw corners
     val (cornerWidth, cornerHeight) = sprite.cornerSize
@@ -201,9 +205,10 @@ fun rDrawDynamicSizeSprite(context: NativeContext,
                                    bh)
     val drawAreas = bounds.split3x3(textureAreas[1].size,
                                     textureAreas[9].size)
-    rBindTexture(sprite.identifier())
+
 
     mode.draw(context,
+              sprite.identifier,
               drawAreas,
               textureAreas,
               sprite.textureSize)

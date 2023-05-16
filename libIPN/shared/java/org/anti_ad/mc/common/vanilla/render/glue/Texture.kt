@@ -26,9 +26,8 @@ import org.anti_ad.mc.common.math2d.Corner.*
 import org.anti_ad.mc.common.vanilla.render.internal_rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSpriteF
 import org.anti_ad.mc.common.vanilla.render.makeIdentifier
-import org.anti_ad.mc.common.vanilla.render.vanilla_rBlit
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
-
+import org.anti_ad.mc.common.vanilla.render.vanilla_rBlit
 
 val rVanillaButtonSprite: DynamicSizeSprite
     get() {
@@ -53,13 +52,16 @@ fun rDrawDynamicSizeSprite(context: NativeContext,
 }
 
 private fun rBlit(context: NativeContext,
+                  identifier: IdentifierHolder,
                   drawArea: Rectangle,
                   spriteBounds: Rectangle,
                   textureSize: Size) {
     val (x, y, w, h) = drawArea
     val (sx, sy, sw, sh) = spriteBounds
     val (tw, th) = textureSize
-    vanilla_rBlit(context, x, y, w, h, sx, sy, sw, sh, tw, th)
+    vanilla_rBlit(context,
+                  identifier,
+                  x, y, w, h, sx, sy, sw, sh, tw, th)
 }
 
 // ============
@@ -210,20 +212,24 @@ enum class DynamicSizeMode {
 
     // drawArea to spriteBounds
     private fun drawStretch(context: NativeContext,
+                            identifier: IdentifierHolder,
                             pair: Pair<Rectangle, Rectangle>,
                             textureSize: Size) {
         val (drawArea, spriteBounds) = pair
         rBlit(context,
+              identifier,
               drawArea,
               spriteBounds,
               textureSize)
     }
 
     private fun drawRepeat(context: NativeContext,
+                           identifier: IdentifierHolder,
                            pair: Pair<Rectangle, Rectangle>,
                            textureSize: Size) {
         val (drawArea, spriteBounds) = pair
         drawRepeat(context,
+                   identifier,
                    drawArea,
                    spriteBounds,
                    textureSize,
@@ -231,6 +237,7 @@ enum class DynamicSizeMode {
     }
 
     private fun drawRepeat(context: NativeContext,
+                           identifier: IdentifierHolder,
                            drawArea: Rectangle,
                            spriteBounds: Rectangle,
                            textureSize: Size,
@@ -240,6 +247,7 @@ enum class DynamicSizeMode {
         for (chunk in chunked) {
             if (chunk == spriteBounds) {
                 rBlit(context,
+                      identifier,
                       chunk,
                       spriteBounds,
                       textureSize) // ref: drawStretch
@@ -256,6 +264,7 @@ enum class DynamicSizeMode {
                                                                rh)
                 }
                 rBlit(context,
+                      identifier,
                       chunk,
                       croppedSpriteBounds,
                       textureSize)
@@ -264,21 +273,26 @@ enum class DynamicSizeMode {
     }
 
     fun draw(context: NativeContext,
+             identifier: IdentifierHolder,
              drawAreas: List<Rectangle>,
              textureAreas: List<Rectangle>,
              textureSize: Size) {
         // draw corners
         val pairs = drawAreas zip textureAreas
         drawStretch(context,
+                    identifier,
                     pairs[1],
                     textureSize)
         drawStretch(context,
+                    identifier,
                     pairs[3],
                     textureSize)
         drawStretch(context,
+                    identifier,
                     pairs[7],
                     textureSize)
         drawStretch(context,
+                    identifier,
                     pairs[9],
                     textureSize)
         val (w, h) = drawAreas[5].size // if <= 0 don't draw
@@ -286,9 +300,11 @@ enum class DynamicSizeMode {
             STRETCH, REPEAT -> {
                 val draw = { index: Int ->
                     if (this == STRETCH) drawStretch(context,
+                                                     identifier,
                                                      pairs[index],
                                                      textureSize)
                     else drawRepeat(context,
+                                    identifier,
                                     pairs[index],
                                     textureSize)
                 }
@@ -309,21 +325,25 @@ enum class DynamicSizeMode {
                     val (a, b) = drawAreas[2].splitWidth()
                     val (c, d) = drawAreas[8].splitWidth()
                     drawRepeat(context,
+                               identifier,
                                a,
                                textureAreas[2],
                                textureSize,
                                TOP_LEFT)
                     drawRepeat(context,
+                               identifier,
                                b,
                                textureAreas[2],
                                textureSize,
                                TOP_RIGHT)
                     drawRepeat(context,
+                               identifier,
                                c,
                                textureAreas[8],
                                textureSize,
                                BOTTOM_LEFT)
                     drawRepeat(context,
+                               identifier,
                                d,
                                textureAreas[8],
                                textureSize,
@@ -333,21 +353,25 @@ enum class DynamicSizeMode {
                     val (a, b) = drawAreas[4].splitHeight()
                     val (c, d) = drawAreas[6].splitHeight()
                     drawRepeat(context,
+                               identifier,
                                a,
                                textureAreas[4],
                                textureSize,
                                TOP_LEFT)
                     drawRepeat(context,
+                               identifier,
                                b,
                                textureAreas[4],
                                textureSize,
                                BOTTOM_LEFT)
                     drawRepeat(context,
+                               identifier,
                                c,
                                textureAreas[6],
                                textureSize,
                                TOP_RIGHT)
                     drawRepeat(context,
+                               identifier,
                                d,
                                textureAreas[6],
                                textureSize,
@@ -356,21 +380,25 @@ enum class DynamicSizeMode {
                 if (w > 0 && h > 0) {
                     val (a, b, c, d) = drawAreas[5].split()
                     drawRepeat(context,
+                               identifier,
                                a,
                                textureAreas[5],
                                textureSize,
                                TOP_LEFT)
                     drawRepeat(context,
+                               identifier,
                                b,
                                textureAreas[5],
                                textureSize,
                                TOP_RIGHT)
                     drawRepeat(context,
+                               identifier,
                                c,
                                textureAreas[5],
                                textureSize,
                                BOTTOM_LEFT)
                     drawRepeat(context,
+                               identifier,
                                d,
                                textureAreas[5],
                                textureSize,

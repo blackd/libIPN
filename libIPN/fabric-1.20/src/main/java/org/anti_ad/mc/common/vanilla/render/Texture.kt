@@ -32,7 +32,6 @@ import org.anti_ad.mc.common.math2d.resizeTop
 import org.anti_ad.mc.common.math2d.resizeTopLeft
 import org.anti_ad.mc.common.math2d.resizeTopRight
 import org.anti_ad.mc.common.math2d.split3x3
-import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeMode
@@ -68,6 +67,7 @@ private fun rBlit(context: NativeContext,
                   sy: Int,
                   sw: Int,
                   sh: Int) { // screen xy sprite xy wh
+    /*
     DrawableHelper.drawTexture(context.native,
                                x,
                                y,
@@ -78,24 +78,24 @@ private fun rBlit(context: NativeContext,
                                sh,
                                256,
                                256)
+
+     */
 }
 
 // screen xy wh sprite xy wh texture wh
 fun vanilla_rBlit(context: NativeContext,
-                  identifier: IdentifierHolder,
-                  x: Int,
-                  y: Int,
-                  w: Int,
-                  h: Int,
-                  sx: Int,
-                  sy: Int,
-                  sw: Int,
-                  sh: Int,
-                  tw: Int,
-                  th: Int) {
-    RenderSystem.setShaderTexture(0,
-                                  identifier())
-    DrawableHelper.drawTexture(context.native,
+                   identifier: IdentifierHolder,
+                   x: Int,
+                   y: Int,
+                   w: Int,
+                   h: Int,
+                   sx: Int,
+                   sy: Int,
+                   sw: Int,
+                   sh: Int,
+                   tw: Int,
+                   th: Int) {
+    context.native.drawTexture(identifier(),
                                x,
                                y,
                                w,
@@ -105,8 +105,7 @@ fun vanilla_rBlit(context: NativeContext,
                                sw,
                                sh,
                                tw,
-                               th)
-}
+                               th) }
 
 
 
@@ -122,16 +121,16 @@ fun internal_rDrawSprite(context: NativeContext,
                          x: Int,
                          y: Int) {
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
-//    RenderSystem.setShaderTexture(tIndex,
-//                                  sprite.identifier())
+    RenderSystem.setShaderTexture(tIndex,
+                                  sprite.identifier())
     RenderSystem.disableDepthTest();
     //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
-    vanilla_rBlit(context,
-                  sprite.identifier,
-                  x, y, sw, sh, sx,
-                  sy, sw, sh, tw, th)
+
+    context.native.drawTexture(sprite.identifier(),
+                               x, y, sw, sh, sx.toFloat(),
+                               sy.toFloat(), sw, sh, tw, th )
     RenderSystem.enableDepthTest();
 }
 
@@ -153,20 +152,22 @@ private fun resizeClips(clips: List<Rectangle>,
                         xRight: Int,
                         yTop: Int,
                         yBottom: Int): List<Rectangle> {
-    return listOf(clips[0],
-                  clips[1].resizeBottomRight(xLeft,
-                                             yTop),
-                  clips[2].resizeBottom(yTop),
-                  clips[3].resizeBottomLeft(xRight,
-                                            yTop),
-                  clips[4].resizeRight(xLeft),
-                  clips[5], //.resizeTopLeft(xLeft, yTop).resizeBottomRight(xRight, yBottom),
-                  clips[6].resizeLeft(xRight),
-                  clips[7].resizeTopRight(xLeft,
-                                          yBottom),
-                  clips[8].resizeTop(yBottom),
-                  clips[9].resizeTopLeft(xRight,
-                                         yBottom))
+    return listOf(
+        clips[0],
+        clips[1].resizeBottomRight(xLeft,
+                                   yTop),
+        clips[2].resizeBottom(yTop),
+        clips[3].resizeBottomLeft(xRight,
+                                  yTop),
+        clips[4].resizeRight(xLeft),
+        clips[5], //.resizeTopLeft(xLeft, yTop).resizeBottomRight(xRight, yBottom),
+        clips[6].resizeLeft(xRight),
+        clips[7].resizeTopRight(xLeft,
+                                yBottom),
+        clips[8].resizeTop(yBottom),
+        clips[9].resizeTopLeft(xRight,
+                               yBottom),
+    )
 }
 
 fun rDrawDynamicSizeSprite(context: NativeContext,
@@ -189,7 +190,6 @@ fun rDrawDynamicSizeSprite(context: NativeContext,
                                    bh)
     val drawAreas = bounds.split3x3(textureAreas[1].size,
                                     textureAreas[9].size)
-
 
     mode.draw(context,
               sprite.identifier,

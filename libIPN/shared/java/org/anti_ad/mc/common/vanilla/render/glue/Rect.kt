@@ -24,12 +24,10 @@ package org.anti_ad.mc.common.vanilla.render.glue
 
 
 import org.anti_ad.mc.common.gui.NativeContext
-import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 
 object DrawableHelperAccess: DrawableHelper() {
     fun fillGradient(context: NativeContext,

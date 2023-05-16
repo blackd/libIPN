@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,42 +18,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.libipn.modmenu
 
-rootProject.name = "libIPN"
+import com.terraformersmc.modmenu.api.ConfigScreenFactory
+import com.terraformersmc.modmenu.api.ModMenuApi
+import org.anti_ad.mc.libipn.gui.ConfigScreen
 
-include("libIPN:fabric-1.20")
+class ModMenuApiImpl : ModMenuApi {
 
-include("libIPN:fabric-1.19.4")
-include("libIPN:fabric-1.19")
-include("libIPN:fabric-1.18.2")
-include("libIPN:fabric-1.16")
-
-include("libIPN:forge-1.16")
-include("libIPN:forge-1.18.2")
-
-include("libIPN:forge-1.19")
-include("libIPN:forge-1.19.4")
-
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
+    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
+        return ConfigScreenFactory<ConfigScreen> { parent ->
+            val c = ConfigScreen(true)
+            c.parent = parent
+            c.dumpWidgetTree()
+            c
         }
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-}
-
-plugins {
-    id("com.gradle.enterprise") version "3.4.1"
-}
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
     }
 }

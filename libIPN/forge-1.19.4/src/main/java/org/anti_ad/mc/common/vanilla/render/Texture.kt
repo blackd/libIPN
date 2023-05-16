@@ -81,6 +81,7 @@ private fun rBlit(context: NativeContext,
 
 // screen xy wh sprite xy wh texture wh
 fun vanilla_rBlit(context: NativeContext,
+                  identifier: IdentifierHolder,
                   x: Int,
                   y: Int,
                   w: Int,
@@ -91,6 +92,8 @@ fun vanilla_rBlit(context: NativeContext,
                   sh: Int,
                   tw: Int,
                   th: Int) {
+    RenderSystem.setShaderTexture(0,
+                                  identifier())
     DrawableHelper.blit(context.native,
                         x,
                         y,
@@ -118,13 +121,16 @@ fun internal_rDrawSprite(context: NativeContext,
                          x: Int,
                          y: Int) {
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
+    /*
     RenderSystem.setShaderTexture(tIndex,
                                   sprite.identifier())
+    */
     RenderSystem.disableDepthTest();
     //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
     vanilla_rBlit(context,
+                  sprite.identifier,
                   x, y, sw, sh, sx,
                   sy, sw, sh, tw, th)
     RenderSystem.enableDepthTest();
@@ -186,10 +192,10 @@ fun rDrawDynamicSizeSprite(context: NativeContext,
                                    bh)
     val drawAreas = bounds.split3x3(textureAreas[1].size,
                                     textureAreas[9].size)
-    RenderSystem.setShaderTexture(0,
-                                  sprite.identifier())
+
 
     mode.draw(context,
+              sprite.identifier,
               drawAreas,
               textureAreas,
               sprite.textureSize)
