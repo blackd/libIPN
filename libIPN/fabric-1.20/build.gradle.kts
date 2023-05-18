@@ -31,15 +31,15 @@ import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.libipn.buildsrc.loom_version
 
-val supported_minecraft_versions = listOf("1.20-pre1", "1.20-Snapshot")
+val supported_minecraft_versions = listOf("1.20-pre1", "1.20-pre2", "1.20-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.20-pre1"
-val minecraft_version_string = "1.20-pre1"
-val mappings_version = "1.20-pre1+build.1"
+val minecraft_version = "1.20-pre2"
+val minecraft_version_string = "1.20-pre2"
+val mappings_version = "1.20-pre2+build.1"
 val loader_version = "0.14.19"
 val modmenu_version = "7.0.0-beta.2"
-val fabric_api_version = "0.80.2+1.20"
+val fabric_api_version = "0.81.2+1.20"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
