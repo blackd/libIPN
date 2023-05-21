@@ -1,13 +1,16 @@
 <!-- latest begin -->
-### 3.0.0
+### 3.0.1
 
-- adds support for 1.20. Due to major changes in the rendering system this version is not compatible with mods build against 2.x.x 
+- Fixed crash on forge while searching in the settings screen.
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
 <!-- latest end -->
 
 <!-- rest begin -->
+### 3.0.0
+
+- adds support for 1.20. Due to major changes in the rendering system this version is not compatible with mods build against 2.x.x
 
 ### 2.0.7
 
