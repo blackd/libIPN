@@ -158,6 +158,14 @@ class ConfigStringWidget(configOption: ConfigString,
         }
     }
 
+    override fun mouseClicked(x: Int,
+                              y: Int,
+                              button: Int): Boolean {
+        return super.mouseClicked(x,
+                                  y,
+                                  button)
+    }
+
     override fun render(context: NativeContext,
                         mouseX: Int,
                         mouseY: Int,

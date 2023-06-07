@@ -76,11 +76,15 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
     override fun mouseClicked(x: Int,
                               y: Int,
                               button: Int): Boolean {
-        return super.mouseClicked(x,
-                                  y,
-                                  button) || vanilla.mouseClicked(x.toDouble(),
-                                                                  y.toDouble(),
-                                                                  button)
+        val sc = super.mouseClicked(x, y, button)
+        if (!sc) {
+
+            return vanilla.mouseClicked(x.toDouble(),
+                                        y.toDouble(),
+                                        button)
+        }
+        return true
+
     }
 
     override fun mouseReleased(x: Int,
@@ -145,6 +149,7 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
                                modifiers) || vanilla.charTyped(charIn,
                                                                modifiers)
     }
+
 }
 
 private class CustomVanillaSliderWidget(val minValue: Double,
@@ -222,19 +227,10 @@ private class SliderWidget(override val minValue: Double = 0.0,
         }
 }
 
-private class CustomTextFieldWidget(textRenderer: TextRenderer,
-                                    i: Int,
-                                    j: Int,
-                                    k: Int,
-                                    l: Int,
-                                    string: String?) :
-    VanillaTextFieldWidget(textRenderer,
-                           i,
-                           j,
-                           k,
-                           l,
-                           Text.literal(string)) {
-    public override fun setFocused(bl: Boolean) {
+private class CustomTextFieldWidget(textRenderer: TextRenderer, i: Int, j: Int, k: Int, l: Int, string: String?) :
+        VanillaTextFieldWidget(textRenderer, i, j, k, l, Text.literal(string)) {
+
+    override fun setFocused(bl: Boolean) {
         super.setFocused(bl)
     }
 
@@ -279,6 +275,11 @@ private class TextFieldWidget(height: Int) : ITextFieldWidget,
         set(value) {
             (vanilla as CustomTextFieldWidget).isFocused = value
         }
+
+    override fun gotFocus() {
+        super.gotFocus()
+        vanillaFocused = true
+    }
 
     override fun lostFocus() {
         super.lostFocus()

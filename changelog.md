@@ -1,13 +1,17 @@
 <!-- latest begin -->
-### 3.0.1
+### 3.0.2 
 
-- Fixed crash on forge while searching in the settings screen.
+- support for 1.20 fabric. Although the 1.20-preX version did partially work it had some problems that this fixes.
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
 <!-- latest end -->
 
 <!-- rest begin -->
+### 3.0.1
+
+- Fixed crash on forge while searching in the settings screen.
+
 ### 3.0.0
 
 - adds support for 1.20. Due to major changes in the rendering system this version is not compatible with mods build against 2.x.x

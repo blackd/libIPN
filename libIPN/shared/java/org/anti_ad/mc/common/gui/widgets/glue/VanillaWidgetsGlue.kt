@@ -60,6 +60,7 @@ interface ITextFieldWidget: IBaseGlueWidget {
     var changedEvent: (string: String) -> Unit
     var vanillaText: String
     var vanillaFocused: Boolean
+    fun gotFocus()
     fun lostFocus()
     fun editing(): Boolean
 

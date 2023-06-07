@@ -25,6 +25,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.DiffuseLighting
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.ClickEvent
 //import net.minecraft.text.LiteralTextContent
@@ -52,6 +53,7 @@ typealias DstFactor = GlStateManager.DstFactor
 
 typealias MatrixStack = MatrixStack
 typealias DrawContext = DrawContext
+typealias RenderLayer = RenderLayer
 typealias MathHelper = MathHelper
 typealias Style = Style
 typealias ClickEvent = ClickEvent

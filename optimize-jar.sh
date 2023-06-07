@@ -17,7 +17,9 @@ convert() {
 
     find . -type f | sort | zip -q -X -9 -@ "$OUT" > /dev/null
 
-    advzip -4 -z -i 100 "$OUT" > /dev/null
+    # advzip -4 -z -i 100 "$OUT" > /dev/null
+
+    advzip -3 -z -i 10 "$OUT" > /dev/null
 
     # shellcheck disable=SC2164
     popd > /dev/null

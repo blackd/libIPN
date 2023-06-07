@@ -355,16 +355,10 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
     var focusedWidget: T? // setter do gotFocus/lostFocus
 
     // usually called from parent to check if this should capture mouse event
-    fun captures(x: Int,
-                 y: Int): Boolean =
-        visible
-                && (contains(x,
-                             y)
-                || (overflow == Overflow.VISIBLE
-                && children.any {
-            it.visible && it.captures(x,
-                                      y)
-        }))
+    fun captures(x: Int, y: Int): Boolean = visible &&
+            (contains(x, y) || (overflow == Overflow.VISIBLE && children.any {
+                it.visible && it.captures(x, y)
+            }))
 
     fun mouseClicked(x: Int,
                      y: Int,

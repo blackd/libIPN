@@ -27,24 +27,9 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
+import org.anti_ad.mc.common.vanilla.alias.IPNDrawableHelper
 
-object DrawableHelperAccess: DrawableHelper() {
-    fun fillGradient(context: NativeContext,
-                     i: Int,
-                     j: Int,
-                     k: Int,
-                     l: Int,
-                     m: Int,
-                     n: Int) {
-        fillGradient(context.native,
-                     i,
-                     j,
-                     k,
-                     l,
-                     m,
-                     n)
-    }
+object DrawableHelperAccess: IPNDrawableHelper() {
 
     fun fillRect(context: NativeContext,
                  x1: Int,
@@ -52,8 +37,10 @@ object DrawableHelperAccess: DrawableHelper() {
                  x2: Int,
                  y2: Int,
                  color: Int) {
-        fill(context.native, x1, y1, x2, y2, color)
+        ipnFill(context, x1, y1, x2, y2, color)
     }
+
+
 }
 
 // top to bottom
@@ -64,7 +51,7 @@ fun rFillGradient(context: NativeContext,
                   y2: Int,
                   color1: Int,
                   color2: Int) {
-    DrawableHelperAccess.fillGradient(context,
+    DrawableHelperAccess.ipnfillGradient(context,
                                       x1,
                                       y1,
                                       x2,

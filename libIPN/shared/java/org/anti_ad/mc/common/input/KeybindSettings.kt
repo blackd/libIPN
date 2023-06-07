@@ -38,6 +38,7 @@ data class KeybindSettings(val context: Context,
                            val orderSensitive: Boolean,
                            val modifierKey: ModifierKey = NORMAL) {
     companion object {
+        @Transient
         val INGAME_DEFAULT = KeybindSettings(INGAME,
                                              PRESS,
                                              allowExtraKeys = false,
