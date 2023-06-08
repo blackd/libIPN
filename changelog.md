@@ -2,6 +2,7 @@
 ### 3.0.2 
 
 - support for 1.20 fabric. Although the 1.20-preX version did partially work it had some problems that this fixes.
+- forge version to fallow when Kotlin for Forge gets a release.
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
