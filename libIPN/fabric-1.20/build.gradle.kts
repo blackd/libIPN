@@ -31,7 +31,7 @@ import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.libipn.buildsrc.loom_version
 
-val supported_minecraft_versions = listOf("1.20", "1.20")
+val supported_minecraft_versions = listOf("1.20")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.20"
