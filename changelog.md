@@ -1,14 +1,19 @@
 <!-- latest begin -->
-### 3.0.2 
+### 4.0.0
+
+- compatibility with MC 1.20.2 that led to interface change
+- removed 1.16 and 1.19.4 support.
+
+<!-- latest end -->
+
+<!-- rest begin -->
+### 3.0.2
 
 - support for 1.20 fabric. Although the 1.20-preX version did partially work it had some problems that this fixes.
 - forge version to fallow when Kotlin for Forge gets a release.
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
-<!-- latest end -->
-
-<!-- rest begin -->
 ### 3.0.1
 
 - Fixed crash on forge while searching in the settings screen.
