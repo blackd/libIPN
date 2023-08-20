@@ -22,9 +22,23 @@
 
 package org.anti_ad.mc.common
 
+import org.anti_ad.mc.common.vanilla.Vanilla.mc
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.libipn.config.initMainConfig
+import org.anti_ad.mc.libipn.gui.ConfigScreen
+import kotlin.concurrent.timer
 
 @Suppress("unused")
 fun init() {
     initMainConfig()
+/*
+    timer("", true, 30000, 120000) {
+        Log.error("showing config")
+        this.cancel()
+        mc().execute {
+            mc().setScreen(ConfigScreen())
+        }
+    }
+*/
+
 }

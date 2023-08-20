@@ -28,6 +28,8 @@ import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.Axis
 import org.anti_ad.mc.common.gui.layout.BiFlex
+import org.anti_ad.mc.common.gui.widgets.glue.IButtonWidget
+import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
@@ -48,7 +50,7 @@ abstract  class FlexWidgetBase: Widget() {
 
 abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : FlexWidgetBase() {
 
-    val resetButton = ButtonWidget { -> reset() }.apply {
+    val resetButton = CustomButtonWidget { -> reset() }.apply {
         text = when(configOption.importance) {
             IConfigOption.Importance.IMPORTANT -> I18n.translate("libipn.common.gui.config.reset")
             IConfigOption.Importance.NORMAL -> "R"
@@ -79,36 +81,38 @@ abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Fl
             IConfigOption.Importance.IMPORTANT -> 20
             IConfigOption.Importance.NORMAL -> 15
         }
+        resetButton.size = Size(height, height)
         val resetWidthPlus = when (configOption.importance) {
             IConfigOption.Importance.IMPORTANT -> 15
             IConfigOption.Importance.NORMAL -> 9
         }
         flex.reverse.add(resetButton,
                          rMeasureText(resetButton.text) + resetWidthPlus)
-        flex.reverse.addSpace(2)
+        flex.reverse.addSpace(1)
     }
 
 }
 
 
 class ConfigOptionToggleableButtonWidget(val configOptionToggleable: IConfigOptionToggleable,
-                                         val textProvider: () -> String = { "" }) : ButtonWidget({ button ->
-                                                                                                     if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
-                                                                                                     if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
-                                                                                                 }) {
+                                         val textProvider: () -> String = { "" }) : CustomButtonWidget({ button ->
+                                                                                                                                                   if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
+                                                                                                                                                   if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
+                                                                                                                                               }) {
     override fun render(context: NativeContext,
                         mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        text = textProvider()
+        toWidget.text = textProvider()
         super.render(context,
                      mouseX,
                      mouseY,
                      partialTicks)
     }
     init {
-        active = !configOptionToggleable.hidden
+        toWidget.active = !configOptionToggleable.hidden
     }
+
 }
 
 
@@ -146,7 +150,7 @@ class ConfigToggleableWidget<T : IConfigOptionToggleable>(configOption: T,
 
 
 class ConfigButtonWidget(configOption: ConfigButton) : ConfigWidgetBase<ConfigButton>(configOption) {
-    val button = ButtonWidget().apply {
+    val button = CustomButtonWidget().apply {
         text = configOption.info.buttonText
         clickEvent = { button ->
             if (button == 0) {
@@ -167,7 +171,7 @@ class ConfigButtonWidget(configOption: ConfigButton) : ConfigWidgetBase<ConfigBu
 
 open class ConfigButtonInfo {
     open val buttonText: String = ""
-    open fun onClick(widget: ButtonWidget) {}
+    open fun onClick(widget: CustomButtonWidget) {}
 }
 
 open class ConfigButtonClickHandler {

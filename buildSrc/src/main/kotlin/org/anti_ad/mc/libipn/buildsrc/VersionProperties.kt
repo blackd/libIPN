@@ -19,4 +19,9 @@
 
 package org.anti_ad.mc.libipn.buildsrc
 
+enum class Loaders {
+    MODRINTH,
+    CURSEFORGE
+}
+
 const val loom_version = "1.1-SNAPSHOT"

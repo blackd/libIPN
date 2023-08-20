@@ -53,14 +53,14 @@ private fun translate(suffix: String): String {
 }
 
 class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHotkey>(configOption) {
-    private val setKeyButton = ButtonWidget { -> GlobalInputHandler.currentAssigningKeybind = configOption.mainKeybind }
-    private val iconButton = object : ButtonWidget({ button ->
-                                                       if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-                                                           targetKeybind.resetSettingsToDefault()
-                                                       } else if (button == GLFW_MOUSE_BUTTON_LEFT) {
-                                                           onClickKeybindSettingsIcon()
-                                                       }
-                                                   }) {
+    private val setKeyButton = CustomButtonWidget { -> GlobalInputHandler.currentAssigningKeybind = configOption.mainKeybind }
+    private val iconButton = object : IPNButtonWidget({ button ->
+                                                          if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+                                                              targetKeybind.resetSettingsToDefault()
+                                                          } else if (button == GLFW_MOUSE_BUTTON_LEFT) {
+                                                              onClickKeybindSettingsIcon()
+                                                          }
+                                                      }) {
         override fun renderButton(context: NativeContext,
                                   hovered: Boolean) {
             val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty()) modifiedSprite else baseSprite
@@ -174,17 +174,17 @@ class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : Confi
         if (configOption.booleanValue) trueText else falseText
     }
 
-    private val setKeyButton = ButtonWidget { ->
+    private val setKeyButton = CustomButtonWidget { ->
         GlobalInputHandler.currentAssigningKeybind = configOption.mainKeybind
     }
 
-    private val iconButton = object : ButtonWidget({ button ->
-                                                       if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-                                                           targetKeybind.resetSettingsToDefault()
-                                                       } else if (button == GLFW_MOUSE_BUTTON_LEFT) {
-                                                           onClickKeybindSettingsIcon()
-                                                       }
-                                                   }) {
+    private val iconButton = object : IPNButtonWidget({ button ->
+                                                          if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+                                                              targetKeybind.resetSettingsToDefault()
+                                                          } else if (button == GLFW_MOUSE_BUTTON_LEFT) {
+                                                              onClickKeybindSettingsIcon()
+                                                          }
+                                                      }) {
         override fun renderButton(context: NativeContext,
                                   hovered: Boolean) {
             val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty()) modifiedSprite else baseSprite

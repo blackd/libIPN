@@ -108,12 +108,14 @@ object GlobalScreenEventListener {
 
     fun onMouseScrolled(x: Double,
                         y: Double,
-                        amount: Double,
+                        hotizontal: Double,
+                        vertical: Double,
                         pre: Boolean): Boolean {
         return any(pre) {
             it.mouseScrolled(x,
                              y,
-                             amount)
+                             hotizontal,
+                             vertical)
         }
     }
 

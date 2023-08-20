@@ -25,9 +25,10 @@ import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
-import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
 
-open class ButtonWidget : Widget {
+
+open class IPNButtonWidget : Widget {
+
     var clickEvent: (Int) -> Unit = { }
 
     constructor(clickEvent: (button: Int) -> Unit) {
@@ -80,16 +81,19 @@ open class ButtonWidget : Widget {
     open fun renderButton(context: NativeContext,
                           hovered: Boolean) {
         val k = if (active) if (hovered) 2 else 1 else 0
+/*
         val sprite = rVanillaButtonSprite.down(k)
         rDrawDynamicSizeSprite(context,
                                sprite,
                                absoluteBounds)
+*/
         val textColor = if (active) if (hovered) 16777120 else 14737632 else 10526880
         rDrawCenteredText(context,
                           text,
                           screenX + width / 2,
                           screenY + (height - 8) / 2,
                           textColor)
+
     }
 
     init {

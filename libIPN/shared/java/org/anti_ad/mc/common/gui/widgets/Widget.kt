@@ -44,7 +44,7 @@ data class SizeChangedEvent(val oldValue: Size,
 
 // break Widget class into several components
 open class Widget : IWidget<Widget>, Iterable<Widget> {
-    var active = true // not used in this class
+    open var active = true // not used in this class
     open var text = ""     // not used in this class
 
     val sizeChanged = Event<SizeChangedEvent>()
@@ -385,12 +385,14 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
 
     fun mouseScrolled(x: Int,
                       y: Int,
-                      amount: Double): Boolean =
+                      horizontal: Double,
+                      vertical: Double): Boolean =
         childrenZIndexed().asReversed().any {
             it.captures(x,
                         y) && it.mouseScrolled(x,
                                                y,
-                                               amount)
+                                               horizontal,
+                                               vertical)
         }
 
     fun mouseDragged(x: Double,

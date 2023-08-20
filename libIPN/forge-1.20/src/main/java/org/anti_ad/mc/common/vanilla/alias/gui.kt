@@ -20,10 +20,8 @@
 
 package org.anti_ad.mc.common.vanilla.alias
 
-import net.minecraft.client.gui.components.AbstractButton
-import net.minecraft.client.gui.components.AbstractSliderButton
+import net.minecraft.client.gui.components.*
 import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 
@@ -33,4 +31,5 @@ typealias ContainerScreen<T> = AbstractContainerScreen<T>
 typealias AbstractWidget = AbstractWidget
 typealias ClickableWidget = AbstractButton
 typealias SliderWidget = AbstractSliderButton
+typealias VanillaButtonWidget = Button
 typealias TextFieldWidget = EditBox

@@ -21,18 +21,15 @@
 package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.gui.NativeContext
+import org.anti_ad.mc.common.gui.widgets.glue.IButtonWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.AbstractWidget
-import org.anti_ad.mc.common.vanilla.alias.DrawContext
-import org.anti_ad.mc.common.vanilla.alias.MathHelper
-import org.anti_ad.mc.common.vanilla.alias.TextRenderer
-import org.anti_ad.mc.common.vanilla.alias.getLiteral
-import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.VanillaSound
+import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
-import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -63,7 +60,7 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
                         mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        rStandardGlState() // added this todo (unknown reason fixing text field overflow)
+        //rStandardGlState() // added this todo (unknown reason fixing text field overflow)
         vanilla.render(context.native,
                        mouseX,
                        mouseY,
@@ -77,11 +74,14 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
     override fun mouseClicked(x: Int,
                               y: Int,
                               button: Int): Boolean {
-        return super.mouseClicked(x,
-                                  y,
-                                  button) || vanilla.mouseClicked(x.toDouble(),
-                                                                  y.toDouble(),
-                                                                  button)
+        val sc = super.mouseClicked(x, y, button)
+        if (!sc) {
+
+            return vanilla.mouseClicked(x.toDouble(),
+                                        y.toDouble(),
+                                        button)
+        }
+        return true
     }
 
     override fun mouseReleased(x: Int,
@@ -96,12 +96,15 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
 
     override fun mouseScrolled(x: Int,
                                y: Int,
-                               amount: Double): Boolean {
+                               horizontal: Double,
+                               vertical: Double): Boolean {
         return super.mouseScrolled(x,
                                    y,
-                                   amount) || vanilla.mouseScrolled(x.toDouble(),
-                                                                    y.toDouble(),
-                                                                    amount)
+                                   horizontal,
+                                   vertical) || vanilla.mouseScrolled(x.toDouble(),
+                                                                      y.toDouble(),
+                                                                      /*orizontal,*/
+                                                                      vertical)
     }
 
     override fun mouseDragged(x: Double,
@@ -175,28 +178,14 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                               f: Float) {
         // fix slider width > 400
         val hovered = isHovered
-        val absoluteBounds = Rectangle(x,
-                                       y,
-                                       width,
-                                       height)
 
-//    val k = if (active) if (hovered) 2 else 1 else 0
-        val k = 0
-        val sprite = rVanillaButtonSprite.down(k)
-        rDrawDynamicSizeSprite(NativeContext(drawContext),
-                               sprite,
-                               absoluteBounds)
-
-        // ref: AbstractButtonWidget.renderButton()
-        //renderBackground(
         super.renderWidget(drawContext, i, j, f)
-//    val l = if (active) 16777215 else 10526880
         val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
-        drawContext.drawCenteredString(Vanilla.textRenderer(),
+/*        drawContext.drawCenteredString(Vanilla.textRenderer(),
                                        message,
                                        x + width / 2,
                                        y + (height - 8) / 2,
-                                       l or (MathHelper.ceil(alpha * 255.0f) shl 24))
+                                       l or (MathHelper.ceil(alpha * 255.0f) shl 24))*/
     }
 }
 
@@ -223,6 +212,114 @@ private class SliderWidget(override val minValue: Double = 0.0,
             silder.translatedValue = value
         }
 }
+
+open class NativeButtonWidget(): VanillaButtonWidget(0,
+                                                       0,
+                                                       0,
+                                                       20,
+                                                       Text.literal(""),
+                                                       {},
+                                                       VanillaButtonWidget.DEFAULT_NARRATION) {
+
+    var sHeight
+        get() = super.height
+        set(value) {
+            super.height = value
+        }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        return mouseClicked(mouseX.toInt(), mouseY.toInt(), button)
+
+    }
+
+    fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
+        return true
+    }
+
+}
+
+open class CustomButtonWidget(): IButtonWidget, VanillaWidget<NativeButtonWidget>(NativeButtonWidget()) {
+
+    override var clickEvent: (Int) -> Unit = {}
+
+    override var clickThrough: Boolean = false
+
+    var sizeModifier: Size = Size(0, 0)
+
+    override var active: Boolean
+        get() = vanilla.active
+        set(value) {
+            vanilla.active = value
+        }
+
+    override var size: Size
+        get() = Size(vanilla.width, vanilla.sHeight)
+        set(value) {
+            vanilla.sHeight = value.height
+            vanilla.width = value.width
+            super.size = value
+        }
+
+    init {
+        sizeChanged += {
+            vanilla.sHeight = it.newValue.height
+            vanilla.width = it.newValue.width
+        }
+    }
+
+    override var text: String = ""
+        set(value) {
+            field = value
+            vanilla.message = Text.literal(field)
+        }
+
+    constructor(clickEvent: (button: Int) -> Unit) : this() {
+        this.clickEvent = { button ->
+            VanillaSound.playClick()
+            clickEvent(button)
+        }
+    }
+
+    constructor(clickEvent: () -> Unit) : this() {
+        this.clickEvent = { button ->
+            if (button == 0) {
+                VanillaSound.playClick()
+                clickEvent()
+            }
+        }
+    }
+
+    override fun renderButton(context: NativeContext,
+                              hovered: Boolean) {
+
+    }
+
+    override fun render(context: NativeContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+        vanilla.x = screenX
+        vanilla.y = screenY
+        vanilla.width = bounds.width + sizeModifier.width
+        vanilla.sHeight = bounds.height + sizeModifier.height
+        super.render(context, mouseX, mouseY, partialTicks)
+    }
+
+
+
+    override fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
+        if (active) onClick(button)
+        return !clickThrough
+    }
+
+    override fun onClick(button: Int) {
+        clickEvent(button)
+    }
+
+
+
+}
+
+fun newButtonWidget(): IButtonWidget = CustomButtonWidget()
+fun newButtonWidget(clickEvent: () -> Unit): IButtonWidget = CustomButtonWidget(clickEvent)
+fun newButtonWidget(clickEvent: (button: Int) -> Unit): IButtonWidget = CustomButtonWidget(clickEvent)
 
 private class CustomTextFieldWidget(textRenderer: TextRenderer,
                                     i: Int,

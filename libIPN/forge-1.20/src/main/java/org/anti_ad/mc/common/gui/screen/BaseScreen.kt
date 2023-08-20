@@ -187,12 +187,20 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                                f: Double): Boolean =
         rootWidget.mouseScrolled(d.toInt(),
                                  e.toInt(),
+                                 0.0,
                                  f)
+
+    open fun mouseScrolled(d: Double,
+                           e: Double,
+                           horizontal: Double,
+                           vertical: Double): Boolean =
+            mouseScrolled(d,
+                          e,
+                          vertical)
 
     override fun keyPressed(keyCode: Int,
                             scanCode: Int,
                             modifiers: Int): Boolean =
-        //super.func_231046_a_(keyCode, scanCode, modifiers) || rootWidget.keyPressed(keyCode, scanCode, modifiers)
         super.keyPressed(keyCode,
                          scanCode,
                          modifiers) || rootWidget.keyPressed(keyCode,
@@ -210,29 +218,4 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                            modifiers: Int): Boolean =
         rootWidget.charTyped(charIn,
                              modifiers)
-
-/*
-  // ~.~
-  override fun func_231152_a_(minecraftClient: MinecraftClient, width: Int, height: Int) =
-    resize(minecraftClient, width, height)
-
-  override fun func_231044_a_(d: Double, e: Double, i: Int): Boolean =
-    mouseClicked(d, e, i)
-
-  override fun func_231048_c_(d: Double, e: Double, i: Int): Boolean =
-    mouseReleased(d, e, i)
-
-  override fun func_231045_a_(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean =
-    mouseDragged(d, e, i, f, g)
-
-  override fun func_231043_a_(d: Double, e: Double, f: Double): Boolean =
-    mouseScrolled(d, e, f)
-
-  override fun func_231046_a_(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
-    keyPressed(keyCode, scanCode, modifiers)
-
-  override fun func_231042_a_(charIn: Char, modifiers: Int): Boolean =
-    charTyped(charIn, modifiers)
-
- */
 }

@@ -53,7 +53,8 @@ interface ScreenEventListener { // eavesdrop event/input
 
     fun mouseScrolled(x: Double,
                       y: Double,
-                      amount: Double) = false
+                      horizontal: Double,
+                      vertical: Double) = false
 
     fun keyPressed(keyCode: Int,
                    scanCode: Int,

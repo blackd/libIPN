@@ -37,7 +37,8 @@ data class MouseEvent(val x: Int,
 
 data class MouseScrolledEvent(val x: Int,
                               val y: Int,
-                              val amount: Double)
+                              val horisontal: Double,
+                              val vertical: Double)
 
 data class MouseDraggedEvent(val x: Double,
                              val y: Double,
@@ -87,8 +88,9 @@ class RootWidget : Widget() {
     val mouseScrolled = RoutedEvent<MouseScrolledEvent>()
     override fun mouseScrolled(x: Int,
                                y: Int,
-                               amount: Double) = mouseScrolled.orInvoke(MouseScrolledEvent(x, y, amount),
-                                                                        super.mouseScrolled(x, y, amount))
+                               horisontal: Double,
+                               vertical: Double) = mouseScrolled.orInvoke(MouseScrolledEvent(x, y, horisontal, vertical),
+                                                                        super.mouseScrolled(x, y, horisontal, vertical))
 
     val mouseDragged = RoutedEvent<MouseDraggedEvent>()
     override fun mouseDragged(x: Double,

@@ -23,7 +23,7 @@ import org.anti_ad.mc.libipn.buildsrc.getGitHash
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("3", "0", "2",
+val versionObj = Version("4", "0", "0",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loomv = loom_version
@@ -85,7 +85,7 @@ tasks.named<KotlinCompile>("compileKotlin") {
 
 allprojects {
     version = versionObj.toString()
-    group = "org.anti-ad.mc"
+    //group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
 

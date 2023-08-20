@@ -32,6 +32,8 @@ import org.anti_ad.mc.common.gui.layout.FlexDirection.LEFT_TO_RIGHT
 import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
 import org.anti_ad.mc.common.gui.widgets.*
 import org.anti_ad.mc.common.input.GlobalInputHandler
+import org.anti_ad.mc.common.math2d.Point
+import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
@@ -108,6 +110,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
         left = 20 + 5 +  rMeasureText(searchTerm.displayName)
         val width = rScreenWidth - left - 10
         size = Size(width, 10)
+        //this.width = width
         top = 30
 
         //left = 10 + 5 +  rMeasureText(searchTerm.displayName)
@@ -184,12 +187,11 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
         val id = navigationButtonsContainer.childCount
         navigationButtonsContainer.apply {
-            width = max(width,
-                        rMeasureText(buttonText) + 20)
+            width = max(width, rMeasureText(buttonText) + 20)
         }
         navigationButtonsInfo.add(Pair(buttonText,
                                        action))
-        navigationButtonsFlowLayout.add(ButtonWidget { ->
+        navigationButtonsFlowLayout.add(CustomButtonWidget { ->
                     selectedIndex = id
         }.apply {
             text = buttonText

@@ -25,11 +25,10 @@ package org.anti_ad.mc.libipn.config
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.builder.CATEGORY
 import org.anti_ad.mc.common.config.builder.*
-import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.extensions.htmlColorToMinecraftColor
-import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+
 
 
 const val CONFIG_CATEGORY = "libIPN.config.category"
@@ -46,12 +45,28 @@ object Demo : ConfigDeclaration {
                                                                  KeybindSettings.INGAME_DEFAULT)
     val COLOR_CHOOSER_BUTTON                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
 
+            .CATEGORY("Second Tab")
+    val COLOR_CHOOSER_BUTTON1                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
+
+            .CATEGORY("Third Tab")
+    val COLOR_CHOOSER_BUTTON2                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
+
         .CATEGORY("§§hide - first run")
     val FIRST_RUN                            /**/ by bool(true)
 }
 
+object Demo2 : ConfigDeclaration {
+
+    override val builder = createBuilder()
+
+            .CATEGORY("§§vgap:3")
+            .CATEGORY("$CONFIG_CATEGORY.demo")
+    val COLOR_CHOOSER_BUTTON                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
+
+}
+
 fun initMainConfig() {
-    registerConfigDeclaration(Demo)
+    registerConfigDeclaration(Demo, Demo2)
 }
 
 

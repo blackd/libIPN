@@ -40,19 +40,10 @@ import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 
-inline operator fun IdentifierHolder.invoke(): Identifier {
+operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
 }
 
-
-val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
-    get() = IdentifierHolder( ButtonWidget.WIDGETS_TEXTURE )
-
-val rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
-                                   Rectangle(0,
-                                             46,
-                                             200,
-                                             20))
 
 
 fun makeIdentifier(ns: String, path: String): Any {

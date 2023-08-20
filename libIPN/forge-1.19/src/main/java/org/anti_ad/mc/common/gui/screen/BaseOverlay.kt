@@ -26,6 +26,8 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.render.rClearDepth
+import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 
 open class BaseOverlay : BaseScreen {
     constructor(text: Text) : super(text)
@@ -53,6 +55,8 @@ open class BaseOverlay : BaseScreen {
         } catch (e: Throwable) {
             Log.error("rendering parent exception: ${e.javaClass.usefulName}")
         }
+        rStandardGlState()
+        rClearDepth(context)
         renderParentPost(context,
                          mouseX,
                          mouseY,

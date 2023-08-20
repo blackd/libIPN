@@ -24,7 +24,7 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 
-open class TextButtonWidget : ButtonWidget {
+open class TextButtonWidget : IPNButtonWidget {
 
     constructor(text: String,
                 clickEvent: (button: Int) -> Unit) : super(clickEvent) {

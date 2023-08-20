@@ -24,16 +24,10 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.*
 import org.anti_ad.mc.common.math2d.Corner.*
 import org.anti_ad.mc.common.vanilla.render.internal_rDrawSprite
-import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSpriteF
 import org.anti_ad.mc.common.vanilla.render.makeIdentifier
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.vanilla_rBlit
 
-val rVanillaButtonSprite: DynamicSizeSprite
-    get() {
-        return DynamicSizeSprite(rVanillaButtonSpriteF,
-                                 3)
-    }
 
 fun rDrawDynamicSizeSprite(context: NativeContext,
                            sprite: DynamicSizeSprite,
@@ -158,6 +152,8 @@ data class Sprite(val identifier: IdentifierHolder,
     fun up(amount: Int = 1) = up(amount.toDouble())
     fun down(amount: Int = 1) = down(amount.toDouble())
 }
+
+class ThriSprite()
 
 class DynamicSizeSprite(private val sprite: Sprite,
                         centerBounds: Rectangle) {

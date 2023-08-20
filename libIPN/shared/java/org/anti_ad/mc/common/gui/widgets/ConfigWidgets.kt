@@ -28,6 +28,7 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
@@ -93,7 +94,7 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
         }
     }
 
-    val toggleButton = object : ButtonWidget({ -> useSlider = !useSlider }) {
+    val toggleButton = object : IPNButtonWidget({ -> useSlider = !useSlider }) {
         override fun renderButton(context: NativeContext,
                                   hovered: Boolean) {
             val textureX = if (hovered) 32 else 16

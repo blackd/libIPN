@@ -20,8 +20,10 @@
 
 package org.anti_ad.mc.common.gui.widgets.glue
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.gui.widgets.newButtonWidget
 import org.anti_ad.mc.common.gui.widgets.newSliderWidget
 import org.anti_ad.mc.common.gui.widgets.newTextFieldWidget
 
@@ -68,5 +70,36 @@ interface ITextFieldWidget: IBaseGlueWidget {
         operator fun invoke(height: Int): ITextFieldWidget {
             return newTextFieldWidget(height)
         }
+    }
+}
+
+interface IButtonWidget: IBaseGlueWidget {
+
+    var clickEvent: (Int) -> Unit
+
+    var clickThrough: Boolean
+
+    fun onClick(button: Int)
+
+    fun render(context: NativeContext,
+               mouseX: Int,
+               mouseY: Int,
+               partialTicks: Float)
+
+    fun renderButton(context: NativeContext,
+                     hovered: Boolean)
+
+    companion object {
+        operator fun invoke(): IButtonWidget {
+            return newButtonWidget()
+        }
+
+        operator fun invoke(clickEvent: () -> Unit): IButtonWidget {
+            return newButtonWidget(clickEvent)
+        }
+        operator fun invoke(clickEvent: (button: Int) -> Unit): IButtonWidget {
+            return newButtonWidget(clickEvent)
+        }
+
     }
 }

@@ -32,7 +32,7 @@ import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val supported_minecraft_versions = listOf("1.20")
+val supported_minecraft_versions = listOf("1.20", "1.20.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.20"
@@ -378,6 +378,8 @@ configure<CurseExtension> {
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("kotlin-for-forge")
         })
+        addGameVersion("NeoForge")
+        addGameVersion("Forge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -419,6 +421,7 @@ modrinth {
     versionName.set("libIPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+    loaders.add("NeoForge")
     dependencies.set(
         mutableListOf(
             ModDependency("ordsPcFz", "required")))

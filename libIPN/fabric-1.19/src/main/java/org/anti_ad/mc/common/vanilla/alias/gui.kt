@@ -23,6 +23,7 @@ package org.anti_ad.mc.common.vanilla.alias
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.gui.widget.SliderWidget
 import net.minecraft.client.gui.widget.TextFieldWidget
@@ -33,4 +34,5 @@ typealias ContainerScreen<T> = HandledScreen<T>
 typealias ClickableWidget = ClickableWidget
 typealias Selectable = Selectable
 typealias SliderWidget = SliderWidget
+typealias VanillaButtonWidget = ButtonWidget
 typealias TextFieldWidget = TextFieldWidget

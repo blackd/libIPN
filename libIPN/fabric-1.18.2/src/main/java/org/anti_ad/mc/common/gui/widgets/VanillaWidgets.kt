@@ -21,19 +21,20 @@
 package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.gui.NativeContext
+import org.anti_ad.mc.common.gui.widgets.glue.IButtonWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
-import org.anti_ad.mc.common.vanilla.alias.MathHelper
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
-import org.anti_ad.mc.common.vanilla.alias.TextRenderer
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.VanillaSound
+import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
-import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -96,12 +97,15 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
 
     override fun mouseScrolled(x: Int,
                                y: Int,
-                               amount: Double): Boolean {
+                               horizontal: Double,
+                               vertical: Double): Boolean {
         return super.mouseScrolled(x,
                                    y,
-                                   amount) || vanilla.mouseScrolled(x.toDouble(),
+                                   horizontal,
+                                   vertical) || vanilla.mouseScrolled(x.toDouble(),
                                                                     y.toDouble(),
-                                                                    amount)
+                                                                      /*orizontal,*/
+                                                                      vertical)
     }
 
     override fun mouseDragged(x: Double,
@@ -229,6 +233,100 @@ private class SliderWidget(override val minValue: Double = 0.0,
         }
 }
 
+open class NativeButtonWidget(): VanillaButtonWidget(0,
+                                                     0,
+                                                     0,
+                                                     20,
+                                                     LiteralText(""),
+                                                     {}) {
+
+    var sHeight
+        get() = super.height
+        set(value) {
+            super.height = value
+        }
+    var sHovered
+        get() = super.hovered
+        set(value) {
+            super.hovered = value
+        }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        return mouseClicked(mouseX.toInt(), mouseY.toInt(), button)
+
+    }
+
+    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        getRenderButton()(NativeContext(matrices), hovered)
+    }
+
+    var getRenderButton: () -> (NativeContext, hovered: Boolean) -> Unit = {
+        {_, _ -> }
+    }
+
+    fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
+        return true
+    }
+
+}
+
+val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
+    get() = IdentifierHolder( VanillaButtonWidget.WIDGETS_TEXTURE )
+
+val rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
+                                   Rectangle(0,
+                                             46,
+                                             200,
+                                             20))
+
+val rVanillaButtonSprite: DynamicSizeSprite
+    get() {
+        return DynamicSizeSprite(rVanillaButtonSpriteF,
+                                 3)
+    }
+
+open class CustomButtonWidget(): IButtonWidget, IPNButtonWidget() {
+
+    constructor(clickEvent: (button: Int) -> Unit) : this() {
+        this.clickEvent = { button ->
+            VanillaSound.playClick()
+            clickEvent(button)
+        }
+    }
+
+    constructor(clickEvent: () -> Unit) : this() {
+        this.clickEvent = { button ->
+            if (button == 0) {
+                VanillaSound.playClick()
+                clickEvent()
+            }
+        }
+    }
+
+    var vanillaMessage: String = ""
+
+    override fun renderButton(context: NativeContext,
+                              hovered: Boolean) {
+
+        val k = if (active) if (hovered) 2 else 1 else 0
+        val sprite = rVanillaButtonSprite.down(k)
+        val ab = absoluteBounds
+        rDrawDynamicSizeSprite(context,
+                               sprite,
+                               ab.copy(width = ab.width, height = ab.height))
+        val textColor = if (active) if (hovered) 16777120 else 14737632 else 10526880
+        rDrawCenteredText(context,
+                          text,
+                          screenX + width / 2,
+                          screenY + (height - 8) / 2,
+                          textColor)
+    }
+}
+
+fun newButtonWidget(): IButtonWidget = CustomButtonWidget()
+fun newButtonWidget(clickEvent: () -> Unit): IButtonWidget = CustomButtonWidget(clickEvent)
+fun newButtonWidget(clickEvent: (button: Int) -> Unit): IButtonWidget = CustomButtonWidget(clickEvent)
+
 private class CustomTextFieldWidget(textRenderer: TextRenderer,
                                     i: Int,
                                     j: Int,
@@ -286,6 +384,11 @@ private class TextFieldWidget(height: Int) : ITextFieldWidget,
         set(value) {
             (vanilla as CustomTextFieldWidget).isFocused = value
         }
+
+    override fun gotFocus() {
+        super.gotFocus()
+        vanillaFocused = true
+    }
 
     override fun lostFocus() {
         super.lostFocus()

@@ -177,7 +177,16 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                                f: Double): Boolean =
         rootWidget.mouseScrolled(d.toInt(),
                                  e.toInt(),
+                                 0.0,
                                  f)
+
+    open fun mouseScrolled(d: Double,
+                           e: Double,
+                           horizontal: Double,
+                           vertical: Double): Boolean =
+            mouseScrolled(d,
+                          e,
+                          vertical)
 
     override fun keyPressed(keyCode: Int,
                             scanCode: Int,

@@ -243,11 +243,13 @@ class ScrollableContainerWidget(scrollbarW: Int = 6) : Widget() {
 
     override fun mouseScrolled(x: Int,
                                y: Int,
-                               amount: Double): Boolean = // f = 1 or -1
+                               horisontal: Double,
+                               vertical: Double): Boolean = // f = 1 or -1
         super.mouseScrolled(x,
                             y,
-                            amount) || if (scrollbar.visible) {
-            scrollY -= (amount * scrollWheelAmount).toInt()
+                            horisontal,
+                            vertical) || if (scrollbar.visible) {
+            scrollY -= (vertical * scrollWheelAmount).toInt()
             true
         } else false
 

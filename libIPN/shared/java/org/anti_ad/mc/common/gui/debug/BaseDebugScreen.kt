@@ -122,11 +122,13 @@ open class BaseDebugScreen : BaseOverlay() {
 
     override fun mouseScrolled(d: Double,
                                e: Double,
-                               f: Double): Boolean {
-        textPosition = (textPosition + sign(-f).toInt()) mod 4
+                               horisontal: Double,
+                               vertical: Double): Boolean {
+        textPosition = (textPosition + sign(-vertical).toInt()) mod 4
         return super.mouseScrolled(d,
                                    e,
-                                   f)
+                                   horisontal,
+                                   vertical)
     }
 
     override fun render(context: NativeContext,

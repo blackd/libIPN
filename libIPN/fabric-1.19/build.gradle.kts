@@ -299,7 +299,7 @@ modrinth {
     versionName.set("libIPN $mod_version for $mod_loader $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
-
+    loaders.add("Quilt")
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),

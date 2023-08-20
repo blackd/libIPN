@@ -39,19 +39,10 @@ import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 
-inline operator fun IdentifierHolder.invoke(): Identifier {
+operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
 }
 
-
-val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
-    get() = IdentifierHolder( ButtonWidget.WIDGETS_TEXTURE )
-
-val rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
-                                   Rectangle(0,
-                                             46,
-                                             200,
-                                             20))
 
 
 fun makeIdentifier(ns: String, path: String): Any {
@@ -59,28 +50,7 @@ fun makeIdentifier(ns: String, path: String): Any {
 }
 
 
-// for 256 x 256 texture
-private fun rBlit(context: NativeContext,
-                  x: Int,
-                  y: Int,
-                  sx: Int,
-                  sy: Int,
-                  sw: Int,
-                  sh: Int) { // screen xy sprite xy wh
-    /*
-    DrawableHelper.drawTexture(context.native,
-                               x,
-                               y,
-                               0,
-                               sx.toFloat(),
-                               sy.toFloat(),
-                               sw,
-                               sh,
-                               256,
-                               256)
 
-     */
-}
 
 // screen xy wh sprite xy wh texture wh
 fun vanilla_rBlit(context: NativeContext,
