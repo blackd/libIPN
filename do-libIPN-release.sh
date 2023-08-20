@@ -18,4 +18,4 @@ cd ..
 
 ./gradlew --max-workers 32 clean compileKotlin compileJava
 
-./gradlew --max-workers 4 build modrinth curseforge
+./gradlew --max-workers 4 build publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge
