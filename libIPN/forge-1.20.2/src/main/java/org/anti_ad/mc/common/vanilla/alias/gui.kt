@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,40 +18,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.common.vanilla.alias
 
-rootProject.name = "libIPN"
-include("libIPN:fabric-1.20.2")
-include("libIPN:fabric-1.20")
-include("libIPN:fabric-1.19")
-include("libIPN:fabric-1.18.2")
+import net.minecraft.client.gui.components.*
+import net.minecraft.client.gui.components.AbstractWidget
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 
-include("libIPN:forge-1.20.2")
-include("libIPN:forge-1.20")
-include("libIPN:forge-1.19")
-include("libIPN:forge-1.18.2")
+typealias Screen = Screen
+typealias ContainerScreen<T> = AbstractContainerScreen<T>
 
-
-
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
-        }
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-}
-
-plugins {
-    id("com.gradle.enterprise") version "3.4.1"
-}
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-    }
-}
+typealias AbstractWidget = AbstractWidget
+typealias ClickableWidget = AbstractButton
+typealias SliderWidget = AbstractSliderButton
+typealias VanillaButtonWidget = Button
+typealias TextFieldWidget = EditBox
