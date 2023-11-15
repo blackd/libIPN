@@ -2,7 +2,6 @@
 ### 4.0.1
 
 - fixed input handling where in some cases shortcuts weren't triggered on button/key release.
-- 
 
 <!-- latest end -->
 
