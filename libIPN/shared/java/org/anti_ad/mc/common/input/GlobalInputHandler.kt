@@ -35,7 +35,7 @@ import org.lwjgl.glfw.GLFW.*
 object GlobalInputHandler {
 
     val pressedKeys = mutableSetOf<Int>()
-    var previousPressedKeys = pressedKeys.toSet()
+    var previousPressedKeys = mutableSetOf<Int>()
         private set
     var lastKey = -1
         private set
@@ -48,6 +48,7 @@ object GlobalInputHandler {
 
     fun isActivated(keyCodes: List<Int>,
                     settings: KeybindSettings): Boolean {
+        //Log.trace("will check if activated for settings: $settings and pressed keys: $pressedKeys and last pressed keys: $previousPressedKeys")
         if (keyCodes.isEmpty()) return false
 
         if (!settings.activateOn.isValid(lastAction)) return false
@@ -78,7 +79,9 @@ object GlobalInputHandler {
             return false // should err / cancelled by other mod
         }
 
-        previousPressedKeys = pressedKeys.toSet()
+        //Log.trace("onKey($key, $action) -> pressed so far: $pressedKeys, last pressed: $previousPressedKeys")
+
+
         if (isPress) {
             //Log.trace("pressed ${KeyCodes.getFriendlyName(key)}")
             pressedKeys.add(key)
@@ -88,7 +91,9 @@ object GlobalInputHandler {
         }
         lastKey = key
         lastAction = action
-        return onInput()
+        return onInput()/*.also {
+            Log.trace("onKey($key, $action) -> after processing pressed so far: $pressedKeys, last pressed: $previousPressedKeys")
+        }*/
     }
 
     private fun onInput(): Boolean {
@@ -155,8 +160,8 @@ object GlobalInputHandler {
         }
     }
 
-    fun isKeyDown(keyCode: Int, window: Long): Boolean {
-        var keyCode = keyCode
+    fun isKeyDown(aKeyCode: Int, window: Long): Boolean {
+        var keyCode = aKeyCode
         if (keyCode >= 0) {
             return glfwGetKey(window, keyCode) == GLFW_PRESS
         }
@@ -177,12 +182,16 @@ object GlobalInputHandler {
                          scanCode,
                          action,
                          modifiers)
+        previousPressedKeys.clear()
+        previousPressedKeys.addAll(pressedKeys)
         if (handle != 0L && checkPressing && pressedKeys.isNotEmpty()) {
             val pressed = pressedKeys.toSet()
             pressedKeys.clear()
             pressed.forEach {
-                isKeyDown(it, handle).ifTrue {
+                if (isKeyDown(it, handle)) {
                     pressedKeys.add(it)
+                } else if (action == GLFW_PRESS) {
+                    onKey(it, GLFW_RELEASE)
                 }
             }
         }
@@ -205,6 +214,8 @@ object GlobalInputHandler {
         DebugInfos.onMouseButton(button,
                                  action,
                                  mods)
+        previousPressedKeys.clear()
+        previousPressedKeys.addAll(pressedKeys)
         return when (action) {
             GLFW_PRESS, GLFW_RELEASE -> onKey(if (button >= 0) button - 100 else button,
                                               action)

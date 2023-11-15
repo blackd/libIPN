@@ -22,12 +22,16 @@
 
 package org.anti_ad.mc.libipn.config
 
+import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.builder.CATEGORY
 import org.anti_ad.mc.common.config.builder.*
 import org.anti_ad.mc.common.extensions.htmlColorToMinecraftColor
+import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.libipn.gui.ConfigScreeHelper
+import org.anti_ad.mc.libipn.gui.ConfigScreeHelper.keyToggleBool
 
 
 
@@ -51,6 +55,8 @@ object Demo : ConfigDeclaration {
             .CATEGORY("Third Tab")
     val COLOR_CHOOSER_BUTTON2                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
 
+    val TOGGLE_TEST                                /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+
         .CATEGORY("§§hide - first run")
     val FIRST_RUN                            /**/ by bool(true)
 }
@@ -67,12 +73,23 @@ object Demo2 : ConfigDeclaration {
 
 fun initMainConfig() {
     registerConfigDeclaration(Demo, Demo2)
+    addInputListener()
+}
+
+private fun addInputListener() {
+    GlobalInputHandler.register(object : IInputHandler {
+        override fun onInput(lastKey: Int, lastAction: Int): Boolean {
+
+            ConfigScreeHelper.checkAll()
+            return false
+        }
+    })
 }
 
 
 const val FILE_PATH = "libIPN/demo-config.json"
 
-fun registerConfigDeclaration(vararg cd: ConfigDeclaration) {
+private fun registerConfigDeclaration(vararg cd: ConfigDeclaration) {
     when (cd.size) {
         0 -> {
             return

@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.libipn.gui
 
+import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.addTo
@@ -28,6 +29,7 @@ import org.anti_ad.mc.common.config.options.BaseConfigKeyToggleBooleanInputHandl
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
+import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 import org.anti_ad.mc.common.vanilla.Vanilla
@@ -127,6 +129,8 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
             }
         }
         selectedIndex = storedSelectedIndex
+
+        ConfigScreeHelper.checkAll()
     }
 
     override fun closeScreen() {

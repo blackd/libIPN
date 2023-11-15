@@ -36,7 +36,7 @@ fun Project.configureCommon(is18: Boolean = false) {
     configureCompilation(is18, "InventoryProfilesNext")
     configureDistribution(is18)
 
-    version = rootProject.version
+    //version = rootProject.version
 }
 
 fun Project.configureCommonLib(is18: Boolean = false) {
@@ -44,7 +44,7 @@ fun Project.configureCommonLib(is18: Boolean = false) {
     configureCompilation(is18, "libIPN")
     configureDistributionLib(is18)
 
-    version = rootProject.version
+    //version = rootProject.version
 }
 
 fun Project.platformsCommonConfig() {
