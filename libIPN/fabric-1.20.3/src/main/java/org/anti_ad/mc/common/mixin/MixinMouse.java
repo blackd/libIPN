@@ -72,17 +72,30 @@ public class MixinMouse {
             boolean result = false;
 
             if (horizontal != 0) {
-                result = GlobalInputHandler.INSTANCE.onMouseButton(horizontal > 0 ? MOUSE_SCROLL_LEFT : MOUSE_SCROLL_RIGHT, GLFW_PRESS, 0);
+                int button = horizontal > 0 ? MOUSE_SCROLL_LEFT : MOUSE_SCROLL_RIGHT;
+
+                result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW_PRESS, 0);
+                result = GlobalScreenEventListener.INSTANCE.onMouse(button, GLFW_PRESS, 0, true)
+                        || result;
             }
             if (vertical != 0) {
-                result = GlobalInputHandler.INSTANCE.onMouseButton(vertical > 0 ? MOUSE_SCROLL_UP : MOUSE_SCROLL_DOWN, GLFW_PRESS, 0) || result;
+                int button = vertical > 0 ? MOUSE_SCROLL_UP : MOUSE_SCROLL_DOWN;
+                result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW_PRESS, 0);
+                result = GlobalScreenEventListener.INSTANCE.onMouse(button, GLFW_PRESS, 0, true)
+                        || result;
             }
 
             if (horizontal != 0) {
-                result = GlobalInputHandler.INSTANCE.onMouseButton(horizontal > 0 ? MOUSE_SCROLL_LEFT: MOUSE_SCROLL_RIGHT, GLFW_RELEASE, 0) || result;
+                int button = horizontal > 0 ? MOUSE_SCROLL_LEFT: MOUSE_SCROLL_RIGHT;
+                result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW_RELEASE, 0);
+                result = GlobalScreenEventListener.INSTANCE.onMouse(button, GLFW_RELEASE, 0, true)
+                        || result;
             }
             if (vertical != 0) {
-                result = GlobalInputHandler.INSTANCE.onMouseButton(vertical > 0 ? MOUSE_SCROLL_UP : MOUSE_SCROLL_DOWN, GLFW_RELEASE, 0) || result;
+                int button = vertical > 0 ? MOUSE_SCROLL_UP : MOUSE_SCROLL_DOWN;
+                result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW_RELEASE, 0);
+                result = GlobalScreenEventListener.INSTANCE.onMouse(button, GLFW_RELEASE, 0, true)
+                        || result;
             }
 
             if (result) {

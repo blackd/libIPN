@@ -95,10 +95,11 @@ abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Fl
 
 
 class ConfigOptionToggleableButtonWidget(val configOptionToggleable: IConfigOptionToggleable,
-                                         val textProvider: () -> String = { "" }) : CustomButtonWidget({ button ->
-                                                                                                                                                   if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
-                                                                                                                                                   if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
-                                                                                                                                               }) {
+                                         val textProvider: () -> String = { "" }) :
+    CustomButtonWidget({ button ->
+                           if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
+                           if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
+                       }) {
     override fun render(context: NativeContext,
                         mouseX: Int,
                         mouseY: Int,

@@ -68,7 +68,7 @@ buildscript {
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "6.+")
         //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
         classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
@@ -264,7 +264,7 @@ configure<UserDevExtension> {
                 jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
                 jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             }
-            this.forceExit = false
+            // this.forceExit = false
         }
         create("client", runConfig)
         create("server", runConfig)
@@ -275,7 +275,7 @@ configure<UserDevExtension> {
 
 afterEvaluate {
     tasks.forEach {
-        logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
+        logger.info("******************* found task: {} {} {}", it, it.name, it.group)
     }
 
     tasks.getByName("publishMavenPublicationToIpnOfficialRepoRepository").dependsOn("minimizeJar")
@@ -284,6 +284,7 @@ afterEvaluate {
 }
 
 val deobfJar = tasks.register<Jar>("deobfJar") {
+    dependsOn("copyMixinMappings")
     from(sourceSets["main"].output)
     archiveBaseName.set("${rootProject.name}-${project.name}")
     //archiveClassifier.set("dev")

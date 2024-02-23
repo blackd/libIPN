@@ -147,7 +147,16 @@ public class CommonForgeEventHandler {
         double delta = event.getScrollDelta();
         if (delta != 0) {
             Screen lastScreen = Vanilla.INSTANCE.screen();
+            int button;
+            if (delta > 0) {
+                button = KeyCodes.MOUSE_SCROLL_UP;
+            } else {
+                button = KeyCodes.MOUSE_SCROLL_DOWN;
+            }
+
             boolean result = processScrollEvent(delta);
+            result = GlobalScreenEventListener.INSTANCE.onMouseClicked(event.getMouseX(), event.getMouseY(), button, true) || result;
+            result = GlobalScreenEventListener.INSTANCE.onMouseReleased(event.getMouseX(), event.getMouseY(), button, true) || result;
             event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen());
         }
     }
@@ -160,7 +169,7 @@ public class CommonForgeEventHandler {
             button = KeyCodes.MOUSE_SCROLL_DOWN;
         }
         boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW.GLFW_PRESS, 0);
-        result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW.GLFW_RELEASE, 0) | result;
+        result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW.GLFW_RELEASE, 0) || result;
         return result;
     }
 

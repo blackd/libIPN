@@ -153,13 +153,39 @@ public class CommonForgeEventHandler {
         if (deltaX != 0) {
             Screen lastScreen = Vanilla.INSTANCE.screen();
             boolean result = processHorizontalScrollEvent(deltaX);
+            result = processHorizontalScrollGUIEvent(deltaX, event.getMouseX(), event.getMouseY()) || result;
             event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen());
         }
         if (deltaY != 0) {
             Screen lastScreen = Vanilla.INSTANCE.screen();
             boolean result = processVerticalScrollEvent(deltaY);
+            result = processVerticalScrollGUIEvent(deltaY, event.getMouseX(), event.getMouseY()) || result;
             event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen());
         }
+    }
+
+    private static boolean processVerticalScrollGUIEvent(double delta, double mouseX, double mouseY) {
+        int button;
+        if (delta > 0) {
+            button = KeyCodes.MOUSE_SCROLL_UP;
+        } else {
+            button = KeyCodes.MOUSE_SCROLL_DOWN;
+        }
+        boolean result = GlobalScreenEventListener.INSTANCE.onMouseClicked(mouseX, mouseY, button, true);
+        result = GlobalScreenEventListener.INSTANCE.onMouseReleased(mouseX, mouseY, button, true) || result;
+        return result;
+    }
+
+    private static boolean processHorizontalScrollGUIEvent(double delta, double mouseX, double mouseY) {
+        int button;
+        if (delta > 0) {
+            button = KeyCodes.MOUSE_SCROLL_LEFT;
+        } else {
+            button = KeyCodes.MOUSE_SCROLL_RIGHT;
+        }
+        boolean result = GlobalScreenEventListener.INSTANCE.onMouseClicked(mouseX, mouseY, button, true);
+        result = GlobalScreenEventListener.INSTANCE.onMouseReleased(mouseX, mouseY, button, true) || result;
+        return result;
     }
 
     private static boolean processVerticalScrollEvent(double delta) {

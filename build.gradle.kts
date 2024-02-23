@@ -23,7 +23,7 @@ import org.anti_ad.mc.libipn.buildsrc.getGitHash
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("4", "0", "1",
+val versionObj = Version("4", "0", "2",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loomv = loom_version
@@ -45,15 +45,15 @@ repositories {
 
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.8.10"
-    kotlin("plugin.serialization") version "1.8.10"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
 
 
     idea
     `java-library`
     `maven-publish`
     signing
-    id("com.github.johnrengelman.shadow") version "7.1.2" apply false
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
     id("fabric-loom").version(org.anti_ad.mc.libipn.buildsrc.loom_version) apply false
