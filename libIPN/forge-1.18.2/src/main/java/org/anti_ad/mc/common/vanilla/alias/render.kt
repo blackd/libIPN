@@ -67,3 +67,5 @@ fun getLiteral(s: String): Text = LiteralText(s)
 
 val Text.`(formattedText)`
     get() = (this as TranslatableText).string
+
+fun fromSerializedJson(json: String) = TextSerializer.fromJson(json)

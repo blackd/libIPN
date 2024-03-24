@@ -72,7 +72,7 @@ object ConfigScreeHelper: BaseConfigKeyToggleBooleanInputHandler() {
              ]"""
         }
 
-        Vanilla.inGameHud().setOverlayMessage(TextSerializer.fromJson(message()),
+        Vanilla.inGameHud().setOverlayMessage(fromSerializedJson(message()),
                                               true)
     }
 

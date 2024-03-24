@@ -30,7 +30,12 @@ import kotlin.concurrent.timer
 
 @Suppress("unused")
 fun init() {
-    initMainConfig()
+    try {
+        initMainConfig()
+    } catch (t: Throwable) {
+        t.printStackTrace()
+    }
+
 /*
     timer("", true, 30000, 120000) {
         Log.error("showing config")

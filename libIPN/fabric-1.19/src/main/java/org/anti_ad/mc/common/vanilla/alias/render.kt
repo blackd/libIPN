@@ -66,3 +66,5 @@ fun getLiteral(s: String): Text = Text.literal(s)
 
 val Text.`(formattedText)`
     get() = (this as MutableText).toString()
+
+fun fromSerializedJson(json: String) = TextSerializer.fromJson(json)

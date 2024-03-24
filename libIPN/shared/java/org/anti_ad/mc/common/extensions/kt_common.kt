@@ -26,7 +26,7 @@ package org.anti_ad.mc.common.extensions
 
 fun <T : Enum<T>> T.previous(amount: Int = 1) = next(-amount)
 fun <T : Enum<T>> T.next(amount: Int = 1): T {
-    val values = declaringClass.enumConstants
+    val values = this.declaringJavaClass.enumConstants
     return values[(ordinal + amount) mod values.size]
 }
 

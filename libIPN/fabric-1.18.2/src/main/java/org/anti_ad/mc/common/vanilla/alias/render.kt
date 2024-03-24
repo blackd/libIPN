@@ -65,3 +65,5 @@ fun getLiteral(s: String): Text = net.minecraft.text.LiteralText(s)
 
 val Text.`(formattedText)`
     get() = asString() ?: "null"
+
+fun fromSerializedJson(json: String) = TextSerializer.fromJson(json)

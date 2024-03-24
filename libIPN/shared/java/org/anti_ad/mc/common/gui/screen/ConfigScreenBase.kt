@@ -23,17 +23,13 @@ package org.anti_ad.mc.common.gui.screen
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
-import org.anti_ad.mc.common.config.options.HandledConfigString
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.Flex
-import org.anti_ad.mc.common.gui.layout.FlexDirection.LEFT_TO_RIGHT
 import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
 import org.anti_ad.mc.common.gui.widgets.*
 import org.anti_ad.mc.common.input.GlobalInputHandler
-import org.anti_ad.mc.common.math2d.Point
-import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
@@ -41,7 +37,6 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.anti_ad.mc.common.vanilla.render.glue.rRenderVanillaScreenBackground
 import org.anti_ad.mc.common.vanilla.render.rScreenWidth
-import org.anti_ad.mc.libipn.Log
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
@@ -170,7 +165,8 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
                         mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        rRenderVanillaScreenBackground(context)
+        //renderBackground(context.native, mouseX, mouseY, partialTicks)
+        rRenderVanillaScreenBackground(context, mouseX, mouseY, partialTicks)
         rDrawText(context,
                   this.titleString,
                   20,

@@ -56,7 +56,7 @@ fun <T> JsonPrimitive.value(default: T): T  = when (default) {
     is Long -> long as T
     is Float -> float as T
     is Double -> double as T
-    is Enum<*> -> java.lang.Enum.valueOf(default.declaringClass,
+    is Enum<*> -> java.lang.Enum.valueOf(default.declaringJavaClass,
                                          this.content) as T
     else -> throw UnsupportedOperationException("")
 }

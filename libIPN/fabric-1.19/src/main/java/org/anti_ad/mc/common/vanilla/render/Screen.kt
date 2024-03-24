@@ -22,11 +22,9 @@ package org.anti_ad.mc.common.vanilla.render
 
 import net.minecraft.text.Text
 import org.anti_ad.mc.common.gui.NativeContext
-import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.VanillaUtil
 
 val rScreenSize
     get() = Size(rScreenWidth,
@@ -36,7 +34,11 @@ val rScreenWidth
 val rScreenHeight
     get() = Vanilla.window().scaledHeight
 
-fun rRenderDirtBackground(context: NativeContext) {
+@Suppress("UNUSED_PARAMETER")
+fun rRenderDirtBackground(context: NativeContext,
+                          mouseX: Int,
+                          mouseY: Int,
+                          partialTicks: Float) {
     (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
 }
 

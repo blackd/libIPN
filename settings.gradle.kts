@@ -20,16 +20,22 @@
 
 rootProject.name = "libIPN"
 //includeBuild("ipn-project")
-include("libIPN:fabric-1.20.3")
+
+include("libIPN:fabric-1.20")
 include("libIPN:fabric-1.20.2")
+include("libIPN:fabric-1.20.3")
+//include("libIPN:fabric-1.20.5")
+
 
 include("libIPN:fabric-1.19")
 include("libIPN:fabric-1.18.2")
 
+include("libIPN:forge-1.20")
 include("libIPN:forge-1.20.2")
 
 include("libIPN:forge-1.19")
 include("libIPN:forge-1.18.2")
+
 
 
 

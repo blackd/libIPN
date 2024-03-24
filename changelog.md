@@ -1,9 +1,15 @@
 <!-- latest begin -->
+
+### 4.0.2
+
+- this is just preliminary release for future 1.20.5 compatible version 
+
+<!-- latest end -->
+
 ### 4.0.1
 
 - fixed input handling where in some cases shortcuts weren't triggered on button/key release.
 
-<!-- latest end -->
 
 <!-- rest begin -->
 ### 4.0.0
