@@ -26,7 +26,7 @@ import org.gradle.api.plugins.BasePluginExtension
 
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureDistribution(is18: Boolean) {
+fun Project.configureDistribution() {
     apply(plugin = "java-library")
 //    apply(plugin = "com.github.johnrengelman.shadow")
 
@@ -40,7 +40,7 @@ fun Project.configureDistribution(is18: Boolean) {
 
 }
 
-fun Project.configureDistributionLib(is18: Boolean) {
+fun Project.configureDistributionLib() {
     apply(plugin = "java-library")
     //    apply(plugin = "com.github.johnrengelman.shadow")
 

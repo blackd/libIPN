@@ -93,6 +93,10 @@ inline fun <R> tryOrElse(onFailure: (Throwable) -> R,
     }
 }
 
+inline fun <A, B> A?.transformOrNull( converter: (A) -> B?): B? {
+    return if (this != null) converter(this) else null
+}
+
 // ============
 // Event
 // ============

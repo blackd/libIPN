@@ -20,7 +20,8 @@
 
 package org.anti_ad.mc.libipn.gui
 
-import org.anti_ad.mc.common.IInputHandler
+import org.anti_ad.mc.alias.text.fromSerializedJson
+import org.anti_ad.mc.alias.text.getTranslatable
 import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.addTo
@@ -29,13 +30,9 @@ import org.anti_ad.mc.common.config.options.BaseConfigKeyToggleBooleanInputHandl
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
-import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.*
-import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.libipn.config.Configs
@@ -72,8 +69,10 @@ object ConfigScreeHelper: BaseConfigKeyToggleBooleanInputHandler() {
              ]"""
         }
 
-        Vanilla.inGameHud().setOverlayMessage(fromSerializedJson(message()),
-                                              true)
+        fromSerializedJson(message())?.let {
+            Vanilla.inGameHud().setOverlayMessage(
+                it, true)
+        }
     }
 
     fun finish() {

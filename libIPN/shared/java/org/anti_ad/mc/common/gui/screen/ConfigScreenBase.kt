@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.screen
 
+import org.anti_ad.mc.alias.text.Text
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
@@ -31,7 +32,6 @@ import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
 import org.anti_ad.mc.common.gui.widgets.*
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
@@ -166,7 +166,8 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
                         mouseY: Int,
                         partialTicks: Float) {
         //renderBackground(context.native, mouseX, mouseY, partialTicks)
-        rRenderVanillaScreenBackground(context, mouseX, mouseY, partialTicks)
+        renderBackground(context.native, mouseX, mouseY, partialTicks)
+        //rRenderVanillaScreenBackground(context, mouseX, mouseY, partialTicks)
         rDrawText(context,
                   this.titleString,
                   20,

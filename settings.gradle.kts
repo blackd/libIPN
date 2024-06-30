@@ -19,14 +19,20 @@
 
 
 rootProject.name = "libIPN"
+
 //includeBuild("ipn-project")
 
+/*
 include("libIPN:fabric-1.20")
 include("libIPN:fabric-1.20.2")
 include("libIPN:fabric-1.20.3")
-//include("libIPN:fabric-1.20.5")
+*/
+include("libIPN:fabric-1.21")
+include("libIPN:forge-1.21")
 
+//includeBuild("libIPN/forge/forge-1.21")
 
+/*
 include("libIPN:fabric-1.19")
 include("libIPN:fabric-1.18.2")
 
@@ -35,6 +41,7 @@ include("libIPN:forge-1.20.2")
 
 include("libIPN:forge-1.19")
 include("libIPN:forge-1.18.2")
+*/
 
 
 
@@ -46,6 +53,9 @@ pluginManagement {
         maven(url = "https://maven.fabricmc.net") {
             name = "Fabric"
         }
+        maven (url = "https://maven.minecraftforge.net/") {
+            name = "MinecraftForge"
+        }
         mavenCentral()
         google()
         gradlePluginPortal()
@@ -54,6 +64,7 @@ pluginManagement {
 
 plugins {
     id("com.gradle.enterprise") version "3.4.1"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
 gradleEnterprise {

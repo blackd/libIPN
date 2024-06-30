@@ -36,14 +36,12 @@ fun init() {
         t.printStackTrace()
     }
 
-/*
-    timer("", true, 30000, 120000) {
+
+/*    timer("", true, 30000, 120000) {
         Log.error("showing config")
         this.cancel()
         mc().execute {
             mc().setScreen(ConfigScreen())
         }
-    }
-*/
-
+    }*/
 }

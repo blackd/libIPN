@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.screen
 
+import org.anti_ad.mc.alias.text.getTranslatable
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.gui.NativeContext
@@ -29,7 +30,6 @@ import org.anti_ad.mc.common.gui.widgets.TextButtonWidget
 import org.anti_ad.mc.common.gui.widgets.toConfigWidget
 import org.anti_ad.mc.common.input.ConfigKeybindSettings
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText

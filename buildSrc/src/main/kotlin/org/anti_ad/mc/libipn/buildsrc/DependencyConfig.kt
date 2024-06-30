@@ -74,7 +74,9 @@ fun Project.configureDependencies() {
         "api"("org.jetbrains:annotations:20.1.0")
 
         "shadedApi"("com.yevdo:jwildcard:1.4")
-        "shadedApi"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
+        "shadedApi"("ca.solo-studios:kt-fuzzy-jvm:0.1.0") {
+            exclude("org.jetbrains.kotlin")
+        }
     }
 }
 
@@ -95,8 +97,8 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
         "api"(kotlin("stdlib"))
         "api"(kotlin("reflect"))
-        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.0")
 
         "minecraft"("com.mojang:minecraft:$minecraft_version")
         "mappings"("net.fabricmc:yarn:$mappings_version:v2")
@@ -105,10 +107,10 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         "modImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
 
         modmenu_version?.let {
-            "modCompileOnly"("com.terraformersmc:modmenu:$modmenu_version")
+            "modApi"("com.terraformersmc:modmenu:$modmenu_version")
         }
 
-        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.10.17+kotlin.1.9.22")
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.11.0+kotlin.2.0.0")
     }
 }
 
@@ -119,46 +121,21 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
 
         val kffverstr = kotlin_for_forge_version.toString()[0]
 
-        if (kffverstr == '4' || kffverstr == '3') {
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
-            "compileOnlyApi"(kotlin("reflect"))
-            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
-        } else if (kffverstr == '1') {
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-            "compileOnlyApi"(kotlin("reflect"))
-            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-        } else {
-            "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
-            "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
-            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
-            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
-            "api"(kotlin("reflect"))
-            "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-            "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
-
-            "runHelperApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
-            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
-            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
-            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
-            "runHelperApi"("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
-        }
-
-        "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
-        "api"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
-        "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
-        "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
         "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
         "runtimeOnly"("com.yevdo:jwildcard:1.4")
-        "runtimeOnly"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
-        //"api"("com.yevdo:jwildcard:1.4")
-        //"api"("ca.solo-studios:kt-fuzzy-jvm:0.1.0")
+        "runtimeOnly"("ca.solo-studios:kt-fuzzy-jvm:0.1.0") {
+            exclude("org.jetbrains.kotlin")
+        }
+
+
+        "implementation"("net.sf.jopt-simple:jopt-simple:5.0.4") {
+            version {
+                strictly("5.0.4")
+            }
+        }
+        "compileOnly"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0") {
+            exclude("org.jetbrains.kotlin")
+        }
+        "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
     }
 }

@@ -20,10 +20,11 @@
 
 import org.anti_ad.mc.libipn.buildsrc.loom_version
 import org.anti_ad.mc.libipn.buildsrc.getGitHash
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("4", "0", "2",
+val versionObj = Version("5", "0", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loomv = loom_version
@@ -45,20 +46,21 @@ repositories {
 
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("jvm") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.0"
 
 
     idea
     `java-library`
     `maven-publish`
     signing
-    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
+    id("io.github.goooler.shadow") version "8+" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom").version(org.anti_ad.mc.libipn.buildsrc.loom_version) apply false
+    id("fabric-loom").version("1.6-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
+    id ("net.minecraftforge.gradle") version "6+" apply false
 }
 
 nexusPublishing {
@@ -76,8 +78,8 @@ nexusPublishing {
 
 // This is here but it looks like it's not inherited by the child projects
 tasks.named<KotlinCompile>("compileKotlin") {
-    kotlinOptions {
-        jvmTarget = "1.8"
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs = listOf("-opt-in=kotlin.ExperimentalStdlibApi")
     }
 }
@@ -99,7 +101,7 @@ allprojects {
         kotlinOptions {
             freeCompilerArgs = mutableListOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn") + freeCompilerArgs
             languageVersion = "1.8"
-            jvmTarget = "17"
+            jvmTarget = "21"
         }
         this.incremental = true
     }
@@ -143,6 +145,14 @@ val cleanSnapshots = tasks.register<Delete>("cleanSnapshots") {
 
 tasks.getByName("clean").dependsOn(cleanSnapshots)
 
+/*
+tasks.register<DefaultTask>("createMcpToSrg") {
+    gradle.includedBuilds.forEach {
+        dependsOn(it.task(":createMcpToSrg"))
+    }
+}
+*/
+
 tasks.register<Copy>("copyPlatformJars") {
     subprojects.filter {
         val isFabric = it.name.startsWith("fabric")
@@ -150,11 +160,11 @@ tasks.register<Copy>("copyPlatformJars") {
         isFabric || isForge
     }.forEach {
         val isForge = !it.name.startsWith("fabric")
-        val taskName = if (isForge) { "deobfJar" } else { "remapJar" }
+        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
         val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
         dependsOn(jarTask)
         if (isForge) {
-            val endTask = it.tasks.named("reobfJar")
+            val endTask = it.tasks.named("jar")
             dependsOn(endTask)
         }
         val jarFile = jarTask.get()
@@ -176,6 +186,7 @@ tasks.register<Copy>("copyPlatformJars") {
     }
     finalizedBy("owner-testing-env")
 }
+
 
 
 tasks.named<DefaultTask>("build") {

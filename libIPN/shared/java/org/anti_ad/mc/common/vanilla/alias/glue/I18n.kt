@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.alias.glue
 
-import org.anti_ad.mc.common.vanilla.alias.vanillaTranslate
+import org.anti_ad.mc.alias.client.vanillaTranslate
 
 object I18n {
     fun translate(string: String,

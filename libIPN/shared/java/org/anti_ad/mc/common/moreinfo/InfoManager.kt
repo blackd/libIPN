@@ -23,6 +23,7 @@ package org.anti_ad.mc.common.moreinfo
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import org.anti_ad.mc.libipn.Log
+import java.net.URI
 import java.net.URL
 import java.util.concurrent.*
 
@@ -39,9 +40,9 @@ object InfoManager {
     private val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
                                                             "name" to "pageview")
     private val session: MutableMap<String, String> = mutableMapOf()
-    private val target = URL("https://p.anti-ad.org/api/event")
+    private val target = URI("https://p.anti-ad.org/api/event").toURL()
 
-    private val versionUrl = URL("https://ipn.anti-ad.org/ipn/versionCheckV2")
+    private val versionUrl = URI("https://ipn.anti-ad.org/ipn/versionCheckV2").toURL()
 
     var isEnabled: () -> Boolean = { true }
 

@@ -20,6 +20,7 @@
 package org.anti_ad.mc.libipn.buildsrc
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.Copy
@@ -29,20 +30,20 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 
 import java.io.ByteArrayOutputStream
+import kotlin.io.path.div
 
-
-fun Project.configureCommon(is18: Boolean = false) {
+fun Project.configureCommon(is18: JavaVersion = JavaVersion.VERSION_17) {
     configureDependencies()
     configureCompilation(is18, "InventoryProfilesNext")
-    configureDistribution(is18)
+    configureDistribution()
 
     //version = rootProject.version
 }
 
-fun Project.configureCommonLib(is18: Boolean = false) {
+fun Project.configureCommonLib(is18: JavaVersion = JavaVersion.VERSION_17) {
     configureDependencies()
     configureCompilation(is18, "libIPN")
-    configureDistributionLib(is18)
+    configureDistributionLib()
 
     //version = rootProject.version
 }
@@ -51,17 +52,21 @@ fun Project.platformsCommonConfig() {
     tasks["javadoc"].enabled = false
 }
 fun Project.registerMinimizeJarTask() {
+
     tasks.register<DefaultTask>("minimizeJar") {
         group = "build"
 
         val isForge = !project.name.startsWith("fabric")
-        val taskName = if (isForge) { "deobfJar" } else { "remapJar" }
+        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
         val jarTask = project.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+
         dependsOn(jarTask)
+/*
         if (isForge) {
-            val endTask = project.tasks.named("reobfJar")
+            val endTask = project.tasks.named("shadowJar")
             dependsOn(endTask)
         }
+*/
         val jarFile = jarTask.get()
         val jarPath = project.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
         doLast {
@@ -76,13 +81,21 @@ fun Project.registerMinimizeJarTask() {
     }
 }
 
+private fun String?.addSomethingIfNotBlank(something: String = "-"): String {
+    return if (!this.isNullOrEmpty()) {
+        "$this$something"
+    } else {
+        ""
+    }
+}
+
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
 
 
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
-    registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar").dependsOn("reobfJar")
-    tasks["reobfJar"].dependsOn(tasks["deobfJar"])
+    registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar")
+    //tasks["reobfJar"].dependsOn(tasks["deobfJar"])
     tasks.named<DefaultTask>("build") {
 //        dependsOn("minimizeJar")
     }
@@ -113,6 +126,41 @@ fun Project.rootAfterEvaluate() {
             }
         }
     }
+
+    val mkDevJar = tasks.create<DefaultTask>("makeDevJar") {
+        val isForge = !project.name.startsWith("fabric")
+        val taskName = if (isForge) {
+            "shadowJar"
+        } else {
+            "remapJar"
+        }
+        val jarTask = project.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+
+        dependsOn(jarTask)
+/*
+        if (isForge) {
+            val endTask = project.tasks.named("reobfJar")
+            dependsOn(endTask)
+        }
+*/
+        val filename = jarTask.get().archiveBaseName.get().addSomethingIfNotBlank() +
+                jarTask.get().archiveAppendix.orNull.addSomethingIfNotBlank() +
+                project.name.addSomethingIfNotBlank() +
+                jarTask.get().archiveVersion.orNull.addSomethingIfNotBlank(".") +
+                (jarTask.get().archiveExtension.orNull ?: "jar")
+        actions.add {
+            copy {
+                from(jarTask) //destinationDir = project.layout.buildDirectory.dir("libs").get().asFile
+                into(project.layout.buildDirectory.dir("dev-mod"))
+                rename {
+                    filename
+                }
+            }
+        }
+        this.outputs.file(project.layout.buildDirectory.dir("dev-mod").get().asFile.toPath() / filename)
+
+    }
+    project.tasks.named<DefaultTask>("minimizeJar").get().dependsOn(mkDevJar)
     // one must disable parallel execution for this to work
     //val depTree = addTaskToDepTree(0,tasks["build"], mutableSetOf<String>())
     //logger.lifecycle(depTree)
@@ -139,7 +187,7 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     registerCopyJarForPublishTask(fabricRemapJar,mod_loader, minecraft_version, mod_artefact_version).get().dependsOn(remapped)
 
-
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()?.dependsOn("minimizeJar")
 
     rootAfterEvaluate()
 }
