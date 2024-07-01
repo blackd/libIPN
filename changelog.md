@@ -1,10 +1,14 @@
 <!-- latest begin -->
+### 5.0.1
+- adds forge 1.21 support
+- small fixes and improvements
+
+<!-- latest end -->
 ### 5.0.0
 
 - Adds 1.21 compatibility.
 - Minecraft versions below 1.21 will no longer receive updates!
 
-<!-- latest end -->
 
 ### 4.0.2
 
