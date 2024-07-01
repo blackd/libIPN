@@ -1,0 +1,23 @@
+{
+    "libipn.common.gui.config.reset":                     "重設",
+    "libipn.common.gui.config.true":                      "§2開",
+    "libipn.common.gui.config.false":                     "§4關",
+    "libipn.common.gui.config.yes":                       "是",
+    "libipn.common.gui.config.no":                        "否",
+    "libipn.common.gui.config.more":                      " ...（更多）",
+    "libipn.common.gui.config.advanced_keybind_settings": "進階按鍵設定",
+    "libipn.common.gui.config.activate_on":               "按鍵觸發方式",
+    "libipn.common.gui.config.context":                   "按鍵響應範圍",
+    "libipn.common.gui.config.allow_extra_keys":          "允許額外按鍵",
+    "libipn.common.gui.config.order_sensitive":           "固定順序按下",
+    "libipn.common.gui.config.modifier_key":              "Ctrl / Alt / Shift",
+    "libipn.common.gui.config.keybind_settings_tips":     "- 左鍵 進入按鍵設定 \n- 右鍵 重設為預設值",
+    "libipn.common.enum.key_action.press":                "按下",
+    "libipn.common.enum.key_action.release":              "放開",
+    "libipn.common.enum.key_action.both":                 "按下／放開",
+    "libipn.common.enum.context.ingame":                  "遊戲內",
+    "libipn.common.enum.context.gui":                     "介面",
+    "libipn.common.enum.context.any":                     "遊戲內／介面",
+    "libipn.common.enum.modifier_key.differentiate":      "區分左 / 右",
+    "libipn.common.enum.modifier_key.normal":             "正常"
+}

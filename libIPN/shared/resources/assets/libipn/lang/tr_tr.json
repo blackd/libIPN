@@ -1,0 +1,23 @@
+{
+    "libipn.common.gui.config.reset":                     "Sıfırla",
+    "libipn.common.gui.config.true":                      "§2true",
+    "libipn.common.gui.config.false":                     "§4false",
+    "libipn.common.gui.config.yes":                       "evet",
+    "libipn.common.gui.config.no":                        "hayır",
+    "libipn.common.gui.config.more":                      " ...(daha fazlası)",
+    "libipn.common.gui.config.advanced_keybind_settings": "Gelişmiş Tuş Atama Ayarları",
+    "libipn.common.gui.config.activate_on":               "Aktif Et",
+    "libipn.common.gui.config.context":                   "Bağlam",
+    "libipn.common.gui.config.allow_extra_keys":          "Ek Tuşlara İzin Ver",
+    "libipn.common.gui.config.order_sensitive":           "Düzen Hassasiyeti",
+    "libipn.common.gui.config.modifier_key":              "Ctrl/Alt/Shift",
+    "libipn.common.gui.config.keybind_settings_tips":     "- Ayarlamak için sol tıkla\n- Varsayılanlara sıfırlamak için sağ tıkla",
+    "libipn.common.enum.key_action.press":                "Bas",
+    "libipn.common.enum.key_action.release":              "Bırak",
+    "libipn.common.enum.key_action.both":                 "Bas / Bırak",
+    "libipn.common.enum.context.ingame":                  "Oyun İçi",
+    "libipn.common.enum.context.gui":                     "Arayüz",
+    "libipn.common.enum.context.any":                     "Oyun İçi / Arayüz",
+    "libipn.common.enum.modifier_key.differentiate":      "Sol/Sağ farkı",
+    "libipn.common.enum.modifier_key.normal":             "Normal"
+}
