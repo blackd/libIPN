@@ -100,6 +100,8 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
 //        dependsOn("minimizeJar")
     }
 
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()?.dependsOn("minimizeJar")?.dependsOn("jar") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+
     rootAfterEvaluate()
 }
 

@@ -317,8 +317,6 @@ afterEvaluate {
     tasks.forEach {
         logger.info("******************* found task: {} {} {}", it, it.name, it.group)
     }
-
-    tasks.getByName("publishMavenPublicationToIpnOfficialRepoRepository").dependsOn("minimizeJar")
     tasks.getByName("build").dependsOn("minimizeJar")
 
     //TODO see what replaces reobf
