@@ -102,6 +102,8 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
 
     tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()?.dependsOn("minimizeJar")?.dependsOn("jar") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
 
+    tasks.named("modrinth")?.get()?.dependsOn("minimizeJar")?.dependsOn("deobfJar") ?: logger.lifecycle("Can't find task 'modrinth'")
+
     rootAfterEvaluate()
 }
 
