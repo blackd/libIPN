@@ -255,7 +255,7 @@ tasks.named<ShadowJar>("shadowJar") {
     //finalizedBy(tasks["customJar"])
 }
 
-registerMinimizeJarTask()
+val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
     forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
@@ -317,10 +317,6 @@ afterEvaluate {
     tasks.forEach {
         logger.info("******************* found task: {} {} {}", it, it.name, it.group)
     }
-    tasks.getByName("build").dependsOn("minimizeJar")
-
-    //TODO see what replaces reobf
-    //tasks.findByName("reobfJar")?.dependsOn("shadowJar")
 }
 
 val deobfJar = tasks.register<Jar>("deobfJar") {
@@ -376,7 +372,7 @@ publishing {
             groupId = "org.anti_ad.mc"
             artifactId = "${rootProject.name}-${project.name}"
             version = project.version.toString()
-            artifact(deobfJar)
+            artifact(minimizeJar.outputs.files.first())
             artifact(sourceJar) {
                 classifier = "sources"
             }
@@ -412,8 +408,12 @@ configure<CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
-        val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
+        val remappedJarFile = minimizeJar.outputs.files.first()
+        logger.lifecycle("""
+        +*************************************************+
+        Will release ${remappedJarFile.path}
+        +*************************************************+
+    """.trimIndent())
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "libIPN-$mod_loader-$minecraft_version_string-$mod_version$clasifier"
         })
@@ -455,13 +455,12 @@ modrinth {
 
     projectId.set("onSQdWhM")
     versionNumber.set("$mod_loader-$minecraft_version-$mod_version$clasifier") // Will fail if Modrinth has this version already
-    val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
-    val remappedJarFile = forgeReobfJar.archiveFile
+    val remappedJarFile = minimizeJar.outputs.files.first()
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions)
     logger.lifecycle("""
         +*************************************************+
-        Will release ${remappedJarFile.get().asFile.path}
+        Will release ${remappedJarFile.path}
         +*************************************************+
     """.trimIndent())
     versionName.set("libIPN $mod_version for $mod_loader$clasifier $minecraft_version_string")

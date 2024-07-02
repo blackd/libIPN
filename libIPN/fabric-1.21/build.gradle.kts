@@ -181,7 +181,7 @@ val remapped = tasks.named<RemapJarTask>("remapJar") {
 
 fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 
-registerMinimizeJarTask()
+val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
@@ -190,8 +190,7 @@ afterEvaluate {
 tasks.named<DefaultTask>("build") {
     dependsOn(remapped)
     dependsOn("packageSources")
-    dependsOn("copyJarForPublish")
-    dependsOn("minimizeJar")
+    dependsOn(minimizeJar)
 }
 
 
@@ -219,7 +218,7 @@ publishing {
             groupId = "org.anti_ad.mc"
             artifactId = "${rootProject.name}-${project.name}"
             version = project.version.toString()
-            artifact(remapped)
+            artifact(minimizeJar.outputs.files.first())
             artifact(sourceJar) {
                 classifier = "sources"
             }
@@ -256,8 +255,7 @@ configure<CurseExtension> {
         }
         this.addGameVersion("Fabric")
         //this.addGameVersion("Quilt")
-        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-        val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        val remappedJarFile = minimizeJar.outputs.files.first()
         logger.lifecycle("""
             +*************************************************+
             Will release ${remappedJarFile.path}
@@ -292,13 +290,12 @@ modrinth {
 
     projectId.set("onSQdWhM")
     versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
-    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-    val remappedJarFile = fabricRemapJar.archiveFile
+    val remappedJarFile = minimizeJar.outputs.files.first()
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions[MODRINTH]!!)
     logger.lifecycle("""
         +*************************************************+
-        Will release ${remappedJarFile.get().asFile.path}
+        Will release ${remappedJarFile.path}
         +*************************************************+
     """.trimIndent())
     versionName.set("libIPN $mod_version for $mod_loader $minecraft_version_string")

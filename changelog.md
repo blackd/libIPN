@@ -1,5 +1,5 @@
 <!-- latest begin -->
-### 5.0.1
+### 5.0.2
 - adds forge 1.21 support
 - small fixes and improvements
 

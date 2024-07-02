@@ -51,34 +51,31 @@ fun Project.configureCommonLib(is18: JavaVersion = JavaVersion.VERSION_17) {
 fun Project.platformsCommonConfig() {
     tasks["javadoc"].enabled = false
 }
-fun Project.registerMinimizeJarTask() {
+fun Project.registerMinimizeJarTask(): DefaultTask {
 
-    tasks.register<DefaultTask>("minimizeJar") {
+    val minTask = tasks.register<DefaultTask>("minimizeJar") {
         group = "build"
 
         val isForge = !project.name.startsWith("fabric")
         val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
         val jarTask = project.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
-
         dependsOn(jarTask)
-/*
-        if (isForge) {
-            val endTask = project.tasks.named("shadowJar")
-            dependsOn(endTask)
-        }
-*/
         val jarFile = jarTask.get()
         val jarPath = project.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+        var outputFile = project.layout.buildDirectory.dir("optimized-mod").get().asFile.toPath() / jarFile.archiveFileName.get()
         doLast {
             exec {
                 this.workingDir = project.layout.projectDirectory.asFile
                 val script = rootProject.layout.projectDirectory.file("optimize-jar.sh")
                 this.executable = script.asFile.absolutePath
-                this.args(jarPath.get().asFile.absolutePath, project.layout.buildDirectory.get().asFile.absolutePath)
+                this.args(jarPath.get().asFile.absolutePath, project.layout.buildDirectory.get().asFile.absolutePath, outputFile)
 
             }
         }
+        this.outputs.file(outputFile)
     }
+    tasks.named("build").get().dependsOn(minTask)
+    return minTask.get()
 }
 
 private fun String?.addSomethingIfNotBlank(something: String = "-"): String {
@@ -94,15 +91,25 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
 
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
-    registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar")
+    //registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar")
     //tasks["reobfJar"].dependsOn(tasks["deobfJar"])
     tasks.named<DefaultTask>("build") {
 //        dependsOn("minimizeJar")
     }
 
-    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()?.dependsOn("minimizeJar")?.dependsOn("jar") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.dependsOn("jar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
 
-    tasks.named("modrinth")?.get()?.dependsOn("minimizeJar")?.dependsOn("deobfJar") ?: logger.lifecycle("Can't find task 'modrinth'")
+    tasks.named("modrinth")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.dependsOn("deobfJar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
 
     rootAfterEvaluate()
 }
@@ -189,9 +196,16 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
     }
 
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-    registerCopyJarForPublishTask(fabricRemapJar,mod_loader, minecraft_version, mod_artefact_version).get().dependsOn(remapped)
+    //registerCopyJarForPublishTask(fabricRemapJar,mod_loader, minecraft_version, mod_artefact_version).get().dependsOn(remapped)
 
-    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()?.dependsOn("minimizeJar")
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar") ?: logger.error("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+
+    tasks.named("modrinth")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar") ?: logger.error("Can't find task 'modrinth'")
+
 
     rootAfterEvaluate()
 }

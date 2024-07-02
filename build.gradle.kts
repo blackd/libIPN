@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("5", "0", "1",
+val versionObj = Version("5", "0", "2",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loomv = loom_version
@@ -160,18 +160,17 @@ tasks.register<Copy>("copyPlatformJars") {
         isFabric || isForge
     }.forEach {
         val isForge = !it.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
-        val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+        val jarTask = it.tasks.named<DefaultTask>("minimizeJar")
         dependsOn(jarTask)
         if (isForge) {
             val endTask = it.tasks.named("jar")
             dependsOn(endTask)
         }
         val jarFile = jarTask.get()
-        val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+        val jarPath = jarFile.outputs.files.first()
         logger.debug("""
             *************************
-              ${it.path} finalized mod jar is ${jarPath.get().asFile.absoluteFile}
+              ${it.path} finalized mod jar is $jarPath
             *************************
         """.trimIndent())
         from(jarPath)
@@ -179,11 +178,6 @@ tasks.register<Copy>("copyPlatformJars") {
 
     into(layout.buildDirectory.dir("libs"))
 
-    subprojects.forEach {
-        it.getTasksByName("minimizeJar", false).forEach { t ->
-            dependsOn(t)
-        }
-    }
     finalizedBy("owner-testing-env")
 }
 
