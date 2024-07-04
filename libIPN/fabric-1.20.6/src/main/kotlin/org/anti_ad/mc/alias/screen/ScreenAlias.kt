@@ -99,29 +99,3 @@ typealias ForgingContainer = ForgingScreenHandler
 typealias ContainerType<T> = ScreenHandlerType<T>
 
 
-val vanillaContainers = listOf<Class<*>>(
-    AbstractFurnaceScreenHandler::class.java,
-    AbstractRecipeScreenHandler::class.java,
-    AnvilScreenHandler::class.java,
-    BeaconScreenHandler::class.java,
-    BlastFurnaceScreenHandler::class.java,
-    BrewingStandScreenHandler::class.java,
-    CartographyTableScreenHandler::class.java,
-    CrafterScreenHandler::class.java,
-    CraftingScreenHandler::class.java,
-    EnchantmentScreenHandler::class.java,
-    FurnaceScreenHandler::class.java,
-    Generic3x3ContainerScreenHandler::class.java,
-    GenericContainerScreenHandler::class.java,
-    GrindstoneScreenHandler::class.java,
-    HopperScreenHandler::class.java,
-    HorseScreenHandler::class.java,
-    LecternScreenHandler::class.java,
-    LoomScreenHandler::class.java,
-    MerchantScreenHandler::class.java,
-    PlayerScreenHandler::class.java,
-    ShulkerBoxScreenHandler::class.java,
-    SmithingScreenHandler::class.java,
-    SmokerScreenHandler::class.java,
-    StonecutterScreenHandler::class.java,
-    ForgingScreenHandler::class.java,)

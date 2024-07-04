@@ -1,7 +1,9 @@
 #!/bin/bash
 
-. ~/.config/secrets/modrinth.sh
-. ~/.config/secrets/curseforge.sh
+if [[ n$IPNEXT_RELEASE != "n" ]]; then
+  . ~/.config/secrets/modrinth.sh
+  . ~/.config/secrets/curseforge.sh
+fi
 
 
 pushd .
@@ -27,12 +29,24 @@ python build_release_notes.py
 
 cd ..
 
-./gradlew --max-workers 32 clean compileKotlin compileJava
 
-GRADLE_ARG="--max-workers 4 build"
-
-if [[ n$IPNEXT_RELEASE != "n" ]]; then
-  GRADLE_ARG="$GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
+if [[ n$IPNEXT_PATREON != "n" ]]; then
+  IPNEXT_RELEASE=1 --max-workers 32 clean compileKotlin compileJava
+else
+  ./gradlew --max-workers 32 clean compileKotlin compileJava
 fi
 
-./gradlew $GRADLE_ARG
+GRADLE_ARG="build"
+
+if [[ n$IPNEXT_RELEASE != "n" ]]; then
+  GRADLE_ARG="--max-workers 4 $GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
+  ./gradlew $GRADLE_ARG
+elif [[ n$IPNEXT_PATREON != "n" ]]; then
+  GRADLE_ARG="--max-workers 32 $GRADLE_ARG"
+  IPNEXT_RELEASE=1 ./gradlew $GRADLE_ARG
+else
+  GRADLE_ARG="--max-workers 32 $GRADLE_ARG"
+  ./gradlew $GRADLE_ARG
+fi
+
+
