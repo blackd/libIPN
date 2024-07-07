@@ -50,3 +50,6 @@ else
 fi
 
 
+pwd
+
+popd

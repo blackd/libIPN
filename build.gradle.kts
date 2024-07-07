@@ -51,17 +51,21 @@ plugins {
 
 
     idea
+
     `java-library`
     `maven-publish`
     signing
+    id("idea")
     id("io.github.goooler.shadow") version "8+" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
     id("fabric-loom").version("1.6-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
-    id ("net.minecraftforge.gradle") version "6+" apply false
+    //id("net.minecraftforge.gradle") version "6.+" apply false
+    id("net.neoforged.gradle.userdev") version "7.0.145" apply false
 }
+/*
 
 nexusPublishing {
     repositories {
@@ -71,6 +75,7 @@ nexusPublishing {
         }
     }
 }
+*/
 
 
 
@@ -100,7 +105,7 @@ allprojects {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             freeCompilerArgs = mutableListOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn") + freeCompilerArgs
-            languageVersion = "1.8"
+            languageVersion = "2.0"
             jvmTarget = "21"
         }
         this.incremental = true
@@ -156,7 +161,7 @@ tasks.register<DefaultTask>("createMcpToSrg") {
 tasks.register<Copy>("copyPlatformJars") {
     subprojects.filter {
         val isFabric = it.name.startsWith("fabric")
-        val isForge = it.name.startsWith("forge")
+        val isForge = it.name.startsWith("forge") || it.name.startsWith("neoforge")
         isFabric || isForge
     }.forEach {
         val isForge = !it.name.startsWith("fabric")

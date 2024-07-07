@@ -20,34 +20,12 @@
 
 rootProject.name = "libIPN"
 
-//includeBuild("ipn-project")
-
-/*
-include("libIPN:fabric-1.20")
-include("libIPN:fabric-1.20.2")
-include("libIPN:fabric-1.20.3")
-*/
 include("libIPN:fabric-1.21")
 include("libIPN:forge-1.21")
+include("libIPN:neoforge-1.21")
 
 include("libIPN:fabric-1.20.6")
 include("libIPN:forge-1.20.6")
-
-//includeBuild("libIPN/forge/forge-1.21")
-
-/*
-include("libIPN:fabric-1.19")
-include("libIPN:fabric-1.18.2")
-
-include("libIPN:forge-1.20")
-include("libIPN:forge-1.20.2")
-
-include("libIPN:forge-1.19")
-include("libIPN:forge-1.18.2")
-*/
-
-
-
 
 
 
@@ -59,6 +37,7 @@ pluginManagement {
         maven (url = "https://maven.minecraftforge.net/") {
             name = "MinecraftForge"
         }
+        maven ("https://maven.neoforged.net/releases")
         mavenCentral()
         google()
         gradlePluginPortal()

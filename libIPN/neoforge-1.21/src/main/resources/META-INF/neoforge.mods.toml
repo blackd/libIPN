@@ -1,0 +1,36 @@
+modLoader="kotlinforforge"
+loaderVersion="[5,)" # Require at least 3
+issueTrackerURL="https://github.com/blackd/Inventory-Profiles/issues" #optional
+license="@LICENSE@"
+
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
+
+[[mods]] #mandatory
+modId="libipn" #mandatory
+version="@VERSION@" #mandatory
+displayName="libIPN" #mandatory
+displayURL="https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next" #optional
+logoFile="libIPN_logo.png" #optional
+credits="Selah (AspieGamer13)" #optional
+authors="blackd/mirinimi" #optional
+description='''
+Take controll over you inventory
+'''
+
+[[dependencies.libipn]] #optional
+modId="neoforge" #mandatory
+mandatory=true #mandatory
+versionRange="[21,)" #mandatory
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.libipn]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.21,)"
+ordering="NONE"
+side="CLIENT"
+[modproperties.libipn]
+catalogueImageIcon="libIPN-logo.png"

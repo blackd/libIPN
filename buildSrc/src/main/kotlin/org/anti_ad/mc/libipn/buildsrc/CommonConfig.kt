@@ -88,15 +88,6 @@ private fun String?.addSomethingIfNotBlank(something: String = "-"): String {
 
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
 
-
-
-    val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
-    //registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar")
-    //tasks["reobfJar"].dependsOn(tasks["deobfJar"])
-    tasks.named<DefaultTask>("build") {
-//        dependsOn("minimizeJar")
-    }
-
     tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
         ?.dependsOn("build")
         ?.dependsOn("minimizeJar")

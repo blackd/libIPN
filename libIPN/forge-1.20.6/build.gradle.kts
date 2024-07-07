@@ -63,6 +63,7 @@ buildscript {
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
+        classpath("net.minecraftforge.gradle:ForgeGradle:6+")
         classpath("com.guardsquare:proguard-gradle:7+")
     }
 }
@@ -94,7 +95,7 @@ plugins {
     signing
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
-    id ("net.minecraftforge.gradle") version "6+"
+    id("net.minecraftforge.gradle") version "6.+" apply true
     id("io.github.goooler.shadow")
 
 }

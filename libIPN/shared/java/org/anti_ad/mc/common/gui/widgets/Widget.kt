@@ -154,7 +154,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     }
 }
 
-private interface IWidget<T : IWidget<T>> : IWidgetHierarchical<T>, IWidgetPositioning, IWidgetEventTarget<T>, IWidgetRenderer, IBaseGlueWidget {
+interface IWidget<T : IWidget<T>> : IWidgetHierarchical<T>, IWidgetPositioning, IWidgetEventTarget<T>, IWidgetRenderer, IBaseGlueWidget {
     override var parent: T?
     override val children: List<T>
     override var absoluteBounds: Rectangle
@@ -168,7 +168,7 @@ private interface IWidget<T : IWidget<T>> : IWidgetHierarchical<T>, IWidgetPosit
         children.sortedBy { it.zIndex }
 }
 
-private interface IWidgetHierarchical<T : IWidgetHierarchical<T>> {
+interface IWidgetHierarchical<T : IWidgetHierarchical<T>> {
     val parent: T?
     val children: List<T>
 }
@@ -178,7 +178,7 @@ private interface IWidgetHierarchical<T : IWidgetHierarchical<T>> {
 // ============
 //region widget position
 
-private interface IWidgetPositioning {
+interface IWidgetPositioning {
     val parent: IWidgetPositioning?
 
     /*
@@ -343,7 +343,7 @@ private fun <T> T.resizeChildren(oldValue: Size,
 // widget input event
 // ============
 
-private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
+interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
     val children: List<T>
     fun childrenZIndexed(): List<T>
     fun contains(mouseX: Int,
@@ -432,7 +432,7 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
 
 
 
-private interface IWidgetRenderer {
+interface IWidgetRenderer {
     var visible: Boolean
     val overflow: Overflow
     val absoluteBounds: Rectangle

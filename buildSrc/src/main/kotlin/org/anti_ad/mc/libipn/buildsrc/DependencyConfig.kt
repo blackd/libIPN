@@ -71,12 +71,13 @@ fun Project.configureDependencies() {
     }
 
     dependencies {
-        "api"("org.jetbrains:annotations:20.1.0")
+        //"api"("org.jetbrains:annotations:20.1.0")
 
         "shadedApi"("com.yevdo:jwildcard:1.4")
         "shadedApi"("ca.solo-studios:kt-fuzzy-jvm:0.1.0") {
             exclude("org.jetbrains.kotlin")
         }
+        "shadedApi"("com.yevdo:jwildcard:1.4")
     }
 }
 
@@ -122,7 +123,7 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
         val kffverstr = kotlin_for_forge_version.toString()[0]
 
         "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
-        "runtimeOnly"("com.yevdo:jwildcard:1.4")
+
         "runtimeOnly"("ca.solo-studios:kt-fuzzy-jvm:0.1.0") {
             exclude("org.jetbrains.kotlin")
         }
@@ -137,5 +138,37 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
             exclude("org.jetbrains.kotlin")
         }
         "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
+    }
+}
+
+fun Project.neoForgeCommonDependency(minecraft_version: Any,
+                                     loader_version: Any,
+                                     kotlin_for_forge_version: Any) {
+    dependencies {
+
+        "implementation"("net.neoforged:neoforge:${loader_version}")
+        "implementation"("thedarkcolour:kotlinforforge-neoforge:$kotlin_for_forge_version")
+        "runtimeOnly"("com.yevdo:jwildcard:1.4")
+        "runtimeOnly"("ca.solo-studios:kt-fuzzy-jvm:0.1.0") {
+            exclude("org.jetbrains.kotlin")
+        }
+
+/*
+        "implementation"("thedarkcolour:kfflang:$kotlin_for_forge_version") {
+            isChanging = true
+        }
+        "implementation"("thedarkcolour:kfflib:$kotlin_for_forge_version") {
+            isChanging =  true
+        }
+        "implementation"("thedarkcolour:kffmod:$kotlin_for_forge_version") {
+            isChanging = true
+        }
+*/
+
+        "compileOnly"("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.7.1") {
+            //exclude("org.jetbrains.kotlin")
+        }
+        "compileOnly"("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.7.1")
+
     }
 }
