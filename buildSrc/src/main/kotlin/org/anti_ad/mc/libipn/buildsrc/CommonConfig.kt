@@ -86,6 +86,24 @@ private fun String?.addSomethingIfNotBlank(something: String = "-"): String {
     }
 }
 
+fun Project.neoForgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
+
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.dependsOn("jar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+
+    tasks.named("modrinth")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
+
+    rootAfterEvaluate()
+}
+
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
 
     tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()

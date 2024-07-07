@@ -1,9 +1,12 @@
 <!-- latest begin -->
+### 6.0.0
+- adds NeoForge 1.21 support
+
+<!-- latest end -->
 ### 5.0.2
 - adds forge 1.21 support
 - small fixes and improvements
-
-<!-- latest end -->
+- 
 ### 5.0.0
 
 - Adds 1.21 compatibility.

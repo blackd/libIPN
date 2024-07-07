@@ -26,12 +26,10 @@ import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.neoforged.gradle.dsl.common.runs.run.Run
 import org.anti_ad.mc.libipn.buildsrc.configureCommonLib
-import org.anti_ad.mc.libipn.buildsrc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonAfterEvaluate
 import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import kotlin.io.path.div
 
 val supported_minecraft_versions = listOf("1.21")
 val mod_loader = "neoforge"
@@ -227,7 +225,7 @@ tasks.named<ShadowJar>("shadowJar") {
 val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
-    forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+    neoForgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
 var rcltName = ""
@@ -283,36 +281,6 @@ afterEvaluate {
         logger.info("******************* found task: {} {} {}", it, it.name, it.group)
     }
 }
-
-/*val deobfJar = tasks.register<Jar>("deobfJar") {
-    dependsOn("copyMixinMappings")
-    from(sourceSets["main"].output)
-    archiveBaseName.set("${rootProject.name}-${project.name}")
-    //archiveClassifier.set("dev")
-    group = "forge"
-}
-
-val deobfElements = configurations.register("deobfElements") {
-    isVisible = false
-    description = "De-obfuscated elements for libs"
-    isCanBeResolved = false
-    isCanBeConsumed = true
-    attributes {
-        attribute(Usage.USAGE_ATTRIBUTE, project.objects.named(Usage.JAVA_API))
-        attribute(Category.CATEGORY_ATTRIBUTE, project.objects.named(Category.LIBRARY))
-        attribute(Bundling.BUNDLING_ATTRIBUTE, project.objects.named(Bundling.EXTERNAL))
-        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, project.objects.named(LibraryElements.JAR))
-        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
-    }
-    outgoing.artifact(tasks.named("deobfJar"))
-}*/
-
-/*
-val javaComponent = components["java"] as AdhocComponentWithVariants
-javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
-    mapToMavenScope("runtime")
-}
-*/
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
     from(sourceSets["main"]?.allSource)
@@ -433,7 +401,6 @@ modrinth {
     versionName.set("libIPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
-    loaders.add("neoforge")
     dependencies.set(
         mutableListOf(
             ModDependency("ordsPcFz", "required")))
