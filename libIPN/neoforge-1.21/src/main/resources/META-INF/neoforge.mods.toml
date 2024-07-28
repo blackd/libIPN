@@ -22,7 +22,7 @@ Take controll over you inventory
 [[dependencies.libipn]] #optional
 modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[21,)" #mandatory
+versionRange="[21.0.140,)" #mandatory
 ordering="NONE"
 side="CLIENT"
 
