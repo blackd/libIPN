@@ -1,12 +1,16 @@
 <!-- latest begin -->
+### 6.0.1
+- showing that they are good descendant NeoForge pulled a Forge move and broke the API in the same major release.
+
+<!-- latest end -->
+
 ### 6.0.0
 - adds NeoForge 1.21 support
 
-<!-- latest end -->
 ### 5.0.2
 - adds forge 1.21 support
 - small fixes and improvements
-- 
+
 ### 5.0.0
 
 - Adds 1.21 compatibility.
