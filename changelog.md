@@ -1,8 +1,16 @@
 <!-- latest begin -->
+
+### 6.0.2
+
+- minor changes needed by IPN 2.0.4
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 6.0.1
 - showing that they are good descendant NeoForge pulled a Forge move and broke the API in the same major release.
 
-<!-- latest end -->
 
 ### 6.0.0
 - adds NeoForge 1.21 support
@@ -26,8 +34,6 @@
 
 - fixed input handling where in some cases shortcuts weren't triggered on button/key release.
 
-
-<!-- rest begin -->
 ### 4.0.0
 
 - compatibility with MC 1.20.2 that led to interface change
