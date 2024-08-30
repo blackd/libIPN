@@ -196,13 +196,9 @@ object GlobalInputHandler {
             }
         }
         return when (action) {
-            GLFW_PRESS -> {
-                onKey(key,
-                      action)
-            }
+            GLFW_PRESS,
             GLFW_RELEASE -> {
-                onKey(key,
-                      action)
+                onKey(key, action)
             }
             else -> false
         }

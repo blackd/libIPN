@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.input.GlobalInputHandler;
 import org.anti_ad.mc.common.input.GlobalScreenEventListener;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -38,7 +39,9 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 @Mixin(value = Keyboard.class, priority = 0)
 public class MixinKeyboard {
 
+    @Unique
     private int pressedCount = 0;
+    @Unique
     private int releasedCount = 0;
 
     @Inject(method = "onKey", at = @At(value = "HEAD"), cancellable = true) // ref: malilib key hook
