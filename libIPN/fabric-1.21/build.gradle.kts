@@ -27,16 +27,16 @@ import org.anti_ad.mc.libipn.buildsrc.Loaders.*
 import org.anti_ad.mc.libipn.buildsrc.*
 
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21"),
-                                         CURSEFORGE to listOf("1.21"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21", "1.21.1"),
+                                         CURSEFORGE to listOf("1.21", "1.21.1"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.21-rc1"
+val minecraft_version = "1.21"
 val minecraft_version_string = "1.21"
-val mappings_version = "1.21-rc1+build.1"
-val loader_version = "0.15.11"
-val modmenu_version = "11.0.0-beta.1"
-val fabric_api_version = "0.100.0+1.21"
+val mappings_version = "1.21+build.9"
+val loader_version = "0.16.7"
+val modmenu_version = "11.0.2"
+val fabric_api_version = "0.102.0+1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
@@ -254,7 +254,7 @@ configure<CurseExtension> {
             this.addGameVersion(it)
         }
         this.addGameVersion("Fabric")
-        //this.addGameVersion("Quilt")
+        this.addGameVersion("Quilt")
         val remappedJarFile = minimizeJar.outputs.files.first()
         logger.lifecycle("""
             +*************************************************+
@@ -301,7 +301,7 @@ modrinth {
     versionName.set("libIPN $mod_version for $mod_loader $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
-    //loaders.add("quilt")
+    loaders.add("quilt")
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),

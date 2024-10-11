@@ -31,14 +31,14 @@ import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 
-val supported_minecraft_versions = listOf("1.21")
+val supported_minecraft_versions = listOf("1.21", "1.21.1")
 val mod_loader = "neoforge"
 val mod_version = project.version
 val minecraft_version = "1.21"
 val minecraft_version_string = "1.21"
-val neoforge_version = "21.0.141-beta"
+val neoforge_version = "21.0.167"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.3.0"
+val kotlin_for_forge_version = "5.4.0"
 val mappingsMap = mapOf<String, String>("channel" to "official",
                                         "version" to "1.21")
 
