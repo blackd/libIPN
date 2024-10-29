@@ -38,6 +38,7 @@ val loader_version = "0.16.7"
 val modmenu_version = "11.0.2"
 val fabric_api_version = "0.102.0+1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
+val loom_version = project.property("loom_version")
 
 buildscript {
     dependencies {

@@ -19,5 +19,5 @@
 
 package org.anti_ad.mc.alias.component
 
-val ComponentMapImpl.`(types)`
+val MergedComponentMap.`(types)`
     get() = this.keySet()

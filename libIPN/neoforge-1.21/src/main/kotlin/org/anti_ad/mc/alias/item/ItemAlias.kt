@@ -284,6 +284,7 @@ typealias ThrowablePotionItem = ThrowablePotionItem
 typealias TippedArrowItem = TippedArrowItem
 
 typealias ToolItem = TieredItem
+typealias MiningToolItem = TieredItem
 
 typealias ToolMaterial = Tier
 typealias ToolMaterials = Tiers

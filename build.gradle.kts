@@ -18,16 +18,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import org.anti_ad.mc.libipn.buildsrc.loom_version
+import org.anti_ad.mc.libipn.buildsrc.VersionProperties
 import org.anti_ad.mc.libipn.buildsrc.getGitHash
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("6", "0", "3",
+val versionObj = Version("6", "1", "0",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
-val loomv = loom_version
 
 
 repositories {
@@ -45,6 +44,7 @@ repositories {
 
 
 plugins {
+
     `kotlin-dsl`
     kotlin("jvm") version "2.0.0"
     kotlin("plugin.serialization") version "2.0.0"
@@ -59,7 +59,7 @@ plugins {
     id("io.github.goooler.shadow") version "8+" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom").version("1.6-SNAPSHOT") apply false
+    id("fabric-loom").version("1.8-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
     //id("net.minecraftforge.gradle") version "6.+" apply false
@@ -92,6 +92,7 @@ tasks.named<KotlinCompile>("compileKotlin") {
 
 
 allprojects {
+    project.setProperty("loom_version", VersionProperties.loom_version())
     version = versionObj.toString()
     //group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
