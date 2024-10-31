@@ -22,14 +22,14 @@ Take controll over you inventory
 [[dependencies.libipn]] #optional
 modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[21.0.140,)" #mandatory
+versionRange="[21.3.0,)" #mandatory
 ordering="NONE"
 side="CLIENT"
 
 [[dependencies.libipn]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.21,)"
+versionRange="[1.21.3, 1.22)"
 ordering="NONE"
 side="CLIENT"
 [modproperties.libipn]

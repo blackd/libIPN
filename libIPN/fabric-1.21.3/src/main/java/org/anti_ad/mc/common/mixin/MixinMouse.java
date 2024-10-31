@@ -46,9 +46,8 @@ public class MixinMouse {
     @Inject(method = "onMouseButton", at = @At(value = "TAIL"))
     private void onMouseButtonLast(long handle, int button, int action, int mods, CallbackInfo ci) {
         if (handle == Vanilla.INSTANCE.window().getHandle()) {
-            if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
-                GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
-            } else {
+            GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
+            if (Vanilla.INSTANCE.screen() != null) {
                 GlobalScreenEventListener.INSTANCE.onMouse(button, action, mods, false);
             }
         }
