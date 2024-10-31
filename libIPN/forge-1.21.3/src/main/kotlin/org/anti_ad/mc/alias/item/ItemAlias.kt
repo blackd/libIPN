@@ -25,8 +25,8 @@ import net.minecraft.item.AliasedBlockItem
 */
 import net.minecraft.world.item.AnimalArmorItem
 import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.ArmorMaterials
+import net.minecraft.world.item.equipment.ArmorMaterial
+import net.minecraft.world.item.equipment.ArmorMaterials
 import net.minecraft.world.item.ArmorStandItem
 import net.minecraft.world.item.ArrowItem
 /*
@@ -42,12 +42,10 @@ import net.minecraft.item.BlockPredicatesChecker
 */
 import net.minecraft.world.item.BoatItem
 import net.minecraft.world.item.BoneMealItem
-import net.minecraft.world.item.BookItem
 import net.minecraft.world.item.BowItem
 import net.minecraft.world.item.BrushItem
 import net.minecraft.world.item.BucketItem
 import net.minecraft.world.item.BundleItem
-import net.minecraft.world.item.ChorusFruitItem
 import net.minecraft.world.item.CompassItem
 import net.minecraft.world.item.CrossbowItem
 import net.minecraft.world.item.DebugStickItem
@@ -55,14 +53,11 @@ import net.minecraft.world.item.HangingEntityItem
 import net.minecraft.world.item.DiscFragmentItem
 import net.minecraft.world.item.DyeItem
 import net.minecraft.world.item.EggItem
-import net.minecraft.world.item.ElytraItem
 import net.minecraft.world.item.EmptyMapItem
-import net.minecraft.world.item.EnchantedBookItem
 import net.minecraft.world.item.EndCrystalItem
 import net.minecraft.world.item.EnderEyeItem
 import net.minecraft.world.item.EnderpearlItem
 import net.minecraft.world.item.MobBucketItem
-import net.minecraft.world.item.Equipable
 import net.minecraft.world.item.ExperienceBottleItem
 import net.minecraft.world.item.MapItem
 import net.minecraft.world.item.FireChargeItem
@@ -78,7 +73,6 @@ import net.minecraft.world.item.GlowInkSacItem
 import net.minecraft.world.item.InstrumentItem
 import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.HoeItem
-import net.minecraft.world.item.HoneyBottleItem
 import net.minecraft.world.item.HoneycombItem
 import net.minecraft.world.item.InkSacItem
 import net.minecraft.world.item.Instrument
@@ -88,6 +82,7 @@ import net.minecraft.world.level.ItemLike
 import net.minecraft.world.item.ItemFrameItem
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.CreativeModeTabs
+import net.minecraft.world.item.DiggerItem
 /*
 import net.minecraft.item.ItemKeys
 */
@@ -103,7 +98,6 @@ import net.minecraft.world.item.KnowledgeBookItem
 import net.minecraft.world.item.LeadItem
 import net.minecraft.world.item.LingeringPotionItem
 import net.minecraft.world.item.MaceItem
-import net.minecraft.world.item.MilkBucketItem
 import net.minecraft.world.item.MinecartItem
 /*
 import net.minecraft.item.MiningToolItem
@@ -112,7 +106,6 @@ import net.minecraft.world.item.NameTagItem
 /*
 import net.minecraft.item.NetworkSyncedItem
 */
-import net.minecraft.world.item.OminousBottleItem
 import net.minecraft.world.item.FoodOnAStickItem
 /*
 import net.minecraft.item. OperatorOnlyBlockItem
@@ -137,15 +130,11 @@ import net.minecraft.world.item.SpawnEggItem
 import net.minecraft.world.item.SpectralArrowItem
 import net.minecraft.world.item.SplashPotionItem
 import net.minecraft.world.item.SpyglassItem
-import net.minecraft.world.item.SuspiciousStewItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.DoubleHighBlockItem
 import net.minecraft.world.item.ThrowablePotionItem
 import net.minecraft.world.item.TippedArrowItem
 
-import net.minecraft.world.item.Tier
-import net.minecraft.world.item.TieredItem
-import net.minecraft.world.item.Tiers
 /*
 import net.minecraft.item.ToolMaterials
 */
@@ -181,12 +170,10 @@ typealias BlockPredicatesChecker = BlockPredicatesChecker
 */
 typealias BoatItem = BoatItem
 typealias BoneMealItem = BoneMealItem
-typealias BookItem = BookItem
 typealias BowItem = BowItem
 typealias BrushItem = BrushItem
 typealias BucketItem = BucketItem
 typealias BundleItem = BundleItem
-typealias ChorusFruitItem = ChorusFruitItem
 typealias CompassItem = CompassItem
 typealias CrossbowItem = CrossbowItem
 typealias DebugStickItem = DebugStickItem
@@ -194,14 +181,11 @@ typealias DecorationItem = HangingEntityItem
 typealias DiscFragmentItem = DiscFragmentItem
 typealias DyeItem = DyeItem
 typealias EggItem = EggItem
-typealias ElytraItem = ElytraItem
 typealias EmptyMapItem = EmptyMapItem
-typealias EnchantedBookItem = EnchantedBookItem
 typealias EndCrystalItem = EndCrystalItem
 typealias EnderEyeItem = EnderEyeItem
 typealias EnderPearlItem = EnderpearlItem
 typealias EntityBucketItem = MobBucketItem
-typealias Equipment = Equipable
 typealias ExperienceBottleItem = ExperienceBottleItem
 typealias FilledMapItem = MapItem
 typealias FireChargeItem = FireChargeItem
@@ -217,7 +201,6 @@ typealias GlowInkSacItem = GlowInkSacItem
 typealias GoatHornItem = InstrumentItem
 typealias HangingSignItem = HangingSignItem
 typealias HoeItem = HoeItem
-typealias HoneyBottleItem = HoneyBottleItem
 typealias HoneycombItem = HoneycombItem
 typealias InkSacItem = InkSacItem
 typealias Instrument = Instrument
@@ -243,7 +226,6 @@ typealias KnowledgeBookItem = KnowledgeBookItem
 typealias LeadItem = LeadItem
 typealias LingeringPotionItem = LingeringPotionItem
 typealias MaceItem = MaceItem
-typealias MilkBucketItem = MilkBucketItem
 typealias MinecartItem = MinecartItem
 /*
 typealias MiningToolItem = MiningToolItem
@@ -252,7 +234,6 @@ typealias NameTagItem = NameTagItem
 /*
 typealias NetworkSyncedItem = NetworkSyncedItem
 */
-typealias OminousBottleItem = OminousBottleItem
 typealias OnAStickItem<T> = FoodOnAStickItem<T>
 /*
 typealias OperatorOnlyBlockItem = OperatorOnlyBlockItem
@@ -277,17 +258,17 @@ typealias SpawnEggItem = SpawnEggItem
 typealias SpectralArrowItem = SpectralArrowItem
 typealias SplashPotionItem = SplashPotionItem
 typealias SpyglassItem = SpyglassItem
-typealias SuspiciousStewItem = SuspiciousStewItem
 typealias SwordItem = SwordItem
 typealias TallBlockItem = DoubleHighBlockItem
 typealias ThrowablePotionItem = ThrowablePotionItem
 typealias TippedArrowItem = TippedArrowItem
 
-typealias ToolItem = TieredItem
-typealias MiningToolItem = TieredItem
+typealias MiningToolItem = DiggerItem
 
+/*
 typealias ToolMaterial = Tier
 typealias ToolMaterials = Tiers
+*/
 typealias TridentItem = TridentItem
 /*
 typealias VerticallyAttachableBlockItem = VerticallyAttachableBlockItem

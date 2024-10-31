@@ -47,4 +47,4 @@ val vanillaContainers = listOf<Class<*>>(
     ForgingContainer::class.java,)
 
 val ForgingContainer.`(inputSlotIndices)`
-    get() = this.inputSlotIndexes
+    get() = 0..<this.resultSlotIndex

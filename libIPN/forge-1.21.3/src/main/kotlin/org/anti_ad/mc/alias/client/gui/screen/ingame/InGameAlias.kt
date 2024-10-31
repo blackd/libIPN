@@ -21,7 +21,7 @@ package org.anti_ad.mc.alias.client.gui.screen.ingame
 
 import net.minecraft.client.gui.screens.inventory.AbstractCommandBlockEditScreen
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen
+import net.minecraft.client.gui.screens.inventory.EffectsInInventory
 import net.minecraft.client.gui.screens.inventory.AbstractSignEditScreen
 import net.minecraft.client.gui.screens.inventory.AnvilScreen
 import net.minecraft.client.gui.screens.inventory.BeaconScreen
@@ -71,7 +71,7 @@ typealias CreativeContainer = CreativeModeInventoryScreen.ItemPickerMenu
 
 typealias AbstractCommandBlockScreen = AbstractCommandBlockEditScreen
 typealias AbstractFurnaceScreen<T> = AbstractFurnaceScreen<T>
-typealias AbstractInventoryScreen<T> = EffectRenderingInventoryScreen<T>
+typealias AbstractInventoryScreen = EffectsInInventory
 typealias AbstractSignEditScreen = AbstractSignEditScreen
 typealias AnvilScreen = AnvilScreen
 typealias BeaconScreen = BeaconScreen

@@ -46,8 +46,8 @@ repositories {
 plugins {
 
     `kotlin-dsl`
-    kotlin("jvm") version "2.0.0"
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.21"
 
 
     idea
@@ -63,7 +63,7 @@ plugins {
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
     //id("net.minecraftforge.gradle") version "6.+" apply false
-    id("net.neoforged.gradle.userdev") version "7.0.145" apply false
+    id("net.neoforged.gradle.userdev") version "7.+" apply false
 }
 /*
 

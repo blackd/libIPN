@@ -21,12 +21,11 @@
 package org.anti_ad.mc.common.gui.screen
 
 import net.minecraft.client.renderer.RenderType
+import net.minecraft.resources.ResourceLocation
 import org.anti_ad.mc.alias.client.MinecraftClient
 import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.text.Text
-import org.anti_ad.mc.alias.util.Identifier
 import org.anti_ad.mc.common.gui.NativeContext
-import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.gui.widgets.RootWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
@@ -119,7 +118,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                         j: Int,
                         f: Float) {
         //rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
-        render(NativeContext(context, RenderType.GUI_OPAQUE_TEXTURED_BACKGROUND as ((Identifier) -> RenderType)?),
+        render(NativeContext(context, RenderType.GUI_OPAQUE_TEXTURED_BACKGROUND),
                i,
                j,
                f)

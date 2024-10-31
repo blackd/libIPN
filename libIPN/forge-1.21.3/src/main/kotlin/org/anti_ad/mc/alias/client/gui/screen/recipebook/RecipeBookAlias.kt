@@ -21,4 +21,4 @@ package org.anti_ad.mc.alias.client.gui.screen.recipebook
 
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent
 
-typealias RecipeBookWidget = RecipeBookComponent
+typealias RecipeBookWidget<T> = RecipeBookComponent<T>

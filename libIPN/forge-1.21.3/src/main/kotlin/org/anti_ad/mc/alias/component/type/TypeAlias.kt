@@ -29,8 +29,11 @@ import net.minecraft.world.item.component.ChargedProjectiles
 import net.minecraft.world.item.component.ItemContainerContents
 import net.minecraft.world.item.component.SeededContainerLoot
 import net.minecraft.world.item.component.CustomModelData
+import net.minecraft.world.item.component.Consumable
+import net.minecraft.world.item.component.Consumables
 import net.minecraft.world.item.component.DebugStickState
 import net.minecraft.world.item.component.DyedItemColor
+import net.minecraft.world.item.equipment.Equippable
 import net.minecraft.world.item.component.FireworkExplosion
 import net.minecraft.world.item.component.Fireworks
 import net.minecraft.world.food.FoodProperties
@@ -63,8 +66,11 @@ typealias ChargedProjectilesComponent = ChargedProjectiles
 typealias ContainerComponent = ItemContainerContents
 typealias ContainerLootComponent = SeededContainerLoot
 typealias CustomModelDataComponent = CustomModelData
+typealias ConsumableComponent = Consumable
+typealias ConsumableComponents = Consumables
 typealias DebugStickStateComponent = DebugStickState
 typealias DyedColorComponent = DyedItemColor
+typealias EquippableComponent = Equippable
 typealias FireworkExplosionComponent = FireworkExplosion
 typealias FireworksComponent = Fireworks
 typealias FoodComponent = FoodProperties

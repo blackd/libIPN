@@ -39,7 +39,6 @@ import net.minecraft.tags.TagEntry
 import net.minecraft.tags.TagFile
 import net.minecraft.tags.TagLoader
 import net.minecraft.tags.TagKey
-import net.minecraft.tags.TagManager
 import net.minecraft.tags.TagNetworkSerialization
 import net.minecraft.tags.WorldPresetTags
 
@@ -64,6 +63,5 @@ typealias TagEntry = TagEntry
 typealias TagFile = TagFile
 typealias TagGroupLoader<T> = TagLoader<T>
 typealias TagKey<T> = TagKey<T>
-typealias TagManagerLoader = TagManager
 typealias TagPacketSerializer = TagNetworkSerialization
 typealias WorldPresetTags = WorldPresetTags

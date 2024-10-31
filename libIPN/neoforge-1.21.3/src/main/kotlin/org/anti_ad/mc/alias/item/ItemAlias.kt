@@ -82,7 +82,8 @@ import net.minecraft.world.level.ItemLike
 import net.minecraft.world.item.ItemFrameItem
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.CreativeModeTabs
-import net.minecraft.world.item.DiggerItem/*
+import net.minecraft.world.item.DiggerItem
+/*
 import net.minecraft.item.ItemKeys
 */
 import net.minecraft.world.item.context.BlockPlaceContext

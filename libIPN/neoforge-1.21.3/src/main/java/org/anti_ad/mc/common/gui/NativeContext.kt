@@ -1,12 +1,13 @@
 package org.anti_ad.mc.common.gui
 
 import net.minecraft.client.renderer.RenderType
-import org.anti_ad.mc.alias.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import org.anti_ad.mc.common.vanilla.alias.DrawContext
+import java.util.function.Function
 
 //import org.anti_ad.mc.common.vanilla.alias.DrawContext
 
 class NativeContext(val native: DrawContext,
-                    var layer: ((Identifier) -> RenderType)?): NativeContextBase() {
+                    var layer: Function<ResourceLocation, RenderType>): NativeContextBase() {
 
 }

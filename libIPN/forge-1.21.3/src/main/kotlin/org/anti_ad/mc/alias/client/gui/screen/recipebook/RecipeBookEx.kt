@@ -19,5 +19,5 @@
 
 package org.anti_ad.mc.alias.client.gui.screen.recipebook
 
-val RecipeBookWidget.`(searchField)`
+val RecipeBookWidget<*>.`(searchField)`
     get() = this.searchBox

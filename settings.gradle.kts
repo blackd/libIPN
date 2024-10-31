@@ -21,10 +21,11 @@
 rootProject.name = "libIPN"
 
 include("libIPN:fabric-1.21.3")
-include("libIPN:neoforge-1.21.3")
 include("libIPN:fabric-1.21")
 include("libIPN:forge-1.21")
+include("libIPN:forge-1.21.3")
 include("libIPN:neoforge-1.21")
+include("libIPN:neoforge-1.21.3")
 
 
 
@@ -46,7 +47,7 @@ pluginManagement {
 
 plugins {
     id("com.gradle.enterprise") version "3.4.1"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
 }
 
 gradleEnterprise {

@@ -32,16 +32,16 @@ import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val supported_minecraft_versions = listOf("1.21", "1.21.1")
+val supported_minecraft_versions = listOf("1.21.3")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.21"
-val minecraft_version_string = "1.21"
-val forge_version = "51.0.33"
+val minecraft_version = "1.21.3"
+val minecraft_version_string = "1.21.3"
+val forge_version = "53.0.7"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.4.0"
+val kotlin_for_forge_version = "5.5.0"
 val mappingsMap = mapOf("channel" to "official",
-                        "version" to "1.21")
+                        "version" to "1.21.3")
 
 
 logger.lifecycle("""
@@ -69,23 +69,6 @@ buildscript {
 }
 
 
-/*
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
-}
-
- */
-
-/*
-apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
-*/
-
-//I have no idea why but these MUST be here and not in plugins {}...
-//apply(plugin = "net.minecraftforge.gradle")
-//apply(plugin = "org.spongepowered.mixin")
-
-
-
 plugins {
     //id("org.gradle.toolchains.foojay-resolver-convention")
     //id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
@@ -99,7 +82,7 @@ plugins {
     id("com.modrinth.minotaur")
     //id ("net.minecraftforge.gradle")
     id("io.github.goooler.shadow")
-    id("net.minecraftforge.gradle") version "6.+" apply true
+    id("net.minecraftforge.gradle") version "6+" apply true
 
 }
 
@@ -304,6 +287,7 @@ configure<UserDevExtension> {
         //create("server", runConfig)
         //create("data", runConfig)
 
+/*
         all {
             lazyToken("minecraft_classpath") {
                 //project.tasks.findByPath(":platforms:${project.name}:runClient")?.dependsOn("fixRunJvmArgs")
@@ -315,6 +299,7 @@ configure<UserDevExtension> {
                 }
             }
         }
+*/
     }
 }
 

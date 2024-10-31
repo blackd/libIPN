@@ -87,7 +87,7 @@ typealias SimpleNamedContainerFactory = SimpleNamedScreenHandlerFactory
 
 typealias Container = AbstractContainerMenu
 typealias AbstractFurnaceContainer = AbstractFurnaceMenu
-typealias AbstractRecipeContainer<I, R> = RecipeBookMenu<I, R>
+typealias AbstractRecipeContainer = RecipeBookMenu
 typealias AnvilContainer = AnvilMenu
 typealias BeaconContainer = BeaconMenu
 typealias BlastFurnaceContainer = BlastFurnaceMenu

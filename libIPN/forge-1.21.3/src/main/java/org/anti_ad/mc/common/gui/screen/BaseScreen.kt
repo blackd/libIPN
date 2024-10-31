@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.gui.screen
 
+import net.minecraft.client.renderer.RenderType
 import org.anti_ad.mc.alias.client.MinecraftClient
 import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.text.Text
@@ -117,7 +118,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                         j: Int,
                         f: Float) {
         //rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
-        render(NativeContext(context),
+        render(NativeContext(context, RenderType::guiTextured),
                i,
                j,
                f)

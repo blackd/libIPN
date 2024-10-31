@@ -20,8 +20,7 @@
 @file:Suppress("unused", "ObjectPropertyName", "HasPlatformType")
 package org.anti_ad.mc.alias.registry
 
-
-import net.neoforged.neoforge.registries.NeoForgeRegistries
+import org.anti_ad.mc.alias.util.Identifier
 
 val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
     get() = Registries.BLOCK_ENTITY_TYPE.keySet()
@@ -34,3 +33,6 @@ val `(REGISTRIES-CONTAINER-IDS)`
 
 val `(REGISTRIES-ITEM-IDS)`
     get() = Registries.ITEM.keySet()
+
+@Suppress("FunctionName")
+fun <T> Registry<T>.`(get)`(id: Identifier) = getValue(id)

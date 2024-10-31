@@ -21,6 +21,7 @@
 package org.anti_ad.mc.alias.registry
 
 import net.minecraftforge.registries.ForgeRegistries
+import org.anti_ad.mc.alias.util.Identifier
 
 val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
     get() = ForgeRegistries.BLOCK_ENTITY_TYPES.keys
@@ -33,3 +34,6 @@ val `(REGISTRIES-CONTAINER-IDS)`
 
 val `(REGISTRIES-ITEM-IDS)`
     get() = ForgeRegistries.ITEMS.keys
+
+@Suppress("FunctionName")
+fun <T> Registry<T>.`(get)`(id: Identifier) = getValue(id)

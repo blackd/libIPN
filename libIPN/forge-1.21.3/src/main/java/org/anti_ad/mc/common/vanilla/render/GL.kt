@@ -54,8 +54,7 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
 fun rClearDepth(context: NativeContext) {
     gEnableDepthTest()
     RenderSystem.depthMask(true)
-    RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT,
-                       false)
+    RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT)
     rOverwriteDepth(context,
                     rScreenBounds)
     depthBounds.clear() // added this

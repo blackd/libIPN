@@ -251,7 +251,6 @@ import net.minecraft.world.level.block.MangroveRootsBlock
 /*
 import net.minecraft.world.level.block.MapColor
 */
-import net.minecraft.world.level.block.MossBlock
 import net.minecraft.world.level.block.MudBlock
 /*
 import net.minecraft.world.level.block.MultifaceGrowthBlock
@@ -669,7 +668,6 @@ typealias MangroveRootsBlock = MangroveRootsBlock
 /*
 typealias MapColor = MapColor
 */
-typealias MossBlock = MossBlock
 typealias MudBlock = MudBlock
 /*
 typealias MultifaceGrowthBlock = MultifaceGrowthBlock
