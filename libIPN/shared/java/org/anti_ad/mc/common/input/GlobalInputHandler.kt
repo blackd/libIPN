@@ -212,6 +212,15 @@ object GlobalInputHandler {
                                  mods)
         previousPressedKeys.clear()
         previousPressedKeys.addAll(pressedKeys)
+/*
+        Log.trace {
+            "Action: ${if (action == GLFW_PRESS) "PRESS" else if (action == GLFW_RELEASE) "RELEASE" else "UNKNOWN"}" +
+            " Button: $button" +
+            " Modifiers: $mods" +
+            " Pressed: ${pressedKeys.joinToString(separator = ", ", prefix = "\n", postfix = "\n") { "$it: ${KeyCodes.getName(it)}" }}" +
+            " Previous: ${previousPressedKeys.joinToString(separator = ", ", prefix = "\n", postfix = "\n") { "$it: ${KeyCodes.getName(it)}" }}"
+        }
+*/
         return when (action) {
             GLFW_PRESS, GLFW_RELEASE -> onKey(if (button >= 0) button - 100 else button,
                                               action)
@@ -219,8 +228,24 @@ object GlobalInputHandler {
         }
     }
 
-    fun shiftAnd(vararg keyCodes: Int)  = (pressedKeys.contains(KeyCodes.KEY_LEFT_SHIFT) || pressedKeys.contains(KeyCodes.KEY_RIGHT_SHIFT))
+    fun shiftAnd(vararg keyCodes: Int) = (pressedKeys.contains(KeyCodes.KEY_LEFT_SHIFT) || pressedKeys.contains(KeyCodes.KEY_RIGHT_SHIFT))
             && pressedKeys.containsAll(keyCodes.distinct())
+
+/*
+    fun shiftAnd(vararg keyCodes: Int): Boolean {
+
+        if (pressedKeys.contains(KeyCodes.KEY_LEFT_SHIFT)
+            || pressedKeys.contains(KeyCodes.KEY_RIGHT_SHIFT)) {
+            Log.trace {
+                "keys found: ${pressedKeys.containsAll(keyCodes.distinct())}" +
+                        pressedKeys.joinToString(separator = ", ", prefix = "\n", postfix = "\n") { "$it: ${KeyCodes.getName(it)}" }
+            }
+        }
+        return (pressedKeys.contains(KeyCodes.KEY_LEFT_SHIFT)
+                || pressedKeys.contains(KeyCodes.KEY_RIGHT_SHIFT))
+                && pressedKeys.containsAll(keyCodes.distinct())
+    }
+*/
 
     fun altAnd(vararg keyCodes: Int)  = (pressedKeys.contains(KeyCodes.KEY_LEFT_ALT) || pressedKeys.contains(KeyCodes.KEY_RIGHT_ALT))
             && pressedKeys.containsAll(keyCodes.distinct())
