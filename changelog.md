@@ -1,12 +1,22 @@
 <!-- latest begin -->
 
-### 6.0.2
+### 6.1.1
 
-- minor changes needed by IPN 2.0.4
+- fixed swipe shift click to detect mouse button release.
 
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 6.1.0
+
+- support for 1.21.3
+
+
+### 6.0.2
+
+- minor changes needed by IPN 2.0.4
+
 
 ### 6.0.1
 - showing that they are good descendant NeoForge pulled a Forge move and broke the API in the same major release.
