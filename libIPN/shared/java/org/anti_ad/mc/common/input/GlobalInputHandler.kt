@@ -21,15 +21,12 @@
 package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.IInputHandler
-import org.anti_ad.mc.libipn.Log
-import org.anti_ad.mc.common.extensions.containsAny
-import org.anti_ad.mc.common.extensions.ifFalse
-import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.gui.screen.ConfigOptionHotkeyDialog
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.libipn.Log
 import org.lwjgl.glfw.GLFW.*
 
 object GlobalInputHandler {
@@ -222,8 +219,14 @@ object GlobalInputHandler {
         }
 */
         return when (action) {
-            GLFW_PRESS, GLFW_RELEASE -> onKey(if (button >= 0) button - 100 else button,
-                                              action)
+            GLFW_PRESS,
+            GLFW_RELEASE -> {
+                val normalized = if (button >= 0) button - 100 else button
+                if (normalized < 0) {
+                    Log.trace("Mouse button $normalized, ${if (action == GLFW_PRESS) "pressed" else "released" }")
+                }
+                onKey(normalized, action)
+            }
             else -> false
         }
     }

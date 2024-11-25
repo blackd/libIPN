@@ -57,6 +57,9 @@ object Demo : ConfigDeclaration {
 
     val TOGGLE_TEST                                /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
 
+        .CATEGORY("$CONFIG_CATEGORY.debug")
+    val DEBUG                                /**/ by bool(false)
+
         .CATEGORY("§§hide - first run")
     val FIRST_RUN                            /**/ by bool(true)
 }
@@ -71,9 +74,18 @@ object Demo2 : ConfigDeclaration {
 
 }
 
+object Debugs: ConfigDeclaration {
+    override val builder = createBuilder()
+
+        .CATEGORY("§§vgap:3")
+        .CATEGORY("$CONFIG_CATEGORY.debug")
+    val TRACE_LOGS                                /**/ by bool(false)
+}
+
 fun initMainConfig() {
-    registerConfigDeclaration(Demo, Demo2)
+    registerConfigDeclaration(Demo, Demo2, Debugs)
     addInputListener()
+    SaveLoadManager.load()
 }
 
 private fun addInputListener() {
@@ -87,7 +99,7 @@ private fun addInputListener() {
 }
 
 
-const val FILE_PATH = "libIPN/demo-config.json"
+const val FILE_PATH = "libipn-demo-config.json"
 
 private fun registerConfigDeclaration(vararg cd: ConfigDeclaration) {
     when (cd.size) {
@@ -107,12 +119,14 @@ private fun registerConfigDeclaration(vararg cd: ConfigDeclaration) {
 
 val Configs = mutableListOf<ConfigDeclaration>()
 
-object SaveLoadManager: Savable {
+object SaveLoadManager: Savable by ConfigSaveLoadManager(Configs.toMultiConfig(), "libipn",  FILE_PATH)
+/*
+{
 
     private val configFolder = VanillaUtil.configDirectory("libipn")
 
     private val manager: Lazy<ConfigSaveLoadManager> = lazy(LazyThreadSafetyMode.NONE) {
-        ConfigSaveLoadManager(Configs.toMultiConfig(), FILE_PATH)
+        ConfigSaveLoadManager(Configs.toMultiConfig(), "libipn",  FILE_PATH)
     }
 
     override fun load() {
@@ -124,3 +138,4 @@ object SaveLoadManager: Savable {
     }
 
 }
+*/

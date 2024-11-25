@@ -1,12 +1,17 @@
 <!-- latest begin -->
 
+### 6.2.0
+
+- Support for fabric 1.21.4
+- fixes keybinds of [InvTweaks Emulation for IPN](https://modrinth.com/mod/invtweaks-emu-for-ipn)
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 6.1.1
 
 - fixed swipe shift click to detect mouse button release.
 
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 6.1.0
 

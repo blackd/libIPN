@@ -20,15 +20,15 @@
 package org.anti_ad.mc.libipn
 
 import org.anti_ad.mc.common.LogBase
+import org.anti_ad.mc.libipn.config.Debugs
+import org.anti_ad.mc.libipn.config.Demo
 
-object Log: LogBase(false) {
-    override val id: String
-        get() = "libIPN"
+object Log: LogBase(::falseByDefault, ::falseByDefault) {
 
     init {
-        shouldDebug = { debugSet.orElements() }
-        shouldTrace = { traceSet.orElements() }
+        this.shouldDebug = { Demo.DEBUG.value || debugSet.orElements() }
+        this.shouldTrace = { Demo.DEBUG.value && Debugs.TRACE_LOGS.value || traceSet.orElements() }
     }
-
+    override val id = "libIPN"
 
 }

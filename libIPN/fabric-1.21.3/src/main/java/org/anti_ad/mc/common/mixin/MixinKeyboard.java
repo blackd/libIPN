@@ -76,9 +76,6 @@ public class MixinKeyboard {
         }
     }
 
-
-
-/*
     // early before return
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;keyReleased(III)Z"), cancellable = true)
     private void onScreenKey(long handle, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
@@ -92,5 +89,4 @@ public class MixinKeyboard {
             ci.cancel();
         }
     }
-*/
 }

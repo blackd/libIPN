@@ -31,8 +31,8 @@ open class LogBase {
 
     private val innerLogger: Logger = LogManager.getLogger(id)
 
-    var shouldDebug: () -> Boolean = { true }
-    var shouldTrace: () -> Boolean = { true }
+    internal var shouldDebug: () -> Boolean = { debugSet.orElements() }
+    internal var shouldTrace: () -> Boolean = { traceSet.orElements() }
 
 
     companion object {
@@ -40,19 +40,29 @@ open class LogBase {
         val traceSet = mutableSetOf<() -> Boolean>()
         @JvmStatic
         val debugSet = mutableSetOf<() -> Boolean>()
+
+        internal fun falseByDefault(): Boolean {
+            return false
+        }
+
+
+        fun Set<()->Boolean>.orElements(): Boolean {
+            if (isEmpty()) return false
+            if (size == 1) return this.elementAt(0)()
+            return let {
+                find {
+                    it()
+                } ?: this@Companion::falseByDefault
+            }()
+        }
+
     }
 
-    constructor() {
-        traceSet.add {
-            this.shouldTrace()
-        }
-        debugSet.add {
-            this.shouldDebug()
-        }
-    }
-
-    constructor(b: Boolean) {
-        
+    constructor(shouldDebug: () -> Boolean, shouldTrace: () -> Boolean) {
+        if (shouldDebug != ::falseByDefault) traceSet.add(shouldTrace)
+        if (shouldTrace != ::falseByDefault) debugSet.add(shouldDebug)
+        this.shouldDebug = shouldDebug
+        this.shouldTrace = shouldTrace
     }
 
 
@@ -164,6 +174,15 @@ open class LogBase {
         }
     }
 
+
+    fun <T> traceTime(msg: String, action: () -> T): T {
+        val start = System.nanoTime()
+        val result = action()
+        val ns = System.nanoTime() - start
+        trace("$msg ${ns / 1000_000.0} ms")
+        return result
+    }
+
     fun trace(message: String) = trace { message }
     fun trace(message: String, tw: Throwable) = trace({message}, tw = tw)
     fun trace(message: () -> String) = trace(message, tw = null)
@@ -233,18 +252,6 @@ open class LogBase {
                         block)
     }
 
-    private fun falseByDefault(): Boolean {
-        return false
-    }
 
-    fun Set<()->Boolean>.orElements(): Boolean {
-        if (isEmpty()) return false
-        if (size == 1) return this.elementAt(0)()
-        return let {
-            find {
-                it()
-            } ?: this@LogBase::falseByDefault
-        }()
-    }
 
 }

@@ -24,9 +24,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.encodeToStream
-import kotlinx.serialization.json.jsonObject
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.IConfigElement
@@ -38,8 +36,9 @@ import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 
 class ConfigSaveLoadManager(private val config: IConfigElement,
-                            path: String) : Savable {
-    private val configFile: Path = VanillaUtil.configDirectory() / path
+                            modId: String,
+                            fileName: String) : Savable {
+    private val configFile: Path = VanillaUtil.configDirectory(modId) / fileName
     private val path = configFile.loggingPath
 
     @OptIn(ExperimentalSerializationApi::class)

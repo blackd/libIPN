@@ -85,7 +85,7 @@ import net.minecraft.block.CaveVines
 import net.minecraft.block.CaveVinesBodyBlock
 import net.minecraft.block.CaveVinesHeadBlock
 import net.minecraft.block.ChainBlock
-import net.minecraft.block.CherryLeavesBlock
+
 import net.minecraft.block.ChestBlock
 import net.minecraft.block.ChiseledBookshelfBlock
 import net.minecraft.block.ChorusFlowerBlock
@@ -178,7 +178,6 @@ import net.minecraft.block.LeavesBlock
 import net.minecraft.block.LecternBlock
 import net.minecraft.block.LeveledCauldronBlock
 import net.minecraft.block.LeverBlock
-import net.minecraft.block.LichenGrower
 import net.minecraft.block.LightBlock
 import net.minecraft.block.LightningRodBlock
 import net.minecraft.block.LilyPadBlock
@@ -389,7 +388,6 @@ typealias CaveVines = CaveVines
 typealias CaveVinesBodyBlock = CaveVinesBodyBlock
 typealias CaveVinesHeadBlock = CaveVinesHeadBlock
 typealias ChainBlock = ChainBlock
-typealias CherryLeavesBlock = CherryLeavesBlock
 typealias ChestBlock = ChestBlock
 typealias ChiseledBookshelfBlock = ChiseledBookshelfBlock
 typealias ChorusFlowerBlock = ChorusFlowerBlock
@@ -482,7 +480,6 @@ typealias LeavesBlock = LeavesBlock
 typealias LecternBlock = LecternBlock
 typealias LeveledCauldronBlock = LeveledCauldronBlock
 typealias LeverBlock = LeverBlock
-typealias LichenGrower = LichenGrower
 typealias LightBlock = LightBlock
 typealias LightningRodBlock = LightningRodBlock
 typealias LilyPadBlock = LilyPadBlock

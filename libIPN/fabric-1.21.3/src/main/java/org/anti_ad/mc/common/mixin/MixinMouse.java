@@ -43,12 +43,13 @@ public class MixinMouse {
 //    VanillaUtil.INSTANCE.updateMouse();
     }
 
-    @Inject(method = "onMouseButton", at = @At(value = "RETURN"))
+    @Inject(method = "onMouseButton", at = @At(value = "TAIL"))
     private void onMouseButtonLast(long handle, int button, int action, int mods, CallbackInfo ci) {
         if (handle == Vanilla.INSTANCE.window().getHandle()) {
-            GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
             if (Vanilla.INSTANCE.screen() != null) {
                 GlobalScreenEventListener.INSTANCE.onMouse(button, action, mods, false);
+            } else {
+                GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
             }
         }
     }
@@ -57,7 +58,8 @@ public class MixinMouse {
     @Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z"), cancellable = true)
     private void onScreenMouseButtonPress(long handle, int button, int action, int mods, CallbackInfo ci) {
         Screen lastScreen = Vanilla.INSTANCE.screen();
-        boolean result = GlobalScreenEventListener.INSTANCE.onMouse(button, action, mods, true);
+        boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods) ||
+                GlobalScreenEventListener.INSTANCE.onMouse(button, action, mods, true);
         if (result || lastScreen != Vanilla.INSTANCE.screen()) { // detect gui change, cancel vanilla
             ci.cancel();
         }
@@ -66,7 +68,8 @@ public class MixinMouse {
     @Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseReleased(DDI)Z"), cancellable = true)
     private void onScreenMouseButtonRelease(long handle, int button, int action, int mods, CallbackInfo ci) {
         Screen lastScreen = Vanilla.INSTANCE.screen();
-        boolean result = GlobalScreenEventListener.INSTANCE.onMouse(button, action, mods, true);
+        boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods) ||
+                GlobalScreenEventListener.INSTANCE.onMouse(button, action, mods, true);
         if (result || lastScreen != Vanilla.INSTANCE.screen()) { // detect gui change, cancel vanilla
             ci.cancel();
         }

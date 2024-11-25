@@ -36,6 +36,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.libipn.config.Configs
+import org.anti_ad.mc.libipn.config.Debugs
 import org.anti_ad.mc.libipn.config.Demo
 import org.anti_ad.mc.libipn.config.SaveLoadManager
 
@@ -121,11 +122,11 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
     init {
         openConfigMenuHotkey = Demo.OPEN_CONFIG_MENU
         // hide debugs class
-        val configsToUse = Configs
+        val toRemove = mutableSetOf<ConfigDeclaration>()
+        if (!Demo.DEBUG.booleanValue) toRemove.add(Debugs)
+        val configsToUse = Configs - toRemove
         configsToUse.toMultiConfigList().forEach { multi ->
-            addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) {
-                multi.toListWidget()
-            }
+            addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
         }
         selectedIndex = storedSelectedIndex
 
