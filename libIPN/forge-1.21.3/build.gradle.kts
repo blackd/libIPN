@@ -23,14 +23,12 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
-import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import org.anti_ad.mc.libipn.buildsrc.configureCommonLib
+import org.anti_ad.mc.libipn.buildsrc.configureCommon
 import org.anti_ad.mc.libipn.buildsrc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.libipn.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val supported_minecraft_versions = listOf("1.21.3")
 val mod_loader = "forge"
@@ -68,10 +66,7 @@ buildscript {
     }
 }
 
-
 plugins {
-    //id("org.gradle.toolchains.foojay-resolver-convention")
-    //id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
     kotlin("jvm")
     kotlin("plugin.serialization")
     java
@@ -82,77 +77,27 @@ plugins {
     id("com.modrinth.minotaur")
     //id ("net.minecraftforge.gradle")
     id("io.github.goooler.shadow")
-    id("net.minecraftforge.gradle") version "6+" apply true
+    id("net.minecraftforge.gradle") version "6.+" apply true
 
 }
 
-configureCommonLib(JavaVersion.VERSION_21)
+configureCommon(JavaVersion.VERSION_21)
 platformsCommonConfig()
-
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
-group = "org.anti-ad.mc"
-
-repositories {
-    maven { url = uri("https://maven.minecraftforge.net/maven") }
-    mavenCentral()
-    maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
-
-    maven {
-        url = uri("https://www.cursemaven.com")
-        content {
-            includeGroup ("curse.maven")
-        }
-    }
-    gradlePluginPortal()
-    maven {
-        name = "kotlinforforge"
-        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
-    }
-}
-
-/*
-val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
-*/
 
 forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
 
-dependencies {
 
 
-/*
-    implementation( group = "thedarkcolour", name = "kfflang", version = kotlin_for_forge_version ) {
-        this.isChanging = true
-    }
-    implementation( group = "thedarkcolour", name = "kfflib", version = kotlin_for_forge_version ) {
-        this.isChanging = true
-    }
-    implementation( group = "thedarkcolour", name = "kffmod", version = kotlin_for_forge_version ) {
-        this.isChanging = true
-    }
-*/
-
+sourceSets.getByName("main") {
+    this.java.srcDirs("./src/shared/java")
+    this.java.srcDirs("./src/shared/kotlin")
+    resources.srcDirs("src/shared/resources")
 }
-
-
-afterEvaluate {
-    project.sourceSets.getByName("main") {
-        this.java.srcDirs("./src/shared/java")
-        this.java.srcDirs("./src/shared/kotlin")
-        resources.srcDirs("src/shared/resources")
-        //resources.srcDirs(layout.buildDirectory.file("resources/main/"))
-    }
-    sourceSets.forEach {
-        val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
-        it.output.setResourcesDir(dir.get().asFile)
-        it.java.destinationDirectory = dir
-        it.kotlin.destinationDirectory = dir
-    }
-
+sourceSets.forEach {
+    val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
+    it.output.setResourcesDir(dir.get().asFile)
+    it.java.destinationDirectory = dir
+    it.kotlin.destinationDirectory = dir
 }
 
 tasks.withType<JavaCompile>().all {
@@ -205,13 +150,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
-
-    //exclude("META-INF/**")
-    //exclude("**/*.kotlin_metadata")
-    //exclude("**/*.kotlin_module")
-    //exclude("**/*.kotlin_builtins")
-    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
-    //exclude("**/*_ws$*.class")
     exclude("**/*.stg")
     exclude("**/*.st")
     exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
@@ -222,7 +160,7 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("org/jline/**")
     exclude("net/minecraftforge/**")
     exclude("io/netty/**")
-    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+
     exclude("META-INF/maven/**")
     exclude("META-INF/com.android.tools/**")
     exclude("META-INF/proguard/**")
@@ -241,7 +179,6 @@ tasks.named<ShadowJar>("shadowJar") {
     archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
     archiveClassifier.set("") // Suffering, if you will.
     dependsOn("copyMixinMappings")
-    //finalizedBy(tasks["customJar"])
 }
 
 val minimizeJar = registerMinimizeJarTask()
@@ -284,22 +221,6 @@ configure<UserDevExtension> {
             //this.forceExit = false
         }
         create("client", runConfig)
-        //create("server", runConfig)
-        //create("data", runConfig)
-
-/*
-        all {
-            lazyToken("minecraft_classpath") {
-                //project.tasks.findByPath(":platforms:${project.name}:runClient")?.dependsOn("fixRunJvmArgs")
-                //project.tasks.findByPath(":platforms:${project.name}:genIntellijRuns")?.mustRunAfter("fixRunJvmArgs")
-                configurations["implementation"].copyRecursive().resolve().filter {
-                    it.absolutePath.contains("kotlin")
-                }.joinToString(File.pathSeparator) {
-                    it.absolutePath
-                }
-            }
-        }
-*/
     }
 }
 
@@ -395,7 +316,7 @@ configure<CurseExtension> {
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.lowercase().contains("pre") && !it.lowercase().contains("shanpshot")) {
                 this.addGameVersion(it)
             }
         }

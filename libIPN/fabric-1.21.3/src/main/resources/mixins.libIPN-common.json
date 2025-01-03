@@ -6,6 +6,7 @@
   ],
   "client": [
     "MixinKeyboard",
+    "MixinMinecraftClient",
     "MixinMouse"
   ],
   "injectors": {

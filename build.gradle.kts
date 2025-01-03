@@ -24,9 +24,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("6", "2", "0",
+val versionObj = Version("6", "2", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
+val loom_version: String by project
 
 
 repositories {
@@ -59,23 +60,12 @@ plugins {
     id("io.github.goooler.shadow") version "8+" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom").version("1.8-SNAPSHOT") apply false
+    id("fabric-loom") version "1.9-SNAPSHOT" apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
     //id("net.minecraftforge.gradle") version "6.+" apply false
     id("net.neoforged.gradle.userdev") version "7.+" apply false
 }
-/*
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-        }
-    }
-}
-*/
 
 
 
@@ -89,12 +79,11 @@ tasks.named<KotlinCompile>("compileKotlin") {
     }
 }
 
-
+evaluationDependsOnChildren()
 
 allprojects {
-    project.setProperty("loom_version", VersionProperties.loom_version())
     version = versionObj.toString()
-    //group = "org.anti-ad.mc"
+    group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
 
@@ -103,61 +92,41 @@ allprojects {
         options.isIncremental = true
     }
 
+
+
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            freeCompilerArgs = mutableListOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn") + freeCompilerArgs
-            languageVersion = "2.0"
-            jvmTarget = "21"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+            optIn.add("kotlin.ExperimentalStdlibApi")
+            optIn.add("kotlin.RequiresOptIn")
         }
         this.incremental = true
     }
-
 }
-
-evaluationDependsOnChildren()
-
 
 tasks.named<Jar>("jar") {
     enabled = false
 }
 
 
-tasks.register("owner-testing-env") {
+tasks.register<Exec>("owner-testing-env") {
     onlyIf {
         System.getenv("IPNEXT_ITS_ME") != null
     }
-    doLast {
-        val bos = ByteArrayOutputStream()
-        exec {
-            workingDir = layout.projectDirectory.asFile.absoluteFile
-            commandLine("${System.getenv("HOME")}/.local/bin/update-ipnext-test-env.sh",
-                        project.layout.buildDirectory.dir("libs").get().asFile.absolutePath,
-                        "-$versionObj")
-            standardOutput = bos
-        }
-        logger.lifecycle(bos.toString())
-    }
+
+    val bos = ByteArrayOutputStream()
+
+    workingDir = layout.projectDirectory.asFile.absoluteFile
+    commandLine("${System.getenv("HOME")}/.local/bin/update-ipnext-test-env.sh",
+                project.layout.buildDirectory.dir("libs").get().asFile.absolutePath,
+                "-$versionObj")
+    standardOutput = bos
+
+    logger.lifecycle(bos.toString())
+
 }
 
-val cleanSnapshots = tasks.register<Delete>("cleanSnapshots") {
-    group = "build"
-    this.setDelete(rootProject.layout.projectDirectory.dir("repos/snapshots"))
-    doLast {
-        delete {
-            rootProject.layout.projectDirectory.dir("repos/snapshots")
-        }
-    }
-}
-
-tasks.getByName("clean").dependsOn(cleanSnapshots)
-
-/*
-tasks.register<DefaultTask>("createMcpToSrg") {
-    gradle.includedBuilds.forEach {
-        dependsOn(it.task(":createMcpToSrg"))
-    }
-}
-*/
 
 tasks.register<Copy>("copyPlatformJars") {
     subprojects.filter {
@@ -190,38 +159,7 @@ tasks.register<Copy>("copyPlatformJars") {
 
 
 tasks.named<DefaultTask>("build") {
-
-    /*
-    subprojects.filter {
-        val isFabric = it.name.startsWith("fabric")
-        val isForge = it.name.startsWith("forge")
-        isFabric || isForge
-    }.forEach {
-        dependsOn(it.tasks["build"])
-    }
-     */
     dependsOn(tasks["copyPlatformJars"])
-    //finalizedBy(tasks["copyPlatformJars"])
-}
-
-afterEvaluate {
-    /*
-    tasks.named<DefaultTask>("build") {
-        subprojects.filter {
-            val isFabric = it.name.startsWith("fabric")
-            val isForge = it.name.startsWith("forge")
-            isFabric || isForge
-        }.forEach {
-            dependsOn(it.tasks["build"])
-        }
-        subprojects.forEach {
-            it.getTasksByName("build", false).forEach { t ->
-                dependsOn(t)
-            }
-        }
-        dependsOn(tasks["copyPlatformJars"])
-    }
-     */
 }
 
 

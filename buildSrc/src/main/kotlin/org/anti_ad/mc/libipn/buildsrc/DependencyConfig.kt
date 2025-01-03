@@ -59,6 +59,8 @@ fun Project.configureDependencies() {
             }
             url = uri("https://maven.ipn-mod.org/releases")
         }
+        maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+        maven { url = uri("https://maven.minecraftforge.net/maven") }
         maven { url = uri("https://maven.enginehub.org/repo/") }
         maven { url = uri("https://repo.codemc.org/repository/maven-public") }
         //maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
@@ -68,6 +70,16 @@ fun Project.configureDependencies() {
         maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/releases/") }
         maven { url = uri("https://maven.fabricmc.net/") }
         maven { url = uri("https://maven.shedaniel.me") }
+        maven {
+            url = uri("https://www.cursemaven.com")
+            content {
+                includeGroup ("curse.maven")
+            }
+        }
+        maven {
+            name = "kotlinforforge"
+            url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+        }
     }
 
     dependencies {

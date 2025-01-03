@@ -23,6 +23,7 @@ import net.neoforged.fml.ModLoadingContext
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
+import org.anti_ad.mc.common.forge.NeoForgeTicksSource
 import org.anti_ad.mc.common.init
 import org.anti_ad.mc.libipn.gui.ConfigScreen
 import java.util.function.*
@@ -34,7 +35,7 @@ class LibIPNClientInit: Runnable {
         init()
 
         NeoForge.EVENT_BUS.register(CommonForgeEventHandler())
-        NeoForge.EVENT_BUS.register(ForgePostponedInit())
+        NeoForge.EVENT_BUS.register(NeoForgeTicksSource())
 
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory::class.java) {
             IConfigScreenFactory { _, _ ->

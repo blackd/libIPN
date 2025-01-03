@@ -23,6 +23,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Delete
 import org.gradle.api.tasks.TaskProvider
@@ -32,18 +33,10 @@ import org.gradle.kotlin.dsl.*
 import java.io.ByteArrayOutputStream
 import kotlin.io.path.div
 
-fun Project.configureCommon(is18: JavaVersion = JavaVersion.VERSION_17) {
+fun Project.configureCommon(is18: JavaVersion = JavaVersion.VERSION_21) {
     configureDependencies()
-    configureCompilation(is18, "InventoryProfilesNext")
+    configureCompilation(is18, rootProject.name)
     configureDistribution()
-
-    //version = rootProject.version
-}
-
-fun Project.configureCommonLib(is18: JavaVersion = JavaVersion.VERSION_17) {
-    configureDependencies()
-    configureCompilation(is18, "libIPN")
-    configureDistributionLib()
 
     //version = rootProject.version
 }

@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2021-2025 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,26 +17,27 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.libipn.forge;
+package org.anti_ad.mc.common.forge;
 
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import org.anti_ad.mc.common.events.TicksDispatcher;
 
 
 /**
  * ForgeEventHandler
  */
-public class ForgePostponedInit {
-
-
+public class NeoForgeTicksSource {
 
     @SubscribeEvent
-    public void clientClick(ClientTickEvent e) {
-        if (e.phase == Phase.START) {
-            ForgePostponedInitManager.INSTANCE.onStartTick();
-        }
+    public void clientTick(ClientTickEvent.Pre e) {
+        TicksDispatcher.INSTANCE.dispatchPre();
     }
 
+    @SubscribeEvent
+    public void clientTick(ClientTickEvent.Post e) {
+        TicksDispatcher.INSTANCE.dispatchPost();
+    }
 
 }

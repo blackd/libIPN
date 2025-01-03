@@ -27,8 +27,6 @@ import net.minecraftforge.fml.ModLoadingContext
 import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 
-import org.apache.commons.lang3.tuple.Pair
-import java.util.function.*
 import org.anti_ad.mc.common.init
 import org.anti_ad.mc.libipn.gui.ConfigScreen
 
@@ -39,7 +37,7 @@ class LibIPNClientInit: Runnable {
         init()
 
         MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
-        MinecraftForge.EVENT_BUS.register(ForgePostponedInit())
+        MinecraftForge.EVENT_BUS.register(ForgeTicksSource())
 
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
             IExtensionPoint.DisplayTest({ ModLoadingContext.get().activeContainer.modInfo.version.toString() }) {

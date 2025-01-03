@@ -27,26 +27,24 @@ import net.minecraftforge.fml.ModLoadingContext
 import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 
-import org.apache.commons.lang3.tuple.Pair
-import java.util.function.*
 import org.anti_ad.mc.common.init
 import org.anti_ad.mc.libipn.gui.ConfigScreen
 
-class LibIPNClientInit: Runnable {
+class LibIPNClientInit(val context: ModLoadingContext): Runnable {
 
     override fun run() {
 
         init()
 
         MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
-        MinecraftForge.EVENT_BUS.register(ForgePostponedInit())
+        MinecraftForge.EVENT_BUS.register(ForgeTicksSource())
 
-        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
-            IExtensionPoint.DisplayTest({ ModLoadingContext.get().activeContainer.modInfo.version.toString() }) {
+        context.registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
+            IExtensionPoint.DisplayTest({ context.container.modInfo.version.toString() }) {
                     remote: String?, isServer: Boolean? -> true
             }
         }
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
+        context.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
             ConfigScreenHandler.ConfigScreenFactory { minecraft: Minecraft?, screen: Screen? -> ConfigScreen() }
         }
     }

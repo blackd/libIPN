@@ -22,7 +22,7 @@ package org.anti_ad.mc.libipn
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.loading.FMLEnvironment
-import org.anti_ad.mc.libipn.forge.ForgePostponedInitManager
+import org.anti_ad.mc.common.events.OnetimeDelayedInit
 import org.anti_ad.mc.libipn.forge.LibIPNClientInit
 import org.anti_ad.mc.libipn.forge.LibIPNServerInit
 
@@ -32,6 +32,9 @@ object LibIPNModEntry {
     private val toInit: Runnable = if (FMLEnvironment.dist === Dist.CLIENT) LibIPNClientInit() else LibIPNServerInit()
 
     init {
+        OnetimeDelayedInit.register(-1000) {
+            LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
+        }
         try {
             toInit.run()
             Log.info("libIPN - init in Kotlin")
@@ -39,9 +42,7 @@ object LibIPNModEntry {
             t.printStackTrace()
         }
 
-        ForgePostponedInitManager.register {
-            LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
-        }
+
 
     }
 }

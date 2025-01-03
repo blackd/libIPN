@@ -25,7 +25,7 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.neoforged.gradle.dsl.common.runs.run.Run
-import org.anti_ad.mc.libipn.buildsrc.configureCommonLib
+import org.anti_ad.mc.libipn.buildsrc.configureCommon
 import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonAfterEvaluate
 import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
@@ -50,6 +50,7 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
+    group: $group
     ***************************************************
     """.trimIndent())
 
@@ -78,60 +79,17 @@ plugins {
     id("io.github.goooler.shadow")
 }
 
-configureCommonLib(JavaVersion.VERSION_21)
+configureCommon(JavaVersion.VERSION_21)
 platformsCommonConfig()
-
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
-group = "org.anti-ad.mc"
-
-repositories {
-    mavenCentral()
-    maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
-
-    maven {
-        url = uri("https://www.cursemaven.com")
-        content {
-            includeGroup ("curse.maven")
-        }
-    }
-    maven ("https://maven.neoforged.net/releases")
-    gradlePluginPortal()
-    maven {
-        name = "kotlinforforge"
-        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
-    }
-}
-
-//val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
 neoForgeCommonDependency(minecraft_version, neoforge_version, kotlin_for_forge_version)
 
-dependencies {
+project.sourceSets.getByName("main") {
+    this.java.srcDirs("./src/shared/java")
+    this.java.srcDirs("./src/shared/kotlin")
+    resources.srcDirs("src/shared/resources")
 }
 
-
-afterEvaluate {
-    project.sourceSets.getByName("main") {
-        this.java.srcDirs("./src/shared/java")
-        this.java.srcDirs("./src/shared/kotlin")
-        resources.srcDirs("src/shared/resources")
-        //resources.srcDirs(layout.buildDirectory.file("resources/main/"))
-    }
-/*
-    sourceSets.forEach {
-        val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
-        it.output.setResourcesDir(dir.get().asFile)
-        it.java.destinationDirectory = dir
-        it.kotlin.destinationDirectory = dir
-    }
-*/
-
-}
 
 tasks.withType<JavaCompile>().all {
     dependsOn("processResources")
@@ -147,9 +105,6 @@ if ("true" == System.getProperty("idea.sync.active")) {
     }
 }
 
-
-
-
 tasks.register<Copy>("copyMixinMappings") {
     dependsOn("compileJava")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
@@ -161,7 +116,6 @@ tasks.register<Copy>("copyMixinMappings") {
     }
 }
 
-
 tasks.jar {
     manifest {
         attributes(mapOf(
@@ -171,7 +125,7 @@ tasks.jar {
     dependsOn("copyMixinMappings")
 }
 
-tasks.named<ShadowJar>("shadowJar") {
+val shadowJar = tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
 
@@ -184,12 +138,6 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("kotlin/**")
     exclude("kotlinx/**")
 
-    //exclude("META-INF/**")
-    //exclude("**/*.kotlin_metadata")
-    //exclude("**/*.kotlin_module")
-    //exclude("**/*.kotlin_builtins")
-    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
-    //exclude("**/*_ws$*.class")
     exclude("**/*.stg")
     exclude("**/*.st")
     exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
@@ -200,35 +148,27 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("org/jline/**")
     exclude("net/minecraftforge/**")
     exclude("io/netty/**")
-    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+
     exclude("META-INF/maven/**")
     exclude("META-INF/com.android.tools/**")
     exclude("META-INF/proguard/**")
     exclude("META-INF/services/**")
-    //exclude("META-INF/LICENSE")
-    //exclude("META-INF/README")
 
     relocate("ca.solostudios", "org.anti_ad.embedded.ca.solostudios")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
 
 
     minimize()
-}
-
-tasks.named<ShadowJar>("shadowJar") {
     archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
     archiveClassifier.set("") // Suffering, if you will.
     dependsOn("copyMixinMappings")
-    //finalizedBy(tasks["customJar"])
-}
+}.get()
 
 val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
     neoForgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
-
-var rcltName = ""
 
 configurations {
     implementation.get().extendsFrom(this.findByName("shadedApi"))
@@ -265,14 +205,19 @@ runs {
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
 
     }
-    this.remove(this.getByName("server"))
-    this.remove(this.getByName("data"))
-    this.remove(this.getByName("gameTestServer"))
+
     named("client").configure(runConfig)
     named("client") {
         workingDirectory.set(project.file("run/client"))
         systemProperty("forge.enabledGameTestNamespaces", "libIPN")
     }
+
+    this.filter {run: Run ->
+        run.name.lowercase() != "client"
+    }.forEach { run ->
+        this.remove(run)
+    }
+
 }
 
 
@@ -339,7 +284,7 @@ configure<CurseExtension> {
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.lowercase().contains("pre") && !it.lowercase().contains("shanpshot")) {
                 this.addGameVersion(it)
             }
         }

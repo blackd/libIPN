@@ -29,11 +29,12 @@ import org.anti_ad.mc.common.config.builder.*
 import org.anti_ad.mc.common.extensions.htmlColorToMinecraftColor
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeybindSettings
+import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.libipn.config.Demo.OPEN_CONFIG_MENU
 import org.anti_ad.mc.libipn.gui.ConfigScreeHelper
 import org.anti_ad.mc.libipn.gui.ConfigScreeHelper.keyToggleBool
-
-
+import org.anti_ad.mc.libipn.gui.ConfigScreen
 
 const val CONFIG_CATEGORY = "libIPN.config.category"
 
@@ -93,6 +94,9 @@ private fun addInputListener() {
         override fun onInput(lastKey: Int, lastAction: Int): Boolean {
 
             ConfigScreeHelper.checkAll()
+            if (OPEN_CONFIG_MENU.isActivated()) {
+                VanillaScreenUtil.openScreen(ConfigScreen())
+            }
             return false
         }
     })

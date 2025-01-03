@@ -17,15 +17,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.libipn.buildsrc
+package org.anti_ad.mc.libipn.forge;
 
-enum class Loaders {
-    MODRINTH,
-    CURSEFORGE
-}
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.anti_ad.mc.common.events.TicksDispatcher;
 
-object VersionProperties {
-    fun loom_version(): String {
-        return "2.9-SNAPSHOT"
+
+/**
+ * ForgeEventHandler
+ */
+public class ForgeTicksSource {
+
+    @SubscribeEvent
+    public void clientTick(ClientTickEvent e) {
+        if (e.phase == Phase.END) {
+            TicksDispatcher.INSTANCE.dispatchPost();
+        } else {
+            TicksDispatcher.INSTANCE.dispatchPre();
+        }
     }
+
 }

@@ -19,29 +19,57 @@
 
 package org.anti_ad.mc.libipn
 
-import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.loading.FMLEnvironment
-import org.anti_ad.mc.libipn.forge.ForgePostponedInitManager
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
+import org.anti_ad.mc.common.events.OnetimeDelayedInit
 import org.anti_ad.mc.libipn.forge.LibIPNClientInit
-import org.anti_ad.mc.libipn.forge.LibIPNServerInit
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import thedarkcolour.kotlinforforge.forge.runForDist
+import thedarkcolour.kotlinforforge.forge.LOADING_CONTEXT
 
 @Mod(LibIPNModInfo.MOD_ID)
 object LibIPNModEntry {
 
-    private val toInit: Runnable = if (FMLEnvironment.dist === Dist.CLIENT) LibIPNClientInit() else LibIPNServerInit()
-
     init {
+        OnetimeDelayedInit.register(-1000) {
+            LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
+        }
+
+
+        val obj = runForDist(
+            clientTarget = {
+                MOD_BUS.addListener(::onClientSetup)
+            },
+            serverTarget = {
+                MOD_BUS.addListener(::onServerSetup)
+                "test"
+            })
+
+    }
+
+
+
+    /**
+     * This is used for initializing client specific
+     * things such as renderers and keymaps
+     * Fired on the mod specific event bus.
+     */
+    private fun onClientSetup(event: FMLClientSetupEvent) {
+        Log.info("Initializing client...")
         try {
-            toInit.run()
+            LibIPNClientInit(LOADING_CONTEXT).run()
             Log.info("libIPN - init in Kotlin")
         } catch (t: Throwable) {
             t.printStackTrace()
         }
-
-        ForgePostponedInitManager.register {
-            LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
-        }
-
     }
+
+    /**
+     * Fired on the global Forge bus.
+     */
+    private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
+        Log.info("Server starting...")
+    }
+
 }

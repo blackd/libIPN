@@ -28,7 +28,7 @@ import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources
 
-fun Project.configureCompilation(javaVersion: JavaVersion = JavaVersion.VERSION_17, jarBaseName: String) {
+fun Project.configureCompilation(javaVersion: JavaVersion = JavaVersion.VERSION_21, jarBaseName: String) {
     apply(plugin = "maven-publish")
     apply(plugin = "idea")
 

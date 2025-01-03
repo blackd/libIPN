@@ -30,6 +30,7 @@ include("libIPN:neoforge-1.21.3")
 
 
 
+
 pluginManagement {
     repositories {
         maven(url = "https://maven.fabricmc.net") {
@@ -46,13 +47,5 @@ pluginManagement {
 }
 
 plugins {
-    id("com.gradle.enterprise") version "3.4.1"
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
-}
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-    }
 }

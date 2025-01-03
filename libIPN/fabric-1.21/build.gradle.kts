@@ -38,7 +38,6 @@ val loader_version = "0.16.7"
 val modmenu_version = "11.0.2"
 val fabric_api_version = "0.102.0+1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val loom_version = project.property("loom_version")
 
 buildscript {
     dependencies {
@@ -53,7 +52,6 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
-    loom version: $loom_version
     fabric api version: $fabric_api_version
     ***************************************************
     """.trimIndent())
@@ -72,50 +70,14 @@ plugins {
     idea
 }
 
-configureCommonLib(JavaVersion.VERSION_21)
+configureCommon(JavaVersion.VERSION_21)
 platformsCommonConfig()
-
-group = "org.anti-ad.mc"
-
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
-repositories {
-    maven {
-        url = uri("https://www.cursemaven.com")
-        content {
-            includeGroup ("curse.maven")
-        }
-    }
-}
-
 
 fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version)
-dependencies {
-
-    /*
-    {
-        this.isTransitive = false
-    }
-     */
-
-    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-    "compileOnlyApi"(group = "org.apache.logging.log4j",
-                     name = "log4j-api",
-                     version = "2.18.0")
-    "compileOnlyApi"(group = "org.lwjgl",
-                     name = "lwjgl-glfw",
-                     version = "3.3.1")
-}
-
-apply(plugin = "kotlinx-serialization")
-
 
 loom {
     runConfigs["client"].ideConfigGenerated(true)
@@ -132,15 +94,13 @@ loom {
     }
 }
 
-afterEvaluate {
-    project.sourceSets.getByName("main") {
-        this.java.srcDirs("./src/shared/java")
-        this.java.srcDirs("./src/shared/kotlin")
-        resources.srcDirs("src/shared/resources")
-    }
+project.sourceSets.getByName("main") {
+    this.java.srcDirs("./src/shared/java")
+    this.java.srcDirs("./src/shared/kotlin")
+    resources.srcDirs("src/shared/resources")
 }
 
-tasks.named<ShadowJar>("shadowJar") {
+val shadowJar = tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
 
@@ -166,18 +126,14 @@ tasks.named<ShadowJar>("shadowJar") {
 
 
     minimize()
-}
+}.get()
 
 val remapped = tasks.named<RemapJarTask>("remapJar") {
     group = "fabric"
-    val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
     dependsOn(shadowJar)
-    //dependsOn("prepareRemapShadedJar")
     this.inputFile.set(shadowJar.archiveFile)
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
-    //addDefaultNestedDependencies.set(false)
-    //remapAccessWidener.set(true)
 }
 
 fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())

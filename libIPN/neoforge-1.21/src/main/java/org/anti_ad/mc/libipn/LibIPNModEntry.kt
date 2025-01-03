@@ -26,10 +26,9 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.loading.FMLEnvironment
-import org.anti_ad.mc.libipn.forge.ForgePostponedInitManager
+import org.anti_ad.mc.common.events.OnetimeDelayedInit
 import org.anti_ad.mc.libipn.forge.LibIPNClientInit
 import org.anti_ad.mc.libipn.forge.LibIPNServerInit
-import org.slf4j.event.Level
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 
@@ -41,7 +40,7 @@ object LibIPNModEntry {
     init {
 
 
-        ForgePostponedInitManager.register {
+        OnetimeDelayedInit.register(-1000) {
             LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
         }
 
