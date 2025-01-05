@@ -28,37 +28,50 @@ import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.ConfigOptionBase
 import org.anti_ad.mc.common.config.IConfigElementObject
 import org.anti_ad.mc.common.input.AlternativeKeybind
+import org.anti_ad.mc.common.input.IKeybind
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
 
 open class ConfigHotkey(defaultStorageString: String,
                         defaultSettings: KeybindSettings) : ConfigOptionBase(), IConfigElementObject {
 
-    val mainKeybind = MainKeybind(defaultStorageString,
-                                  defaultSettings)
+    val mainKeybind: MainKeybind
+        get() = realMainKeybind as MainKeybind
+
+    open val realMainKeybind: IKeybind = MainKeybind(defaultStorageString,
+                                                     defaultSettings)
     val alternativeKeybinds = mutableListOf<AlternativeKeybind>()
 
     fun isActivated(): Boolean =
-        mainKeybind.isActivated() || alternativeKeybinds.any { it.isActivated() }
+        realMainKeybind.isActivated() || alternativeKeybinds.any { it.isActivated() }
 
     fun isPressing(): Boolean =
-        mainKeybind.isPressing() || alternativeKeybinds.any { it.isPressing() }
+        realMainKeybind.isPressing() || alternativeKeybinds.any { it.isPressing() }
 
     override val isModified
-        get() = alternativeKeybinds.isNotEmpty() || mainKeybind.isModified
+        get() = alternativeKeybinds.isNotEmpty() || realMainKeybind.isModified
 
     override fun resetToDefault() {
-        alternativeKeybinds.clear()
-        mainKeybind.resetToDefault()
+        alternativeKeybinds.forEach {
+            it.resetToDefault()
+        }
+        realMainKeybind.resetToDefault()
     }
 
     override fun toJsonElement() = JsonObject(getConfigAsMap())
 
     protected open fun getConfigAsMap(): MutableMap<String, JsonElement> = mutableMapOf<String, JsonElement>().apply {
-        if (mainKeybind.isModified) {
-            this["main"] = mainKeybind.toJsonElement()
+        if (realMainKeybind.isModified) {
+            this["main"] = realMainKeybind.toJsonElement()
         }
         if (alternativeKeybinds.isNotEmpty()) {
+/*
+            val altMap: Map<String, JsonElement> = alternativeKeybinds.mapIndexed { index, keybind ->
+                index.toString(10) to keybind.toJsonElement()
+            }.toMap()
+            this["alternatives"] = JsonObject(altMap)
+*/
+
             this["alternatives"] = buildJsonArray {
                 alternativeKeybinds.forEach {
                     add(it.toJsonElement())
@@ -69,9 +82,18 @@ open class ConfigHotkey(defaultStorageString: String,
 
     override fun fromJsonObject(obj: JsonObject) {
         try {
-            obj["main"]?.let { mainKeybind.fromJsonElement(it) }
+            obj["main"]?.let { realMainKeybind.fromJsonElement(it) }
+/*
+            obj["alternatives"]?.jsonObject?.forEach { (index, value) ->
+                index.toIntOrNull(10)?.let { i ->
+                    if (i > -1 && i < alternativeKeybinds.size) {
+                        alternativeKeybinds[i].fromJsonElement(value)
+                    }
+                }
+            }
+*/
             obj["alternatives"]?.jsonArray?.forEach {
-                val alt = AlternativeKeybind(mainKeybind).apply { fromJsonElement(it) }
+                val alt = AlternativeKeybind(realMainKeybind).apply { fromJsonElement(it) }
                 if (alt.isModified) alternativeKeybinds.add(alt)
             }
         } catch (e: Exception) {
@@ -82,4 +104,10 @@ open class ConfigHotkey(defaultStorageString: String,
     override fun fromJsonElement(element: JsonElement) {
         super.fromJsonElement(element)
     }
+}
+
+open class ConfigAltHotkey(val parent: ConfigHotkey,
+                           val index: Int): ConfigHotkey("", KeybindSettings.INGAME_DEFAULT) {
+    override val realMainKeybind = parent.alternativeKeybinds[index]
+
 }

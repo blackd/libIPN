@@ -108,7 +108,7 @@ class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
     }
 
     fun toggleIfActivated(): (() -> Unit)? {
-        if (mainKeybind.isModified && isActivated()) {
+        if (realMainKeybind.isModified && isActivated()) {
             value = !value
             toggleNotificationHandler(value, key)
             return finish

@@ -52,8 +52,9 @@ private fun translate(suffix: String): String {
     return I18n.translate(textPrefix + suffix)
 }
 
-class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHotkey>(configOption) {
-    private val setKeyButton = CustomButtonWidget { -> GlobalInputHandler.currentAssigningKeybind = configOption.mainKeybind }
+class ConfigHotkeyWidget(configOption: ConfigHotkey,
+                         var simple: Boolean = false) : ConfigWidgetBase<ConfigHotkey>(configOption) {
+    private val setKeyButton = CustomButtonWidget { -> GlobalInputHandler.currentAssigningKeybind = configOption.realMainKeybind }
     private val iconButton = object : IPNButtonWidget({ button ->
                                                           if (button == GLFW_MOUSE_BUTTON_RIGHT) {
                                                               targetKeybind.resetSettingsToDefault()
@@ -72,7 +73,7 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
         }
     }
 
-    var targetKeybind: IKeybind = configOption.mainKeybind
+    var targetKeybind: IKeybind = configOption.realMainKeybind
     val keybindDisplayText
         get() = targetKeybind.displayText.let {
             if (GlobalInputHandler.currentAssigningKeybind === targetKeybind) "> §e$it§r <" else it
@@ -124,11 +125,10 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
     }
 
     init {
-        flex.normal.add(iconButton,
-                        20,
-                        false,
-                        20)
-        flex.normal.addSpace(2)
+        if (!simple) {
+            flex.normal.add(iconButton, 20, false, 20)
+            flex.normal.addSpace(2)
+        }
         flex.addAndFit(setKeyButton)
     }
 }
@@ -175,7 +175,7 @@ class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : Confi
     }
 
     private val setKeyButton = CustomButtonWidget { ->
-        GlobalInputHandler.currentAssigningKeybind = configOption.mainKeybind
+        GlobalInputHandler.currentAssigningKeybind = configOption.realMainKeybind
     }
 
     private val iconButton = object : IPNButtonWidget({ button ->
@@ -196,7 +196,7 @@ class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : Confi
         }
     }
 
-    var targetKeybind: IKeybind = configOption.mainKeybind
+    var targetKeybind: IKeybind = configOption.realMainKeybind
 
     val keybindDisplayText
         get() = targetKeybind.displayText.let {

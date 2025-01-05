@@ -55,7 +55,12 @@ class AlternativeKeybind(val parent: IKeybind) : IKeybind { // keybind that inhe
         }
 
     private var mSettings: KeybindSettings? = null
-    override fun resetSettingsToDefault() = run { mSettings = null }
+    override fun resetKeyCodesToDefault() {
+        keyCodes = defaultKeyCodes
+    }
+    override fun resetSettingsToDefault() {
+        mSettings = null
+    }
     override val isSettingsModified
         get() = mSettings != null
 }
