@@ -52,7 +52,7 @@ abstract class BaseConfigScreenSettings {
 
     abstract val configDeclarations: List<ConfigDeclaration>
 
-    val onClosed: () -> Unit  = {}
+    open val onClosed: () -> Unit  = {}
 
     var storedSelectedIndex: Int = 0
 
