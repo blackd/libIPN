@@ -20,7 +20,7 @@
 
 @file:Suppress("NOTHING_TO_INLINE",
                "FunctionName",
-               "SpellCheckingInspection")
+               "SpellCheckingInspection", "DANGEROUS_CHARACTERS")
 
 package org.anti_ad.mc.common.extensions
 
