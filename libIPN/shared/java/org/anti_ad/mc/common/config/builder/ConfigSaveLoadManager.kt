@@ -35,11 +35,25 @@ import java.nio.file.Path
 import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 
-class ConfigSaveLoadManager(private val config: IConfigElement,
-                            modId: String,
-                            fileName: String) : Savable {
+open class ConfigSaveLoadManager(private val configSource: () -> IConfigElement,
+                                 modId: String,
+                                 fileName: String) : Savable {
+
     private val configFile: Path = VanillaUtil.configDirectory(modId) / fileName
     private val path = configFile.loggingPath
+
+    private var config: IConfigElement? = null
+        get() {
+            if (field == null) {
+                field = configSource()
+            }
+            return field
+        }
+        set(value) {
+            if (value == null) {
+                field = null
+            }
+        }
 
     @OptIn(ExperimentalSerializationApi::class)
     private val encoder = Json {
@@ -50,55 +64,26 @@ class ConfigSaveLoadManager(private val config: IConfigElement,
     @OptIn(ExperimentalSerializationApi::class)
     override fun save() {
         try {
-            //config.oldToJsonElement().toJsonString().writeToFile(configFile)
-            val el = config.toJsonElement()
+            val el = config!!.toJsonElement()
             encoder.encodeToStream(JsonElement.serializer(), el, configFile.outputStream())
-            //config.toJsonElement().toString().writeToFile(configFile)
         } catch (e: IOException) {
-            Log.error("Failed to write config file $path")
+            Log.error("I/O error while writing config file $path", e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.error("Error write config file $path", e)
         }
     }
 
     override fun load() {
         try {
             if (!configFile.exists()) return
-//            var saveAfterLoad = false
             val j = configFile.readText().toJsonElement()
-            /*
-            val jo = j.jsonObject
-            if (jo["LockedSlotsSettings"] == null || jo["AutoRefillSettings"] == null) {
-                val ms = jo["ModSettings"]
-                if (ms != null) {
-                    val converted: MutableMap<String, JsonElement> = jo.toMutableMap()
-                    if (jo["LockedSlotsSettings"] == null) {
-                        saveAfterLoad = true
-                        converted["LockedSlotsSettings"] = ms
-                    }
-                    if (jo["AutoRefillSettings"] == null) {
-                        saveAfterLoad = true
-                        converted["AutoRefillSettings"] = ms
-                    }
-                    if (saveAfterLoad) {
-                        j = JsonObject(converted)
-                    }
-                }
-
-            }
-*/
-            //config.oldFromJsonElement(it)
-            config.fromJsonElement(j)
-//            if(saveAfterLoad) {
-//                save()
-//            }
-
+            config!!.fromJsonElement(j)
         } catch (e: IOException) {
-            Log.error("Failed to read config file $path")
+            Log.error("Failed to read config file $path", e)
         } catch (e: SerializationException) {
-            Log.error("Failed to parse config file $path as JSON")
+            Log.error("Failed to parse config file $path as JSON", e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.error("Error write config file $path", e)
         }
     }
 

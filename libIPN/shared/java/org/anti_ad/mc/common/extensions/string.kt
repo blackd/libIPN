@@ -51,7 +51,7 @@ fun String.sanitized(): String {
 
 
 
-fun String.htmlColorToMinecraftColor(defaultValue: Int): Int {
+fun String.htmlColorToMinecraftColor(defaultValue: Int = 0): Int {
     return if (this[0] == '#') {
         val colors =  drop(1).chunked(2).map { it.toInt(16) }
         try {

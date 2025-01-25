@@ -50,7 +50,7 @@ fun Project.configureDependencies() {
             this.mavenContent {
                 this.snapshotsOnly()
             }
-            url = uri("https://maven.ipn-mod.org/snapshots")
+            url = project.uri("https://maven.ipn-mod.org/snapshots")
         }
         maven {
             name = "libIPN-Releases"

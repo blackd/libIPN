@@ -22,16 +22,12 @@
 
 package org.anti_ad.mc.common
 
-import org.anti_ad.mc.common.vanilla.Vanilla.mc
-import org.anti_ad.mc.libipn.Log
-import org.anti_ad.mc.libipn.config.initMainConfig
-import org.anti_ad.mc.libipn.gui.ConfigScreen
-import kotlin.concurrent.timer
+import org.anti_ad.mc.libipn.config.ConfigScreenSettings
 
 @Suppress("unused")
 fun init() {
     try {
-        initMainConfig()
+        ConfigScreenSettings.initMainConfig()
     } catch (t: Throwable) {
         t.printStackTrace()
     }

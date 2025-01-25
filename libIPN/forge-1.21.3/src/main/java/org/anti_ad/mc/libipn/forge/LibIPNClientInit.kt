@@ -26,9 +26,10 @@ import net.minecraftforge.fml.IExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
 import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 
 import org.anti_ad.mc.common.init
-import org.anti_ad.mc.libipn.gui.ConfigScreen
+import org.anti_ad.mc.libipn.config.ConfigScreenSettings
 
 class LibIPNClientInit(val context: ModLoadingContext): Runnable {
 
@@ -45,7 +46,12 @@ class LibIPNClientInit(val context: ModLoadingContext): Runnable {
             }
         }
         context.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
-            ConfigScreenHandler.ConfigScreenFactory { minecraft: Minecraft?, screen: Screen? -> ConfigScreen() }
+            ConfigScreenHandler.ConfigScreenFactory { minecraft: Minecraft?, screen: Screen? ->
+                ConfigScreenBase(ConfigScreenSettings).apply {
+                    parent = screen
+                    dumpWidgetTree()
+                }
+            }
         }
     }
 }

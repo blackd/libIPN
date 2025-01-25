@@ -24,9 +24,9 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 import org.anti_ad.mc.common.forge.NeoForgeTicksSource
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.init
-import org.anti_ad.mc.libipn.gui.ConfigScreen
-import java.util.function.*
+import org.anti_ad.mc.libipn.config.ConfigScreenSettings
 
 class LibIPNClientInit: Runnable {
 
@@ -38,8 +38,11 @@ class LibIPNClientInit: Runnable {
         NeoForge.EVENT_BUS.register(NeoForgeTicksSource())
 
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory::class.java) {
-            IConfigScreenFactory { _, _ ->
-                ConfigScreen()
+            IConfigScreenFactory { _, p ->
+                ConfigScreenBase(ConfigScreenSettings).apply {
+                    parent = p
+                    dumpWidgetTree()
+                }
             }
         }
     }

@@ -21,12 +21,63 @@ package org.anti_ad.mc.libipn.buildsrc
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources
+
+
+private val Project.modId: String
+    get() = name.lowercase().replace(" ", "-")
+
+private val Project.modLoader: String
+    get() {
+        return when {
+            name.contains("fabric")   -> "fabric"
+            name.contains("neoforge") -> "neoforge"
+            name.contains("forge")    -> "forge"
+            else                              -> {
+                throw RuntimeException("Project name: $name doesn't contain supported modloader")
+            }
+        }
+    }
+
+private val Project.ipnDependencyLine: String
+    get() {
+        val ext = (extensions["ext"] as ExtraPropertiesExtension)
+        return if (ext.properties.contains("IPN_version")) {
+            if (modLoader == "fabric") {
+                "\"inventoryprofilesnext\": \">=${ext["IPN_version"]}\","
+            } else {
+                """
+                    [[dependencies.${project.modId}]]
+                    modId="inventoryprofilesnext"
+                    mandatory=true
+                    versionRange="[${ext["IPN_version"]},)"
+                    ordering="NONE"
+                    side="CLIENT"
+                """.trimIndent()
+            }
+        } else {
+            ""
+        }
+    }
+
+fun Project.createModInfoGeneratorTask(packageName: String): ModInfoGeneratorTask {
+    return project.tasks.create<ModInfoGeneratorTask>("generateModInfo") {
+        this.group = "libIPN"
+        this.description = "generate ModInfo.kt"
+        this.modVersion = project.version.toString()
+        this.modId = rootProject.modId
+        this.modLoader = project.modLoader
+        this.modName = properties["mod.displayName"].toString()
+        this.packageName = packageName
+        project.tasks.getByName("classes").dependsOn(this)
+    }
+}
 
 fun Project.configureCompilation(javaVersion: JavaVersion = JavaVersion.VERSION_21, jarBaseName: String) {
     apply(plugin = "maven-publish")
@@ -48,19 +99,59 @@ fun Project.configureCompilation(javaVersion: JavaVersion = JavaVersion.VERSION_
 
     tasks.withType<ProcessResources> {
         include("**/*")
+        val ext = (project.extensions["ext"] as ExtraPropertiesExtension)
+        val mc_ver = if (project.path.contains("fabric")) {
+            if (ext.properties.get("mc_ver").toString().isNotBlank()) {
+                ">=" + ext.properties.get("mc_ver")
+            } else {
+                ""
+            }
+        } else {
+            if (ext.properties.get("mc_ver").toString().isNotBlank()) {
+                "[${ext.properties.get("mc_ver")}, "
+            } else {
+                ""
+            }
+        }
+        val mc_ver_max = if (project.path.contains("fabric")) {
+            if (ext.properties.get("mc_ver_max").toString().isNotBlank()) {
+                " <" + ext.properties.get("mc_ver_max")
+            } else {
+                ""
+            }
+        } else {
+            if (ext.properties.get("mc_ver_max").toString().isNotBlank()) {
+                "${ext.properties.get("mc_ver_max")})"
+            } else {
+                ""
+            }
+        }
+        val tokens = mutableMapOf("VERSION" to version.toString(),
+                                  "DESCRIPTION" to properties["mod.description"],
+                                  "WIKI" to properties["mod.docs"],
+                                  "SOURCE" to properties["mod.scm"],
+                                  "ISSUES" to properties["mod.tracker"],
+                                  "LICENSE" to properties["mod.license"],
+                                  "LIBIPN_VERSION" to (ext.properties["libIPN_version"] ?: ""),
+                                  "LIBIPN_VERSION_MAX" to (ext.properties["libIPN_version_max"] ?: ""),
+                                  "MC_VER" to mc_ver,
+                                  "MC_VER_MAX" to mc_ver_max,
+                                  "FABRIC_LOADER" to (ext.properties.get("fabric_loader") ?: ""),
+                                  "FABRIC_LANGUAGE_KOTLIN" to (ext.properties.get("fabric_language_kotlin") ?: ""),
+                                  "KFF_LOADER_VER" to (ext.properties.get("kff_ver") ?: ""),
+                                  "CONTRIBUTORS" to properties["mod.contributors"],
+                                  "CONTRIBUTORS_FORGE" to properties["mod.contributors.forge"],
+                                  "FORGE_VER" to (ext.properties.get("forge_ver") ?: ""),
+                                  "FORGE_VER_MAX" to (ext.properties.get("forge_ver_max") ?: ""),
+                                  "MODID" to rootProject.modId,
+                                  "DISPLAY_NAME" to (properties["mod.displayName"]),
+                                  "IPN_VERSION" to (ext.properties.get("IPN_version") ?: ""),
+                                  "IPN_DEPENDENCY_LINE" to project.ipnDependencyLine)
         filesMatching(listOf("**/*.json", "**/*.txt", "**/*.toml", "**/*.xml")) {
-            filter<org.apache.tools.ant.filters.ReplaceTokens>(
-                "tokens" to mapOf(
-                    "VERSION" to version.toString(),
-                    "DESCRIPTION" to properties["ipnext.description"],
-                    "WIKI" to properties["ipnext.docs"],
-                    "SOURCE" to properties["ipnext.scm"],
-                    "ISSUES" to properties["ipnext.tracker"],
-                    "LICENSE" to properties["ipnext.license"]
-                )
-            )
+            filter<org.apache.tools.ant.filters.ReplaceTokens>("tokens" to tokens)
         }
     }
+
     tasks.withType<Jar> {
         archiveBaseName.set("$jarBaseName-${archiveBaseName.get()}")
         from("../LICENSE", "../../LICENSE")

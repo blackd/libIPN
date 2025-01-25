@@ -24,17 +24,39 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
+import org.anti_ad.mc.alias.text.Text
+import org.anti_ad.mc.alias.text.fromSerializedJson
+import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.config.IConfigElementObject
 import org.anti_ad.mc.common.config.IConfigOptionPrimitive
 import org.anti_ad.mc.common.config.IConfigOptionToggleable
+import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.extensions.toJsonPrimitive
 import org.anti_ad.mc.common.extensions.value
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
+import org.anti_ad.mc.common.vanilla.Vanilla
 
+abstract class BaseConfigScreenSettings {
 
-abstract class BaseConfigKeyToggleBooleanInputHandler {
+    abstract val configScreenTitle: Text
+
+    abstract val saveManager: Savable
+
+    abstract val configOptionsPrefix: String
+
+    abstract val configLabelsPrefix: String
+
+    abstract val openConfigHotkey: ConfigHotkey?
+
+    abstract val configDeclarations: List<ConfigDeclaration>
+
+    var storedSelectedIndex: Int = 0
+
+    val keyPrefix: String = "$configOptionsPrefix.name."
+
+    val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
 
     fun checkAll() {
         val finishToCall = mutableSetOf<() -> Unit>()
@@ -47,9 +69,39 @@ abstract class BaseConfigKeyToggleBooleanInputHandler {
             it()
         }
     }
-    val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
 
+    fun finish() {
+        saveManager.save()
+    }
 
+    fun toggleBooleanSettingMessage(value: Boolean,
+                                    key: String) {
+        val message: () -> String = {
+            val newLine = """{"text": " : ", "color": "#FFFFFF"},"""
+            val color = if (value) {
+                "#1f9716"
+            } else {
+                "#c60926"
+            }
+            val yesNo = if (value) {
+                "libipn.gui.config.on"
+            } else {
+                "libipn.gui.config.off"
+            }
+            val name = keyPrefix + key
+
+            """[
+             {"translate" : "$name", "color" : "#20fdf6" },
+             $newLine
+             {"translate" : "$yesNo", "color": "$color"}
+             ]"""
+        }
+
+        fromSerializedJson(message())?.let {
+            Vanilla.inGameHud().setOverlayMessage(
+                it, true)
+        }
+    }
 }
 
 class ConfigKeyToggleBoolean(override val defaultValue: Boolean,

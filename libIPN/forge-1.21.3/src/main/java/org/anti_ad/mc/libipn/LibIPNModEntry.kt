@@ -24,19 +24,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import org.anti_ad.mc.common.events.OnetimeDelayedInit
 import org.anti_ad.mc.libipn.forge.LibIPNClientInit
+import org.anti_ad.mc.libipn.gen.ModInfo
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.runForDist
 import thedarkcolour.kotlinforforge.forge.LOADING_CONTEXT
 
-@Mod(LibIPNModInfo.MOD_ID)
+@Mod(ModInfo.MOD_ID)
 object LibIPNModEntry {
 
     init {
-        OnetimeDelayedInit.register(-1000) {
-            LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
-        }
-
-
         val obj = runForDist(
             clientTarget = {
                 MOD_BUS.addListener(::onClientSetup)

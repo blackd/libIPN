@@ -22,19 +22,10 @@
 
 package org.anti_ad.mc.libipn.config
 
-import org.anti_ad.mc.common.IInputHandler
-import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.builder.CATEGORY
 import org.anti_ad.mc.common.config.builder.*
 import org.anti_ad.mc.common.extensions.htmlColorToMinecraftColor
-import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeybindSettings
-import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
-import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.libipn.config.Demo.OPEN_CONFIG_MENU
-import org.anti_ad.mc.libipn.gui.ConfigScreeHelper
-import org.anti_ad.mc.libipn.gui.ConfigScreeHelper.keyToggleBool
-import org.anti_ad.mc.libipn.gui.ConfigScreen
 
 const val CONFIG_CATEGORY = "libIPN.config.category"
 
@@ -48,15 +39,15 @@ object Demo : ConfigDeclaration {
         .CATEGORY("$CONFIG_CATEGORY.demo")
     val OPEN_CONFIG_MENU                          /**/ by hotkey("",
                                                                  KeybindSettings.INGAME_DEFAULT)
-    val COLOR_CHOOSER_BUTTON                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
+    val COLOR_CHOOSER_BUTTON                      /**/ by color("#01600b8c".htmlColorToMinecraftColor()) //#8c01600b
 
             .CATEGORY("Second Tab")
-    val COLOR_CHOOSER_BUTTON1                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
+    val COLOR_CHOOSER_BUTTON1                      /**/ by color("#01600b8c".htmlColorToMinecraftColor()) //#8c01600b
 
             .CATEGORY("Third Tab")
-    val COLOR_CHOOSER_BUTTON2                      /**/ by color("#01600b8c".htmlColorToMinecraftColor(0x01600b8c)) //#8c01600b
+    val COLOR_CHOOSER_BUTTON2                      /**/ by color("#01600b8c".htmlColorToMinecraftColor()) //#8c01600b
 
-    val TOGGLE_TEST                                /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val TOGGLE_TEST                                /**/ by keyToggleBool(ConfigScreenSettings, true, KeybindSettings.GUI_DEFAULT)
 
         .CATEGORY("$CONFIG_CATEGORY.debug")
     val DEBUG                                /**/ by bool(false)
@@ -82,64 +73,3 @@ object Debugs: ConfigDeclaration {
         .CATEGORY("$CONFIG_CATEGORY.debug")
     val TRACE_LOGS                                /**/ by bool(false)
 }
-
-fun initMainConfig() {
-    registerConfigDeclaration(Demo, Demo2, Debugs)
-    addInputListener()
-    SaveLoadManager.load()
-}
-
-private fun addInputListener() {
-    GlobalInputHandler.register(object : IInputHandler {
-        override fun onInput(lastKey: Int, lastAction: Int): Boolean {
-
-            ConfigScreeHelper.checkAll()
-            if (OPEN_CONFIG_MENU.isActivated()) {
-                VanillaScreenUtil.openScreen(ConfigScreen())
-            }
-            return false
-        }
-    })
-}
-
-
-const val FILE_PATH = "libipn-demo-config.json"
-
-private fun registerConfigDeclaration(vararg cd: ConfigDeclaration) {
-    when (cd.size) {
-        0 -> {
-            return
-        }
-        1 -> {
-            Configs.add(cd[0])
-        }
-        else -> {
-            cd.forEach {
-                Configs.add(it)
-            }
-        }
-    }
-}
-
-val Configs = mutableListOf<ConfigDeclaration>()
-
-object SaveLoadManager: Savable by ConfigSaveLoadManager(Configs.toMultiConfig(), "libipn",  FILE_PATH)
-/*
-{
-
-    private val configFolder = VanillaUtil.configDirectory("libipn")
-
-    private val manager: Lazy<ConfigSaveLoadManager> = lazy(LazyThreadSafetyMode.NONE) {
-        ConfigSaveLoadManager(Configs.toMultiConfig(), "libipn",  FILE_PATH)
-    }
-
-    override fun load() {
-        manager.value.load()
-    }
-
-    override fun save() {
-        manager.value.save()
-    }
-
-}
-*/

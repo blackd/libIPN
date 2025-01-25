@@ -20,8 +20,11 @@
 
 package org.anti_ad.mc.common.gui.screen
 
-import org.anti_ad.mc.alias.text.Text
+import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
+import org.anti_ad.mc.common.config.builder.ConfigDeclaration
+import org.anti_ad.mc.common.config.builder.toMultiConfigList
+import org.anti_ad.mc.common.config.options.BaseConfigScreenSettings
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.gui.NativeContext
@@ -35,13 +38,38 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
-import org.anti_ad.mc.common.vanilla.render.glue.rRenderVanillaScreenBackground
 import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.libipn.Log
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
 
-open class ConfigScreenBase(text: Text) : BaseScreen(text) {
+open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseScreen(configHelper.configScreenTitle) {
+
+
+    val configDeclarations: List<ConfigDeclaration>
+        get() = configHelper.configDeclarations
+
+    val labelIdPrefix: String = "${configHelper.configOptionsPrefix}.name."
+
+    val descriptionIdPrefix: String = "${configHelper.configOptionsPrefix}.description."
+
+    open fun getDisplayNameId(key: String): String {
+        val id = labelIdPrefix + key
+        Log.trace("getDisplayNameId -> $id")
+        return id
+    }
+
+    open fun getDescriptionNameId(key: String): String {
+        val id = descriptionIdPrefix + key
+        Log.trace("getDescriptionNameId -> $id", Exception())
+        return id
+    }
+
+    fun CategorizedMultiConfig.toListWidget() =
+        this.toListWidget({ I18n.translateOrElse(getDisplayNameId(it)) { it } },
+                          { I18n.translateOrEmpty(getDescriptionNameId(it)) },
+                          { I18n.translateOrElse(it) { it.substringAfterLast('.') } })
 
     var openConfigMenuHotkeyWidget: ConfigHotkeyWidget? = null
         private set(value) {
@@ -153,6 +181,15 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
             }
         }
 
+    init {
+        val configsToUse = configDeclarations.toList<ConfigDeclaration>()
+        configsToUse.toMultiConfigList().forEach { multi ->
+            addNavigationButtonWithWidget(I18n.translate(configHelper.configLabelsPrefix + "." + multi.key)) { multi.toListWidget() }
+        }
+        selectedIndex = configHelper.storedSelectedIndex
+        configHelper.checkAll()
+    }
+
     open fun selectedIndexChanged() {}
 
     private fun updateButtonsActive() {
@@ -212,6 +249,8 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
     override fun closeScreen() {
         if (GlobalInputHandler.currentAssigningKeybind != null) return
+        configHelper.storedSelectedIndex = selectedIndex
+        configHelper.saveManager.save()
         super.closeScreen()
     }
 
@@ -222,7 +261,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
             searchBox.left = left
             searchBox.width = newWidth - left
         }
-
+        openConfigMenuHotkey = configHelper.openConfigHotkey
     }
 
 }

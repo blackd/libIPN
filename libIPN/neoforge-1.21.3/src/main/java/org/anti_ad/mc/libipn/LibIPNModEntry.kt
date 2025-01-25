@@ -29,23 +29,17 @@ import net.neoforged.fml.loading.FMLEnvironment
 import org.anti_ad.mc.common.events.OnetimeDelayedInit
 import org.anti_ad.mc.libipn.forge.LibIPNClientInit
 import org.anti_ad.mc.libipn.forge.LibIPNServerInit
+import org.anti_ad.mc.libipn.gen.ModInfo
 import org.slf4j.event.Level
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 
-@Mod(LibIPNModInfo.MOD_ID)
+@Mod(ModInfo.MOD_ID)
 object LibIPNModEntry {
 
     private val toInit: Runnable = if (FMLEnvironment.dist === Dist.CLIENT) LibIPNClientInit() else LibIPNServerInit()
 
     init {
-
-
-        OnetimeDelayedInit.register(-1000) {
-            LibIPNModInfo.MOD_VERSION = LibIPNModInfo.getModVersion()
-        }
-
-        // Register the KDeferredRegister to the mod-specific event bus
 
         val obj = runForDist(
             clientTarget = {

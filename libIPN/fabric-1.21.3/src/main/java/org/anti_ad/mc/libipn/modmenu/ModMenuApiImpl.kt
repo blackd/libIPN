@@ -22,16 +22,17 @@ package org.anti_ad.mc.libipn.modmenu
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi
-import org.anti_ad.mc.libipn.gui.ConfigScreen
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.libipn.config.ConfigScreenSettings
 
 class ModMenuApiImpl : ModMenuApi {
 
-    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
-        return ConfigScreenFactory<ConfigScreen> { parent ->
-            val c = ConfigScreen(true)
-            c.parent = parent
-            c.dumpWidgetTree()
-            c
+    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreenBase> {
+        return ConfigScreenFactory<ConfigScreenBase> { parent ->
+            ConfigScreenBase(ConfigScreenSettings).apply {
+                this.parent = parent
+                dumpWidgetTree()
+            }
         }
     }
 }

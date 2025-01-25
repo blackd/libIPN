@@ -73,6 +73,8 @@ plugins {
 configureCommon(JavaVersion.VERSION_21)
 platformsCommonConfig()
 
+val genModInfoTask = createModInfoGeneratorTask("org.anti_ad.mc.libipn.gen")
+
 fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
@@ -152,6 +154,7 @@ tasks.named<DefaultTask>("build") {
 
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
+    dependsOn(genModInfoTask)
     from(sourceSets["main"]?.allSource)
     exclude("org/anti_ad/mc/common/gen/*.tokens")
 }

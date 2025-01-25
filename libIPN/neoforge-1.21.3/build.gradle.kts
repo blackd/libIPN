@@ -26,6 +26,7 @@ import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.neoforged.gradle.dsl.common.runs.run.Run
 import org.anti_ad.mc.libipn.buildsrc.configureCommon
+import org.anti_ad.mc.libipn.buildsrc.createModInfoGeneratorTask
 import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonAfterEvaluate
 import org.anti_ad.mc.libipn.buildsrc.neoForgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
@@ -81,6 +82,7 @@ plugins {
 
 configureCommon(JavaVersion.VERSION_21)
 platformsCommonConfig()
+val genModInfoTask = createModInfoGeneratorTask("org.anti_ad.mc.libipn.gen")
 
 neoForgeCommonDependency(minecraft_version, neoforge_version, kotlin_for_forge_version)
 
@@ -228,6 +230,7 @@ afterEvaluate {
 }
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
+    dependsOn(genModInfoTask)
     from(sourceSets["main"]?.allSource)
     archiveClassifier.set("sources")
     exclude("org/anti_ad/mc/common/gen/*.tokens")

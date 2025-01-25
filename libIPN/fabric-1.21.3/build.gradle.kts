@@ -67,11 +67,14 @@ plugins {
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("io.github.goooler.shadow")
+    java
     idea
 }
 
 configureCommon(JavaVersion.VERSION_21)
 platformsCommonConfig()
+
+val genModInfoTask = createModInfoGeneratorTask("org.anti_ad.mc.libipn.gen")
 
 fabricCommonDependency(minecraft_version,
                        mappings_version,
@@ -93,6 +96,7 @@ loom {
         project.layout.projectDirectory.file("src/main/resources/ipn.accesswidener").asFile
     }
 }
+
 
 project.sourceSets.getByName("main") {
     this.java.srcDirs("./src/shared/java")
@@ -152,6 +156,7 @@ tasks.named<DefaultTask>("build") {
 
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
+    dependsOn(genModInfoTask)
     from(sourceSets["main"]?.allSource)
     exclude("org/anti_ad/mc/common/gen/*.tokens")
 }

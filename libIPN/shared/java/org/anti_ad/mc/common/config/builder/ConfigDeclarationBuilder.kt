@@ -50,6 +50,17 @@ fun ConfigDeclaration.hotkey(defaultValue: String, defaultSettings: KeybindSetti
     ConfigHotkey(defaultValue,
                  defaultSettings).addTo(this)
 
+fun ConfigDeclaration.keyToggleBool(helper: BaseConfigScreenSettings,
+                                    defaultValue: Boolean,
+                                    defaultSettings: KeybindSettings = INGAME_DEFAULT) =
+    ConfigKeyToggleBoolean(defaultValue,
+                           helper::finish,
+                           helper::toggleBooleanSettingMessage,
+                           defaultSettings = defaultSettings)
+        .also {
+            helper.allToggleSettings.add(it)
+        }.addTo(this)
+
 fun ConfigDeclaration.keyToggleBool(defaultValue: Boolean,
                                     finishHandler: () -> Unit,
                                     notificationHandler: (value: Boolean, message: String) -> Unit,
