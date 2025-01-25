@@ -32,18 +32,21 @@ import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.render.*
 
-class ConfigDouble(defaultValue: Double,
+open class ConfigDouble(defaultValue: Double,
                    minValue: Double,
-                   maxValue: Double) :
-    ConfigOptionNumericBase<Double>(defaultValue,
-                                    minValue,
-                                    maxValue) {
-    override fun setNumericValue(value: Number) = run { this.value = value.toDouble() }
+                   maxValue: Double) : ConfigOptionNumericBase<Double>(defaultValue,
+                                                                       minValue,
+                                                                       maxValue) {
+
+    override fun setNumericValue(value: Number) = run {
+        this.value = value.toDouble()
+    }
+
     val doubleValue
         get() = value
 }
 
-class ConfigInteger(defaultValue: Int,
+open class ConfigInteger(defaultValue: Int,
                     minValue: Int,
                     maxValue: Int) :
     ConfigOptionNumericBase<Int>(defaultValue,
@@ -64,14 +67,14 @@ open class ConfigBoolean(override val defaultValue: Boolean,
         get() = value
 }
 
-class ConfigEnum<E : Enum<E>>(override val defaultValue: E) : ConfigOptionBase(), IConfigOptionPrimitive<E>, IConfigOptionToggleable {
+open class ConfigEnum<E : Enum<E>>(override val defaultValue: E) : ConfigOptionBase(), IConfigOptionPrimitive<E>, IConfigOptionToggleable {
     override var value = defaultValue
     override fun toggleNext() = run { value = value.next() }
     override fun togglePrevious() = run { value = value.previous() }
 }
 
 
-class ConfigColorPicker(override val defaultValue: Int) : ConfigOptionBase(), IConfigOptionPrimitive<Int> {
+open class ConfigColorPicker(override val defaultValue: Int) : ConfigOptionBase(), IConfigOptionPrimitive<Int> {
 
     override var value: Int = defaultValue
 
@@ -101,7 +104,7 @@ class ConfigColorPicker(override val defaultValue: Int) : ConfigOptionBase(), IC
 }
 
 
-class HandledConfigString(override val defaultValue: String, val changeHandler: () -> Unit) : ConfigString(defaultValue), IConfigOptionPrimitive<String> {
+open class HandledConfigString(override val defaultValue: String, val changeHandler: () -> Unit) : ConfigString(defaultValue), IConfigOptionPrimitive<String> {
     override var value = defaultValue
         set(value) {
             field = value
@@ -113,7 +116,7 @@ open class ConfigString(override val defaultValue: String) : ConfigOptionBase(),
     override var value = defaultValue
 }
 
-class ConfigButton(val info: ConfigButtonInfo) : ConfigOptionBase() { // fake config that acts as button
+open class ConfigButton(val info: ConfigButtonInfo) : ConfigOptionBase() { // fake config that acts as button
 
     override fun toJsonElement(): JsonElement {
         Log.error("this is a config button") // shouldn't be called

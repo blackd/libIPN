@@ -20,53 +20,33 @@
 package org.anti_ad.mc.libipn.config
 
 import org.anti_ad.mc.alias.text.getTranslatable
-import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.ConfigSaveLoadManager
 import org.anti_ad.mc.common.config.builder.*
-import org.anti_ad.mc.common.config.options.BaseConfigScreenSettings
-import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
-import org.anti_ad.mc.common.input.GlobalInputHandler
-import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
+import org.anti_ad.mc.common.gui.screen.BaseConfigScreenSettings
 import org.anti_ad.mc.libipn.gen.ModInfo
 
 
 object ConfigScreenSettings: BaseConfigScreenSettings() {
 
-    private const val CONFIG_SCREEN_LABELS_PREFIX = "libipn.gui.config."
-    private const val CONFIG_SCREEN_OPTIONS_PREFIX = "libipn.config."
+    private const val CONFIG_SCREEN_LABELS_PREFIX = "libipn.common.gui.config."
+    private const val CONFIG_SCREEN_OPTIONS_PREFIX = "libipn.common.config."
 
     const val FILE_NAME = "libipn-demo-config.json"
 
-    val configs: MutableList<ConfigDeclaration> = mutableListOf(Demo, Demo2, Debugs)
-
-    val saveLoadManager: ConfigSaveLoadManager = ConfigSaveLoadManager({ configs.toMultiConfig() }, ModInfo.MOD_ID, FILE_NAME)
-
-    fun initMainConfig() {
-        addInputListener()
-        saveLoadManager.load()
-    }
-
-    private fun addInputListener() {
-        GlobalInputHandler.register(object : IInputHandler {
-            override fun onInput(lastKey: Int, lastAction: Int): Boolean {
-                checkAll()
-                if (Demo.OPEN_CONFIG_MENU.isActivated()) {
-                    VanillaScreenUtil.openScreen(ConfigScreenBase(ConfigScreenSettings))
-                }
-                return false
-            }
-        })
-    }
-
-    override val configScreenTitle = getTranslatable("${CONFIG_SCREEN_LABELS_PREFIX}title",
-                                                     ModInfo.MOD_VERSION)
-    override val saveManager: Savable = saveLoadManager
+    private val configs: MutableList<ConfigDeclaration> = mutableListOf(Demo, Demo2, Debugs)
 
     override val configLabelsPrefix = CONFIG_SCREEN_LABELS_PREFIX
 
     override val configOptionsPrefix = CONFIG_SCREEN_OPTIONS_PREFIX
+
+    override val configScreenTitle = getTranslatable("${CONFIG_SCREEN_LABELS_PREFIX}title",
+                                                     ModInfo.MOD_VERSION)
+
+    override val saveManager: Savable = ConfigSaveLoadManager(ModInfo.MOD_ID, FILE_NAME) {
+        configs.toMultiConfig()
+    }
 
     override val openConfigHotkey = Demo.OPEN_CONFIG_MENU
 

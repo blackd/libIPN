@@ -24,7 +24,6 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.toMultiConfigList
-import org.anti_ad.mc.common.config.options.BaseConfigScreenSettings
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.gui.NativeContext
@@ -39,7 +38,6 @@ import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.anti_ad.mc.common.vanilla.render.rScreenWidth
-import org.anti_ad.mc.libipn.Log
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
@@ -50,25 +48,17 @@ open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseSc
     val configDeclarations: List<ConfigDeclaration>
         get() = configHelper.configDeclarations
 
-    val labelIdPrefix: String
-        get() {
-            return "${configHelper.configOptionsPrefix}name."
-        }
+    val labelIdPrefix: String = "${configHelper.configOptionsPrefix}name."
 
-    val descriptionIdPrefix: String
-        get() {
-            return "${configHelper.configOptionsPrefix}description."
-        }
+    val descriptionIdPrefix: String = "${configHelper.configOptionsPrefix}description."
 
     open fun getDisplayNameId(key: String): String {
         val id = labelIdPrefix + key
-        Log.trace("getDisplayNameId -> $id")
         return id
     }
 
     open fun getDescriptionNameId(key: String): String {
         val id = descriptionIdPrefix + key
-        Log.trace("getDescriptionNameId -> $id", Exception())
         return id
     }
 

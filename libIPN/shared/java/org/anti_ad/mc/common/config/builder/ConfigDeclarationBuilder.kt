@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.*
 import org.anti_ad.mc.common.config.toMultiConfig
 import org.anti_ad.mc.common.extensions.ByPropertyName
+import org.anti_ad.mc.common.gui.screen.BaseConfigScreenSettings
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT

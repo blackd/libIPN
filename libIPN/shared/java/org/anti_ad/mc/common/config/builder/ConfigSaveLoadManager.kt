@@ -35,9 +35,9 @@ import java.nio.file.Path
 import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 
-open class ConfigSaveLoadManager(private val configSource: () -> IConfigElement,
-                                 modId: String,
-                                 fileName: String) : Savable {
+open class ConfigSaveLoadManager(modId: String,
+                                 fileName: String,
+                                 private val configSource: () -> IConfigElement) : Savable {
 
     private val configFile: Path = VanillaUtil.configDirectory(modId) / fileName
     private val path = configFile.loggingPath
