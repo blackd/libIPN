@@ -35,7 +35,7 @@ import org.anti_ad.mc.libipn.gen.ModInfo
 object ConfigScreenSettings: BaseConfigScreenSettings() {
 
     private const val CONFIG_SCREEN_LABELS_PREFIX = "libipn.gui.config."
-    private const val CONFIG_SCREEN_OPTIONS_PREFIX = "libipn.config"
+    private const val CONFIG_SCREEN_OPTIONS_PREFIX = "libipn.config."
 
     const val FILE_NAME = "libipn-demo-config.json"
 

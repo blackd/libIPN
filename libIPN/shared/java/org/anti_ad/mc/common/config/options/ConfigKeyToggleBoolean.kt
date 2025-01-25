@@ -56,7 +56,7 @@ abstract class BaseConfigScreenSettings {
 
     var storedSelectedIndex: Int = 0
 
-    val keyPrefix: String = "$configOptionsPrefix.name."
+    val keyPrefix: String = "${configOptionsPrefix}name."
 
     val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
 

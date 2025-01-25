@@ -50,9 +50,9 @@ open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseSc
     val configDeclarations: List<ConfigDeclaration>
         get() = configHelper.configDeclarations
 
-    val labelIdPrefix: String = "${configHelper.configOptionsPrefix}.name."
+    val labelIdPrefix: String = "${configHelper.configOptionsPrefix}name."
 
-    val descriptionIdPrefix: String = "${configHelper.configOptionsPrefix}.description."
+    val descriptionIdPrefix: String = "${configHelper.configOptionsPrefix}description."
 
     open fun getDisplayNameId(key: String): String {
         val id = labelIdPrefix + key
@@ -184,7 +184,7 @@ open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseSc
     init {
         val configsToUse = configDeclarations.toList<ConfigDeclaration>()
         configsToUse.toMultiConfigList().forEach { multi ->
-            addNavigationButtonWithWidget(I18n.translate(configHelper.configLabelsPrefix + "." + multi.key)) { multi.toListWidget() }
+            addNavigationButtonWithWidget(I18n.translate(configHelper.configLabelsPrefix + multi.key)) { multi.toListWidget() }
         }
         selectedIndex = configHelper.storedSelectedIndex
         configHelper.checkAll()
