@@ -50,9 +50,15 @@ open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseSc
     val configDeclarations: List<ConfigDeclaration>
         get() = configHelper.configDeclarations
 
-    val labelIdPrefix: String = "${configHelper.configOptionsPrefix}name."
+    val labelIdPrefix: String
+        get() {
+            return "${configHelper.configOptionsPrefix}name."
+        }
 
-    val descriptionIdPrefix: String = "${configHelper.configOptionsPrefix}description."
+    val descriptionIdPrefix: String
+        get() {
+            return "${configHelper.configOptionsPrefix}description."
+        }
 
     open fun getDisplayNameId(key: String): String {
         val id = labelIdPrefix + key
