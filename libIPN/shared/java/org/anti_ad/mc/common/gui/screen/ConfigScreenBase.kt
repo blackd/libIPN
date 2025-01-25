@@ -251,8 +251,11 @@ open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseSc
         if (GlobalInputHandler.currentAssigningKeybind != null) return
         configHelper.storedSelectedIndex = selectedIndex
         configHelper.saveManager.save()
+        configHelper.onClosed()
         super.closeScreen()
     }
+
+    override val screenInfo: ScreenInfo = ScreenInfo.pausing
 
     init {
         rootWidget.sizeChanged += { ev: SizeChangedEvent ->

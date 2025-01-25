@@ -52,6 +52,8 @@ abstract class BaseConfigScreenSettings {
 
     abstract val configDeclarations: List<ConfigDeclaration>
 
+    val onClosed: () -> Unit  = {}
+
     var storedSelectedIndex: Int = 0
 
     val keyPrefix: String = "$configOptionsPrefix.name."
