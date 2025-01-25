@@ -55,9 +55,7 @@ abstract class BaseConfigScreenSettings {
     open val onClosed: () -> Unit  = {}
 
     var storedSelectedIndex: Int = 0
-
-    val keyPrefix: String = "${configOptionsPrefix}name."
-
+    
     val allToggleSettings: MutableSet<ConfigKeyToggleBoolean> = mutableSetOf()
 
     fun checkAll() {
@@ -90,7 +88,7 @@ abstract class BaseConfigScreenSettings {
             } else {
                 "libipn.gui.config.off"
             }
-            val name = keyPrefix + key
+            val name = "${configOptionsPrefix}name.$key"
 
             """[
              {"translate" : "$name", "color" : "#20fdf6" },

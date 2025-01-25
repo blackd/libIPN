@@ -5,6 +5,8 @@
     "libipn.common.gui.config.false":                                         "§4false",
     "libipn.common.gui.config.yes":                                           "yes",
     "libipn.common.gui.config.no":                                            "no",
+    "libipn.common.gui.config.on":                                            "on",
+    "libipn.common.gui.config.off":                                           "off",
     "libipn.common.gui.config.more":                                          " ...(more)",
     "libipn.common.gui.config.advanced_keybind_settings":                     "Advanced Key Binding Settings",
     "libipn.common.gui.config.activate_on":                                   "Activate On",
