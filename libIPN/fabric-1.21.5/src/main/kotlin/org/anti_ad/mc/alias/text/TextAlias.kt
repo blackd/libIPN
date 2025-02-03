@@ -52,6 +52,12 @@ import net.minecraft.text.TranslationException
 typealias BlockNbtDataSource = BlockNbtDataSource
 typealias CharacterVisitor = CharacterVisitor
 typealias ClickEvent = ClickEvent
+typealias ClickEventOpenUrl = ClickEvent.OpenUrl
+typealias ClickEventOpenFile = ClickEvent.OpenFile
+typealias ClickEventChangePage = ClickEvent.ChangePage
+typealias ClickEventRunCommand = ClickEvent.RunCommand
+typealias ClickEventCopyToClipboard = ClickEvent.CopyToClipboard
+typealias ClickEventSuggestCommand = ClickEvent.SuggestCommand
 typealias ClickEventAction = ClickEvent.Action
 typealias Decoration = Decoration
 typealias EntityNbtDataSource = EntityNbtDataSource

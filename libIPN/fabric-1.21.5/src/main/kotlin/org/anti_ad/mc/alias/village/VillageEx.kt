@@ -17,10 +17,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:Suppress("ObjectPropertyName", "unused", "HasPlatformType")
+
 package org.anti_ad.mc.alias.village
 
-val VillagerProfession.`(professionId)`
-    inline get() = this.id
+import org.anti_ad.mc.alias.registry.RegistryKey
+import org.anti_ad.mc.alias.registry.entry.RegistryEntry
+
+val RegistryKey<VillagerProfession>.`(professionId)`
+    inline get() = this.value.path
+
+val RegistryEntry<VillagerProfession>.`(professionId)`: String
+    inline get() = this.key.get().value.path
+
 
 val TradeOffer.`(originalFirstBuyItem)`
     get() = firstBuyItem
