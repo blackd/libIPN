@@ -295,3 +295,4 @@ typealias VerticallyAttachableBlockItem = VerticallyAttachableBlockItem
 typealias WindChargeItem = WindChargeItem
 typealias WritableBookItem = WritableBookItem
 typealias WrittenBookItem = WrittenBookItem
+typealias TooltipContext = Item.TooltipContext

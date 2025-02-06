@@ -69,6 +69,7 @@ import net.minecraft.item.InkSacItem
 import net.minecraft.item.Instrument
 import net.minecraft.item.Instruments
 import net.minecraft.item.Item
+import net.minecraft.item.Item.TooltipContext
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemFrameItem
 import net.minecraft.item.ItemGroup
@@ -223,3 +224,5 @@ typealias VerticallyAttachableBlockItem = VerticallyAttachableBlockItem
 typealias WindChargeItem = WindChargeItem
 typealias WritableBookItem = WritableBookItem
 typealias WrittenBookItem = WrittenBookItem
+typealias TooltipData = TooltipData
+typealias TooltipContext = TooltipContext

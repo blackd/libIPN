@@ -22,6 +22,7 @@
 
 package org.anti_ad.mc.common
 
+import org.anti_ad.mc.common.events.OnetimeDelayedInit
 import org.anti_ad.mc.libipn.config.ConfigScreenSettings
 
 @Suppress("unused")
@@ -31,6 +32,7 @@ fun init() {
     } catch (t: Throwable) {
         t.printStackTrace()
     }
+    OnetimeDelayedInit.init()
 
 
 /*

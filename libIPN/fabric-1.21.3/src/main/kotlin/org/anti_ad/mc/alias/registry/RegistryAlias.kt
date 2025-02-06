@@ -67,6 +67,7 @@ typealias RegistryLoader = RegistryLoader
 typealias RegistryOps<T> = RegistryOps<T>
 typealias RegistryPair<T> = RegistryPair<T>
 typealias RegistryWrapper<T> = RegistryWrapper<T>
+typealias RegistryWrapperLookup = RegistryWrapper.WrapperLookup
 typealias ReloadableRegistries = ReloadableRegistries
 typealias SerializableRegistries = SerializableRegistries
 typealias ServerDynamicRegistryType = ServerDynamicRegistryType

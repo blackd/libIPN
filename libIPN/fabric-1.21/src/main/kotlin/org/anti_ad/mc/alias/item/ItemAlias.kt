@@ -132,7 +132,7 @@ import net.minecraft.item.VerticallyAttachableBlockItem
 import net.minecraft.item.WindChargeItem
 import net.minecraft.item.WritableBookItem
 import net.minecraft.item.WrittenBookItem
-
+import net.minecraft.item.tooltip.TooltipData
 
 typealias AirBlockItem = AirBlockItem
 typealias AliasedBlockItem = AliasedBlockItem
@@ -248,3 +248,5 @@ typealias VerticallyAttachableBlockItem = VerticallyAttachableBlockItem
 typealias WindChargeItem = WindChargeItem
 typealias WritableBookItem = WritableBookItem
 typealias WrittenBookItem = WrittenBookItem
+typealias TooltipData = TooltipData
+typealias TooltipContext = Item.TooltipContext
