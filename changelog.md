@@ -1,11 +1,17 @@
 <!-- latest begin -->
 
+### 6.3.0
+
+- support for 1.21.5
+- lots of technical improvements that make the client mods configs simpler 
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 6.2.1
 
 - Adds support for multiple key combinations per keybind. Accessible through the button icon of the keybind option.
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 6.2.0
 
