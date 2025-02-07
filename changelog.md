@@ -1,6 +1,6 @@
 <!-- latest begin -->
 
-### 6.3.0
+### 6.3.0/1
 
 - support for 1.21.5
 - lots of technical improvements that make the client mods configs simpler 

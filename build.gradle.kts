@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("6", "3", "0",
+val versionObj = Version("6", "3", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loom_version: String by project
@@ -96,7 +96,7 @@ allprojects {
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
             optIn.add("kotlin.ExperimentalStdlibApi")
             optIn.add("kotlin.RequiresOptIn")
         }
