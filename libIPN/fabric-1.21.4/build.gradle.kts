@@ -27,16 +27,16 @@ import org.anti_ad.mc.libipn.buildsrc.Loaders.*
 import org.anti_ad.mc.libipn.buildsrc.*
 
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.3", "24w44a", "24w45a", "24w46a", "1.21.4-pre1"),
-                                         CURSEFORGE to listOf("1.21.3", "1.21.4-Snapshot"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.4", ),
+                                         CURSEFORGE to listOf("1.21.4"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.21.3"
-val minecraft_version_string = "1.21.3"
-val mappings_version = "1.21.3+build.2"
+val minecraft_version = "1.21.4"
+val minecraft_version_string = "1.21.4"
+val mappings_version = "1.21.4+build.2"
 val loader_version = "0.16.9"
 val modmenu_version = "12.0.0-beta.1"
-val fabric_api_version = "0.109.0+1.21.3"
+val fabric_api_version = "0.112.0+1.21.4"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
