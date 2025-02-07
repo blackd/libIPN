@@ -31,16 +31,16 @@ import org.anti_ad.mc.libipn.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 
-val supported_minecraft_versions = listOf("1.21.3")
+val supported_minecraft_versions = listOf("1.21.4")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.21.3"
-val minecraft_version_string = "1.21.3"
-val forge_version = "53.0.7"
+val minecraft_version = "1.21.4"
+val minecraft_version_string = "1.21.4"
+val forge_version = "54.0.35"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.5.0"
+val kotlin_for_forge_version = "5.7.0"
 val mappingsMap = mapOf("channel" to "official",
-                        "version" to "1.21.3")
+                        "version" to "1.21.4")
 
 
 logger.lifecycle("""
