@@ -104,7 +104,7 @@ import net.minecraft.world.level.block.CaveVinesBodyBlock
 import net.minecraft.world.level.block.CaveVinesHeadBlock
 */
 import net.minecraft.world.level.block.ChainBlock
-import net.minecraft.world.level.block.CherryLeavesBlock
+//import net.minecraft.world.level.block.CherryLeavesBlock
 import net.minecraft.world.level.block.ChestBlock
 /*
 import net.minecraft.world.level.block.ChiseledBookshelfBlock
@@ -524,7 +524,7 @@ typealias CaveVinesBodyBlock = CaveVinesBodyBlock
 typealias CaveVinesHeadBlock = CaveVinesHeadBlock
 */
 typealias ChainBlock = ChainBlock
-typealias CherryLeavesBlock = CherryLeavesBlock
+//typealias CherryLeavesBlock = CherryLeavesBlock
 typealias ChestBlock = ChestBlock
 /*
 typealias ChiseledBookshelfBlock = ChiseledBookshelfBlock
