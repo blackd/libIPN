@@ -309,7 +309,6 @@ configure<CurseExtension> {
             requiredDependency("kotlin-for-forge")
         })
         addGameVersion("NeoForge")
-        addGameVersion("Forge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false

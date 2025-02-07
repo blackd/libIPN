@@ -12,7 +12,7 @@ modId="libipn" #mandatory
 version="@VERSION@" #mandatory
 displayName="libIPN" #mandatory
 displayURL="https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next" #optional
-logoFile="libIPN_logo.png" #optional
+logoFile="libIPN-logo.png" #optional
 credits="Selah (AspieGamer13)" #optional
 authors="blackd/mirinimi" #optional
 description='''
@@ -22,14 +22,14 @@ Take controll over you inventory
 [[dependencies.libipn]] #optional
 modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[21.3.0,)" #mandatory
+versionRange="[21.4.0,)" #mandatory
 ordering="NONE"
 side="CLIENT"
 
 [[dependencies.libipn]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.21.3, 1.22)"
+versionRange="[1.21.4, 1.21.5)"
 ordering="NONE"
 side="CLIENT"
 [modproperties.libipn]
