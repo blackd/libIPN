@@ -4,7 +4,8 @@
 
 - support for 1.21.5
 - lots of technical improvements that make the client mods configs simpler 
-- 1.21.3 is no longer supported
+- ~~1.21.3 is no longer supported~~
+- 1.21.3 back for a final release
 
 <!-- latest end -->
 <!-- rest begin -->
