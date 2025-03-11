@@ -17,38 +17,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.libipn.forge;
 
-rootProject.name = "libIPN"
-
-include("libIPN:fabric-1.21.5")
-include("libIPN:fabric-1.21.4")
-include("libIPN:fabric-1.21.3")
-include("libIPN:fabric-1.21")
-include("libIPN:forge-1.21")
-include("libIPN:forge-1.21.3")
-include("libIPN:forge-1.21.4")
-include("libIPN:neoforge-1.21")
-include("libIPN:neoforge-1.21.3")
-include("libIPN:neoforge-1.21.4")
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.anti_ad.mc.common.events.TicksDispatcher;
 
 
+/**
+ * ForgeEventHandler
+ */
+public class ForgeTicksSource {
 
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
+    @SubscribeEvent
+    public void clientTick(ClientTickEvent e) {
+        if (e.phase == Phase.END) {
+            TicksDispatcher.INSTANCE.dispatchPost();
+        } else {
+            TicksDispatcher.INSTANCE.dispatchPre();
         }
-        maven (url = "https://maven.minecraftforge.net/") {
-            name = "MinecraftForge"
-        }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
     }
-}
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
 }

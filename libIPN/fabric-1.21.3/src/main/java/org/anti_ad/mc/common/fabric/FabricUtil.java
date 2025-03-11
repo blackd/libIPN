@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +18,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.common.fabric;
 
-rootProject.name = "libIPN"
+public class FabricUtil {
 
-include("libIPN:fabric-1.21.5")
-include("libIPN:fabric-1.21.4")
-include("libIPN:fabric-1.21.3")
-include("libIPN:fabric-1.21")
-include("libIPN:forge-1.21")
-include("libIPN:forge-1.21.3")
-include("libIPN:forge-1.21.4")
-include("libIPN:neoforge-1.21")
-include("libIPN:neoforge-1.21.3")
-include("libIPN:neoforge-1.21.4")
-
-
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
+    public static String getModVersionString(String modId) { // ref: malilib StringUtils.getModVersionString()
+        for (net.fabricmc.loader.api.ModContainer container : net.fabricmc.loader.api.FabricLoader.getInstance()
+                .getAllMods()) {
+            if (container.getMetadata().getId().equals(modId)) {
+                return container.getMetadata().getVersion().getFriendlyString();
+            }
         }
-        maven (url = "https://maven.minecraftforge.net/") {
-            name = "MinecraftForge"
-        }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
+
+        return "?";
     }
-}
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
 }

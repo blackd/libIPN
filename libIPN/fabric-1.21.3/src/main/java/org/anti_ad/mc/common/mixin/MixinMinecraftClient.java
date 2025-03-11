@@ -17,38 +17,30 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.common.mixin;
 
-rootProject.name = "libIPN"
+import net.minecraft.client.MinecraftClient;
+import org.anti_ad.mc.common.events.TicksDispatcher;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-include("libIPN:fabric-1.21.5")
-include("libIPN:fabric-1.21.4")
-include("libIPN:fabric-1.21.3")
-include("libIPN:fabric-1.21")
-include("libIPN:forge-1.21")
-include("libIPN:forge-1.21.3")
-include("libIPN:forge-1.21.4")
-include("libIPN:neoforge-1.21")
-include("libIPN:neoforge-1.21.3")
-include("libIPN:neoforge-1.21.4")
-
-
+/**
+ * MixinMinecraftClient
+ */
+@Mixin(MinecraftClient.class)
+public abstract class MixinMinecraftClient {
 
 
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
-        }
-        maven (url = "https://maven.minecraftforge.net/") {
-            name = "MinecraftForge"
-        }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
+
+    @Inject(at = @At("HEAD"), method = "tick()V")
+    public void tickPre(CallbackInfo info) {
+        TicksDispatcher.INSTANCE.dispatchPre();
     }
-}
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
+    @Inject(at = @At("RETURN"), method = "tick()V")
+    public void tickPost(CallbackInfo info) {
+        TicksDispatcher.INSTANCE.dispatchPost();
+    }
 }

@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +18,21 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.libipn.modmenu
 
-rootProject.name = "libIPN"
+import com.terraformersmc.modmenu.api.ConfigScreenFactory
+import com.terraformersmc.modmenu.api.ModMenuApi
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.libipn.config.ConfigScreenSettings
 
-include("libIPN:fabric-1.21.5")
-include("libIPN:fabric-1.21.4")
-include("libIPN:fabric-1.21.3")
-include("libIPN:fabric-1.21")
-include("libIPN:forge-1.21")
-include("libIPN:forge-1.21.3")
-include("libIPN:forge-1.21.4")
-include("libIPN:neoforge-1.21")
-include("libIPN:neoforge-1.21.3")
-include("libIPN:neoforge-1.21.4")
+class ModMenuApiImpl : ModMenuApi {
 
-
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
+    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreenBase> {
+        return ConfigScreenFactory<ConfigScreenBase> { parent ->
+            ConfigScreenBase(ConfigScreenSettings).apply {
+                this.parent = parent
+                dumpWidgetTree()
+            }
         }
-        maven (url = "https://maven.minecraftforge.net/") {
-            name = "MinecraftForge"
-        }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
     }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
 }
