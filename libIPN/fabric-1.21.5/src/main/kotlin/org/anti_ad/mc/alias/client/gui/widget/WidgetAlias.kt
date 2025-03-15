@@ -23,8 +23,10 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.gui.widget.SliderWidget
 import net.minecraft.client.gui.widget.TextFieldWidget
+import net.minecraft.client.gui.widget.TextWidget
 
 typealias ClickableWidget = ClickableWidget
 typealias SliderWidget = SliderWidget
 typealias VanillaButtonWidget = ButtonWidget
 typealias TextFieldWidget = TextFieldWidget
+typealias TextWidget = TextWidget

@@ -48,7 +48,7 @@ import net.minecraft.nbt.NbtTypes
 import net.minecraft.nbt.StringNbtReader
 
 
-typealias AbstractNbtList<T> = AbstractNbtList<T>
+typealias AbstractNbtList = AbstractNbtList
 typealias AbstractNbtNumber = AbstractNbtNumber
 typealias InvalidNbtException = InvalidNbtException
 typealias NbtByte = NbtByte

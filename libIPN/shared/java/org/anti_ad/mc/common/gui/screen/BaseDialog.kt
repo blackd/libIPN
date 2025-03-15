@@ -26,11 +26,16 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.layout.moveToCenter
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.vanilla.render.alpha
+import org.anti_ad.mc.common.vanilla.render.blue
 import org.anti_ad.mc.common.vanilla.render.glue.rFillOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rRenderBlackOverlay
+import org.anti_ad.mc.common.vanilla.render.green
+import org.anti_ad.mc.common.vanilla.render.rDepthMask
+import org.anti_ad.mc.common.vanilla.render.red
 
 private const val COLOR_BORDER = -0x666667
-private const val COLOR_BG = -0x1000000
+private val COLOR_BG = 0.alpha(255).red(0).green(0).blue(0).toInt()
 
 open class BaseDialog : BaseOverlay {
     constructor(text: Text) : super(text)
@@ -45,14 +50,15 @@ open class BaseDialog : BaseOverlay {
                                 mouseX: Int,
                                 mouseY: Int,
                                 partialTicks: Float) {
-                rFillOutline(context,
-                             absoluteBounds,
-                             COLOR_BG,
-                             COLOR_BORDER)
-                super.render(context,
-                             mouseX,
-                             mouseY,
-                             partialTicks)
+/*
+                val oldContext = context.isOverlay
+                context.isOverlay = true
+*/
+                rFillOutline(context, absoluteBounds, COLOR_BG, COLOR_BORDER)
+                super.render(context, mouseX, mouseY, partialTicks)
+/*
+                context.isOverlay = oldContext
+*/
             }
         }.apply {
             anchor = AnchorStyles.none
@@ -72,7 +78,10 @@ open class BaseDialog : BaseOverlay {
                                   mouseY: Int,
                                   partialTicks: Float) {
         if (renderBlackOverlay) {
+            val oldOverlay = context.isOverlay
+            context.isOverlay = true
             rRenderBlackOverlay(context)
+            context.isOverlay = oldOverlay
         }
     }
 }

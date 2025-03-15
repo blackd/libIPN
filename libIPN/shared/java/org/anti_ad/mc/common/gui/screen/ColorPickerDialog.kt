@@ -30,6 +30,8 @@ import org.anti_ad.mc.common.gui.widgets.ColorSquareWidget
 import org.anti_ad.mc.common.gui.widgets.TextButtonWidget
 import org.anti_ad.mc.common.gui.widgets.toConfigWidget
 import org.anti_ad.mc.common.math2d.Size
+import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.DrawContext
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
@@ -59,10 +61,11 @@ class ColorPickerDialog(val colorConfig: ConfigColorPicker): BaseDialog(getTrans
     private val maxTextWidth = widgetsList.maxOfOrNull { rMeasureText(it.displayName) } ?: 0
 
     val colorDisplay: ColorSquareWidget = ColorSquareWidget{}.apply {
-        this.color = { val c = red.integerValue.asRed()
-            .green(green.integerValue)
-            .blue(blue.integerValue)
-            .alpha(alpha.integerValue)
+        this.color = {
+            val c = red.integerValue.asRed()
+                .green(green.integerValue)
+                .blue(blue.integerValue)
+                .alpha(alpha.integerValue)
             colorConfig.value = c
             c
         }
@@ -112,13 +115,28 @@ class ColorPickerDialog(val colorConfig: ConfigColorPicker): BaseDialog(getTrans
         }
     }
 
+    override fun renderBackground(context: DrawContext,
+                                  mouseX: Int,
+                                  mouseY: Int,
+                                  deltaTicks: Float) {
+        if (Vanilla.worldNullable() == null) {
+            this.renderPanoramaBackground(context, deltaTicks);
+        }
+
+        this.applyBlur(deltaTicks);
+        this.renderDarkening(context);
+    }
+
+
     override fun render(context: NativeContext,
                         mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
+        //context.native.matrices.push()
         super.render(context, mouseX, mouseY, partialTicks) //    Diffuse disable()
         rDrawCenteredText(context,"§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
         TooltipsManager.renderAll(context)
+        //context.native.matrices.pop()
     }
 
 }

@@ -27,6 +27,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.renderer.RenderType
 
 import net.minecraft.ChatFormatting
 
@@ -38,6 +39,7 @@ typealias TextRenderer = Font
 typealias RenderSystem = RenderSystem
 typealias MatrixStack = PoseStack
 typealias DrawContext = GuiGraphics
+typealias RenderLayer = RenderType
 typealias DiffuseLighting = Lighting
 typealias GlStateManager = GlStateManager
 typealias SrcFactor = GlStateManager.SourceFactor

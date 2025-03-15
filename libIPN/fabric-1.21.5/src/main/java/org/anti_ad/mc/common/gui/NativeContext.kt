@@ -24,4 +24,4 @@ import org.anti_ad.mc.common.vanilla.alias.DrawContext
 import org.anti_ad.mc.common.vanilla.alias.RenderLayer
 
 data class NativeContext(val native: DrawContext,
-                        var layer: ((Identifier) -> RenderLayer)?): NativeContextBase()
+                         var layer: ((Identifier) -> RenderLayer)?): NativeContextBase()

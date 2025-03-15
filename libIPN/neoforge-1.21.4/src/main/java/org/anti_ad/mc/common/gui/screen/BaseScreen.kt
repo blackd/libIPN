@@ -20,7 +20,6 @@
 
 package org.anti_ad.mc.common.gui.screen
 
-import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import org.anti_ad.mc.alias.client.MinecraftClient
 import org.anti_ad.mc.alias.client.gui.screen.Screen
@@ -113,15 +112,9 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     }
 
     //override fun func_230430_a_(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
-    override fun render(context: DrawContext,
-                        i: Int,
-                        j: Int,
-                        f: Float) {
+    override fun render(context: DrawContext, i: Int, j: Int, f: Float) {
         //rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
-        render(NativeContext(context, RenderType.GUI_OPAQUE_TEXTURED_BACKGROUND),
-               i,
-               j,
-               f)
+        render(NativeContext(context, RenderLayer::guiTextured), i, j, f)
     }
 
     // ============

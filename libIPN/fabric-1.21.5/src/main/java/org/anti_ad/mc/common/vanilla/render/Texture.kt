@@ -20,7 +20,6 @@
 
 package org.anti_ad.mc.common.vanilla.render
 
-import com.sun.org.apache.xpath.internal.functions.Function2Args
 import org.anti_ad.mc.alias.util.Identifier
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -33,7 +32,7 @@ import org.anti_ad.mc.common.math2d.resizeTop
 import org.anti_ad.mc.common.math2d.resizeTopLeft
 import org.anti_ad.mc.common.math2d.resizeTopRight
 import org.anti_ad.mc.common.math2d.split3x3
-import org.anti_ad.mc.common.vanilla.alias.RenderLayer
+import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeMode
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
@@ -127,9 +126,20 @@ fun internal_rDrawSprite(context: NativeContext,
                          x: Int,
                          y: Int) {
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
+
+/*
+    val textureManager: TextureManager = Vanilla.mc().textureManager
+    val abstractTexture = textureManager.getTexture(sprite.identifier())
+    //abstractTexture.setFilter(textureEntry.blur, textureEntry.mipmap)
+    RenderSystem.setShaderTexture(tIndex, abstractTexture.getGlTexture())
+*/
+
+
+/*
     RenderSystem.setShaderTexture(tIndex,
                                   sprite.identifier())
-    RenderSystem.disableDepthTest();
+*/
+    //LibIPNRenderSystem._disableDepthTest();
     //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
@@ -148,7 +158,7 @@ fun internal_rDrawSprite(context: NativeContext,
                                   x, y,
                                   sw, sh)
 */
-    RenderSystem.enableDepthTest();
+    //LibIPNRenderSystem._enableDepthTest();
 }
 
 

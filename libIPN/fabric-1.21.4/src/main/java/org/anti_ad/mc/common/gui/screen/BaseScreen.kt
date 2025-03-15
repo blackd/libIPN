@@ -126,6 +126,10 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                           partialTicks)
     }
 
+    fun applyBlur(delta: Float = 0f) {
+        this.applyBlur()
+    }
+
     override fun render(drawContext: DrawContext,
                         mouseX: Int,
                         mouseY: Int,

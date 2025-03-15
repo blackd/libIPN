@@ -23,7 +23,11 @@
 package org.anti_ad.mc.common
 
 import org.anti_ad.mc.common.events.OnetimeDelayedInit
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.common.vanilla.Vanilla.mc
+import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.libipn.config.ConfigScreenSettings
+import kotlin.concurrent.timer
 
 @Suppress("unused")
 fun init() {
@@ -40,7 +44,7 @@ fun init() {
         Log.error("showing config")
         this.cancel()
         mc().execute {
-            mc().setScreen(ConfigScreen())
+            mc().setScreen(ConfigScreenBase(ConfigScreenSettings))
         }
     }
 */

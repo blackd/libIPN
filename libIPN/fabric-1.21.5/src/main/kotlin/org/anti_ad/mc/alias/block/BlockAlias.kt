@@ -108,7 +108,7 @@ import net.minecraft.block.CraftingTableBlock
 import net.minecraft.block.CropBlock
 import net.minecraft.block.CryingObsidianBlock
 import net.minecraft.block.DaylightDetectorBlock
-import net.minecraft.block.DeadBushBlock
+
 import net.minecraft.block.DeadCoralBlock
 import net.minecraft.block.DeadCoralFanBlock
 import net.minecraft.block.DeadCoralWallFanBlock
@@ -409,7 +409,6 @@ typealias CraftingTableBlock = CraftingTableBlock
 typealias CropBlock = CropBlock
 typealias CryingObsidianBlock = CryingObsidianBlock
 typealias DaylightDetectorBlock = DaylightDetectorBlock
-typealias DeadBushBlock = DeadBushBlock
 typealias DeadCoralBlock = DeadCoralBlock
 typealias DeadCoralFanBlock = DeadCoralFanBlock
 typealias DeadCoralWallFanBlock = DeadCoralWallFanBlock

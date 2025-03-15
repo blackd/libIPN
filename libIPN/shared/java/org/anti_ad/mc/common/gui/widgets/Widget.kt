@@ -364,12 +364,12 @@ interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
                      y: Int,
                      button: Int): Boolean =
         childrenZIndexed().asReversed().any {
-            it.captures(x,
-                        y) && it.mouseClicked(x,
-                                              y,
-                                              button)
-                .ifTrue { focusedWidget = it; if (button == 0) isDragging = true }
-        }.ifFalse { focusedWidget = null }
+            it.captures(x, y) && it.mouseClicked(x, y, button).ifTrue {
+                focusedWidget = it; if (button == 0) isDragging = true
+            }
+        }.ifFalse {
+            focusedWidget = null
+        }
 
     fun mouseReleased(x: Int,
                       y: Int,

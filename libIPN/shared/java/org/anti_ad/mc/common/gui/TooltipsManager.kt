@@ -60,46 +60,40 @@ object TooltipsManager {
 
         private fun renderTooltip(context: NativeContext) { // ref: Screen.renderTooltip
             if (list.isEmpty()) return
-            rStandardGlState()
-            rClearDepth(context)
             val maxTextWidth = list.map { rMeasureText(it) }.maxOrNull() ?: return
-            val boxW = maxTextWidth + 8
-            val boxH = list.size * 10 + 6
-            val boxX = run { // minimum 5 away from screen boundary
-                val maxBoxX = rScreenWidth - hMargin - boxW
-                val boxXLeft = mouseX - boxW + 1 // right = mouseX
-                return@run when {
-                    mouseX <= maxBoxX -> mouseX
-                    boxXLeft >= hMargin -> boxXLeft
-                    else -> maxBoxX
+            //rStandardGlState()
+            //rClearDepth(context)
+            val oldIsOverlay = context.isOverlay
+            context.isOverlay = true
+            //context.native.matrices.push()
+            try {
+                val boxW = maxTextWidth + 8
+                val boxH = list.size * 10 + 6
+                val boxX = run { // minimum 5 away from screen boundary
+                    val maxBoxX = rScreenWidth - hMargin - boxW
+                    val boxXLeft = mouseX - boxW + 1 // right = mouseX
+                    return@run when {
+                        mouseX <= maxBoxX   -> mouseX
+                        boxXLeft >= hMargin -> boxXLeft
+                        else                -> maxBoxX
+                    }
+                } // textX = boxX + 4
+                val boxY = (mouseY - 2 - boxH) // (space 2)
+                    //        .coerceAtMost(rScreenHeight - vMargin - boxH) // redundant
+                    .coerceAtLeast(vMargin)
+                val bounds = Rectangle(boxX, boxY, boxW, boxH)
+                val COLOR_BG = -0xfeffff0 // overlap with outline
+                rDrawOutlineNoCorner(context, bounds, COLOR_BG)
+                rFillRect(context, bounds.inflated(-1), COLOR_BG)
+                val COLOR_OUTLINE_TOP = 0x505000FF
+                val COLOR_OUTLINE_BOTTOM = 0x5028007F
+                rDrawOutlineGradient(context, bounds.inflated(-1), COLOR_OUTLINE_TOP, COLOR_OUTLINE_BOTTOM)
+                list.forEachIndexed { index, s ->
+                    rDrawText(context, s, boxX + 4, boxY + 4 + 10 * index, -1)
                 }
-            } // textX = boxX + 4
-            val boxY = (mouseY - 2 - boxH) // (space 2)
-//        .coerceAtMost(rScreenHeight - vMargin - boxH) // redundant
-                .coerceAtLeast(vMargin)
-            val bounds = Rectangle(boxX,
-                                   boxY,
-                                   boxW,
-                                   boxH)
-            val COLOR_BG = -0xfeffff0 // overlap with outline
-            rDrawOutlineNoCorner(context,
-                                 bounds,
-                                 COLOR_BG)
-            rFillRect(context,
-                      bounds.inflated(-1),
-                      COLOR_BG)
-            val COLOR_OUTLINE_TOP = 0x505000FF
-            val COLOR_OUTLINE_BOTTOM = 0x5028007F
-            rDrawOutlineGradient(context,
-                                 bounds.inflated(-1),
-                                 COLOR_OUTLINE_TOP,
-                                 COLOR_OUTLINE_BOTTOM)
-            list.forEachIndexed { index, s ->
-                rDrawText(context,
-                          s,
-                          boxX + 4,
-                          boxY + 4 + 10 * index,
-                          -1)
+            } finally {
+                context.isOverlay = oldIsOverlay
+                //context.native.matrices.pop()
             }
         }
     }

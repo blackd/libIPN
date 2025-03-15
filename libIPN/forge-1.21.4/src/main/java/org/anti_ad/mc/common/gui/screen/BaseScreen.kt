@@ -20,7 +20,6 @@
 
 package org.anti_ad.mc.common.gui.screen
 
-import net.minecraft.client.renderer.RenderType
 import org.anti_ad.mc.alias.client.MinecraftClient
 import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.text.Text
@@ -31,6 +30,7 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.alias.RenderLayer
 import org.anti_ad.mc.common.vanilla.glue.IScreenMarker
 import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
@@ -118,7 +118,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                         j: Int,
                         f: Float) {
         //rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
-        render(NativeContext(context, RenderType::guiTextured),
+        render(NativeContext(context, RenderLayer::guiTextured),
                i,
                j,
                f)

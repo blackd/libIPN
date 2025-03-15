@@ -20,8 +20,9 @@
 
 package org.anti_ad.mc.common.vanilla.alias
 
-import com.mojang.blaze3d.platform.GlStateManager
+//import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import net.fabricmc.api.EnvType
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.DiffuseLighting
@@ -29,17 +30,21 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.util.math.MatrixStack
 import org.joml.Matrix4fStack
 
-
 typealias TextRenderer = TextRenderer
 
 typealias RenderSystem = RenderSystem
 
 typealias DiffuseLighting = DiffuseLighting
-typealias GlStateManager = GlStateManager
+//typealias GlStateManager = GlStateManager
+/*
 typealias SrcFactor = GlStateManager.SrcFactor
 typealias DstFactor = GlStateManager.DstFactor
+*/
 
 typealias MatrixStack = MatrixStack
 typealias Matrix4fStack = Matrix4fStack
 typealias DrawContext = DrawContext
 typealias RenderLayer = RenderLayer
+
+
+

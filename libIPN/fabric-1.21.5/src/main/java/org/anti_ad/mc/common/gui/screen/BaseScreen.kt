@@ -116,6 +116,11 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                     mouseX: Int,
                     mouseY: Int,
                     partialTicks: Float) {
+
+        super.render(context.native,
+                     mouseX,
+                     mouseY,
+                     partialTicks)
         renderWidgetPre(context,
                         mouseX,
                         mouseY,
@@ -125,6 +130,8 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                           mouseY,
                           partialTicks)
     }
+
+    fun applyBlur(unused: Float = 0.0f)  = applyBlur()
 
     override fun render(drawContext: DrawContext,
                         mouseX: Int,

@@ -26,7 +26,9 @@ import net.minecraft.village.TradeOffer
 import net.minecraft.village.TradeOfferList
 import net.minecraft.village.TradeOffers
 import net.minecraft.village.TradedItem
+/*
 import net.minecraft.village.VillageGossipType
+*/
 import net.minecraft.village.VillagerData
 import net.minecraft.village.VillagerDataContainer
 import net.minecraft.village.VillagerGossips
@@ -42,7 +44,9 @@ typealias TradeOffer = TradeOffer
 typealias TradeOfferList = TradeOfferList
 typealias TradeOffers = TradeOffers
 typealias TradedItem = TradedItem
+/*
 typealias VillageGossipType = VillageGossipType
+*/
 typealias VillagerData = VillagerData
 typealias VillagerDataContainer = VillagerDataContainer
 typealias VillagerGossips = VillagerGossips

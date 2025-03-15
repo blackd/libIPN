@@ -18,6 +18,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -37,6 +38,6 @@ dependencies {
     implementation(kotlin("reflect"))
 }
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "21"
+compileKotlin.compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_21)
 }

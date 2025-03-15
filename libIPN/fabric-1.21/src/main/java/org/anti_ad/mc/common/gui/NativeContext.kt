@@ -19,13 +19,9 @@
 
 package org.anti_ad.mc.common.gui
 
+import org.anti_ad.mc.alias.util.Identifier
 import org.anti_ad.mc.common.vanilla.alias.DrawContext
+import org.anti_ad.mc.common.vanilla.alias.RenderLayer
 
-class NativeContext(ctx: DrawContext): NativeContextBase() {
-
-    val native: DrawContext
-
-    init {
-        native = ctx
-    }
-}
+data class NativeContext(val native: DrawContext,
+                         var layer: ((Identifier) -> RenderLayer)? = null): NativeContextBase()

@@ -55,7 +55,22 @@ logger.lifecycle("""
 
 buildscript {
     repositories {
-        maven { url = uri("https://maven.minecraftforge.net/maven") }
+/*
+        maven {
+            url = uri("https://maven.minecraftforge.net/maven")
+            content {
+                includeGroup("net.minecraftforge")
+                includeGroup("net.minecraftforge.gradle")
+                includeGroup("net.minecraftforge.srgutils")
+                includeGroup("net.minecraftforge.fmj")
+                includeGroup("net.minecraftforge.accesstransformers")
+                includeGroup("net.minecraftforge.coremod")
+                includeGroup("net.minecraftforge.versions")
+                includeGroup("net.minecraftforge.gradle:ForgeGradle")
+                includeGroup("net.minecraftforge.gradle:MCPMappings")
+            }
+        }
+*/
         mavenCentral()
 
 

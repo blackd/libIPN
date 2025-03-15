@@ -37,7 +37,9 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryLoader
 import net.minecraft.registry.RegistryOps
+/*
 import net.minecraft.registry.RegistryPair
+*/
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.ReloadableRegistries
 import net.minecraft.registry.SerializableRegistries
@@ -65,7 +67,9 @@ typealias RegistryKey<T> = RegistryKey<T>
 typealias RegistryKeys<T> = RegistryKeys
 typealias RegistryLoader = RegistryLoader
 typealias RegistryOps<T> = RegistryOps<T>
+/*
 typealias RegistryPair<T> = RegistryPair<T>
+*/
 typealias RegistryWrapper<T> = RegistryWrapper<T>
 typealias RegistryWrapperLookup = RegistryWrapper.WrapperLookup
 typealias ReloadableRegistries = ReloadableRegistries

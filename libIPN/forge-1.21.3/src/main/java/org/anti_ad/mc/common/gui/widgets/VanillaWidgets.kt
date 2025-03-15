@@ -28,12 +28,11 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.glue.IButtonWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
-import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaSound
-import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
+import org.anti_ad.mc.common.vanilla.alias.DrawContext
+import org.anti_ad.mc.common.vanilla.alias.TextRenderer
 import org.anti_ad.mc.alias.client.gui.widget.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.alias.client.gui.widget.TextFieldWidget as VanillaTextFieldWidget
 
@@ -41,17 +40,15 @@ import org.anti_ad.mc.alias.client.gui.widget.TextFieldWidget as VanillaTextFiel
 // vanillamapping code depends on mappings
 // ============
 
-open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
-    init {
-        sizeChanged += {
-            vanilla.width = width
-            // TODO set height
-        }
-        screenLocationChanged += {
-            vanilla.x = screenX
-            vanilla.y = screenY
-        }
+open class VanillaWidget<T: AbstractWidget>(val vanilla: T): Widget() { init {
+    sizeChanged += {
+        vanilla.width = width // TODO set height
     }
+    screenLocationChanged += {
+        vanilla.x = screenX
+        vanilla.y = screenY
+    }
+}
 
     var vanillaMessage: String
         get() = vanilla.message.string //asString()
@@ -63,52 +60,47 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
     override fun render(context: NativeContext,
                         mouseX: Int,
                         mouseY: Int,
-                        partialTicks: Float) {
-        //rStandardGlState() // added this todo (unknown reason fixing text field overflow)
-        vanilla.render(context.native,
-                       mouseX,
-                       mouseY,
-                       partialTicks)
-        super.render(context,
-                     mouseX,
-                     mouseY,
-                     partialTicks)
+                        partialTicks: Float) { //rStandardGlState() // added this todo (unknown reason fixing text field overflow)
+        vanilla.render(context.native, mouseX, mouseY, partialTicks)
+        super.render(context, mouseX, mouseY, partialTicks)
     }
 
     override fun mouseClicked(x: Int,
                               y: Int,
                               button: Int): Boolean {
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
         val sc = super.mouseClicked(x, y, button)
         if (!sc) {
 
-            return vanilla.mouseClicked(x.toDouble(),
-                                        y.toDouble(),
-                                        button)
+            return vanilla.mouseClicked(x.toDouble(), y.toDouble(), button)
         }
         return true
+
     }
 
     override fun mouseReleased(x: Int,
                                y: Int,
                                button: Int): Boolean {
-        return super.mouseReleased(x,
-                                   y,
-                                   button) || vanilla.mouseReleased(x.toDouble(),
-                                                                    y.toDouble(),
-                                                                    button)
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
+        val sc = super.mouseClicked(x, y, button)
+        if (!sc) {
+            return vanilla.mouseReleased(x.toDouble(), y.toDouble(), button)
+        }
+        return true
     }
 
     override fun mouseScrolled(x: Int,
                                y: Int,
                                horizontal: Double,
                                vertical: Double): Boolean {
-        return super.mouseScrolled(x,
-                                   y,
-                                   horizontal,
-                                   vertical) || vanilla.mouseScrolled(x.toDouble(),
-                                                                      y.toDouble(),
-                                                                      horizontal,
-                                                                      vertical)
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
+        return super.mouseScrolled(x, y, horizontal, vertical) || vanilla.mouseScrolled(x.toDouble(), y.toDouble(), horizontal, vertical)
     }
 
     override fun mouseDragged(x: Double,
@@ -116,52 +108,32 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
                               button: Int,
                               dx: Double,
                               dy: Double): Boolean {
-        return super.mouseDragged(x,
-                                  y,
-                                  button,
-                                  dx,
-                                  dy) || vanilla.mouseDragged(x,
-                                                              y,
-                                                              button,
-                                                              dx,
-                                                              dy)
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
+        return super.mouseDragged(x, y, button, dx, dy) || vanilla.mouseDragged(x, y, button, dx, dy)
     }
 
     override fun keyPressed(keyCode: Int,
                             scanCode: Int,
                             modifiers: Int): Boolean {
-        return super.keyPressed(keyCode,
-                                scanCode,
-                                modifiers) || vanilla.keyPressed(keyCode,
-                                                                 scanCode,
-                                                                 modifiers)
+        return super.keyPressed(keyCode, scanCode, modifiers) || vanilla.keyPressed(keyCode, scanCode, modifiers)
     }
 
     override fun keyReleased(keyCode: Int,
                              scanCode: Int,
                              modifiers: Int): Boolean {
-        return super.keyReleased(keyCode,
-                                 scanCode,
-                                 modifiers) || vanilla.keyReleased(keyCode,
-                                                                   scanCode,
-                                                                   modifiers)
+        return super.keyReleased(keyCode, scanCode, modifiers) || vanilla.keyReleased(keyCode, scanCode, modifiers)
     }
 
     override fun charTyped(charIn: Char,
                            modifiers: Int): Boolean {
-        return super.charTyped(charIn,
-                               modifiers) || vanilla.charTyped(charIn,
-                                                               modifiers)
+        return super.charTyped(charIn, modifiers) || vanilla.charTyped(charIn, modifiers)
     }
 }
 
 private class CustomVanillaSliderWidget(val minValue: Double,
-                                        val maxValue: Double) : VanillaSliderWidget(0,
-                                                                                    0,
-                                                                                    0,
-                                                                                    20,
-                                                                                    getLiteral(""),
-                                                                                    0.5) {
+                                        val maxValue: Double): VanillaSliderWidget(0, 0, 0, 20, getLiteral(""), 0.5) {
 
     var valueChangedEvent: () -> Unit = { }
 
@@ -179,13 +151,12 @@ private class CustomVanillaSliderWidget(val minValue: Double,
     override fun renderWidget(drawContext: DrawContext,
                               i: Int,
                               j: Int,
-                              f: Float) {
-        // fix slider width > 400
+                              f: Float) { // fix slider width > 400
         val hovered = isHovered
 
         super.renderWidget(drawContext, i, j, f)
         val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
-/*        drawContext.drawCenteredString(Vanilla.textRenderer(),
+        /*        drawContext.drawCenteredString(Vanilla.textRenderer(),
                                        message,
                                        x + width / 2,
                                        y + (height - 8) / 2,
@@ -197,9 +168,7 @@ fun newSliderWidget(minValue: Double = 0.0,
                     maxValue: Double = 1.0): ISliderWidget = SliderWidget(minValue, maxValue)
 
 private class SliderWidget(override val minValue: Double = 0.0,
-                           override val maxValue: Double = 1.0) : ISliderWidget,
-                                                                  VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
-                                                                                                                               maxValue)) {
+                           override val maxValue: Double = 1.0): ISliderWidget, VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue, maxValue)) {
 
     private val silder
         get() = vanilla as CustomVanillaSliderWidget
@@ -217,13 +186,7 @@ private class SliderWidget(override val minValue: Double = 0.0,
         }
 }
 
-open class NativeButtonWidget(): VanillaButtonWidget(0,
-                                                       0,
-                                                       0,
-                                                       20,
-                                                       Text.literal(""),
-                                                       {},
-                                                       VanillaButtonWidget.DEFAULT_NARRATION) {
+open class NativeButtonWidget(): VanillaButtonWidget(0, 0, 0, 20, Text.literal(""), {}, VanillaButtonWidget.DEFAULT_NARRATION) {
 
     var sHeight
         get() = super.height
@@ -231,12 +194,16 @@ open class NativeButtonWidget(): VanillaButtonWidget(0,
             super.height = value
         }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+    override fun mouseClicked(mouseX: Double,
+                              mouseY: Double,
+                              button: Int): Boolean {
         return mouseClicked(mouseX.toInt(), mouseY.toInt(), button)
 
     }
 
-    fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
+    fun mouseClicked(x: Int,
+                     y: Int,
+                     button: Int): Boolean {
         return true
     }
 
@@ -277,14 +244,14 @@ open class CustomButtonWidget(): IButtonWidget, VanillaWidget<NativeButtonWidget
             vanilla.message = Text.literal(field)
         }
 
-    constructor(clickEvent: (button: Int) -> Unit) : this() {
+    constructor(clickEvent: (button: Int) -> Unit): this() {
         this.clickEvent = { button ->
             VanillaSound.playClick()
             clickEvent(button)
         }
     }
 
-    constructor(clickEvent: () -> Unit) : this() {
+    constructor(clickEvent: () -> Unit): this() {
         this.clickEvent = { button ->
             if (button == 0) {
                 VanillaSound.playClick()
@@ -298,7 +265,10 @@ open class CustomButtonWidget(): IButtonWidget, VanillaWidget<NativeButtonWidget
 
     }
 
-    override fun render(context: NativeContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: NativeContext,
+                        mouseX: Int,
+                        mouseY: Int,
+                        partialTicks: Float) {
         vanilla.x = screenX
         vanilla.y = screenY
         vanilla.width = bounds.width + sizeModifier.width
@@ -306,9 +276,9 @@ open class CustomButtonWidget(): IButtonWidget, VanillaWidget<NativeButtonWidget
         super.render(context, mouseX, mouseY, partialTicks)
     }
 
-
-
-    override fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
+    override fun mouseClicked(x: Int,
+                              y: Int,
+                              button: Int): Boolean {
         if (active) onClick(button)
         return !clickThrough
     }
@@ -316,8 +286,6 @@ open class CustomButtonWidget(): IButtonWidget, VanillaWidget<NativeButtonWidget
     override fun onClick(button: Int) {
         clickEvent(button)
     }
-
-
 
 }
 
@@ -330,18 +298,11 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer,
                                     j: Int,
                                     k: Int,
                                     l: Int,
-                                    string: String) :
-    VanillaTextFieldWidget(textRenderer,
-                           i,
-                           j,
-                           k,
-                           l,
-                           getLiteral(string)) {
+                                    string: String): VanillaTextFieldWidget(textRenderer, i, j, k, l, getLiteral(string)) {
+
     public override fun setFocused(bl: Boolean) {
         super.setFocused(bl)
     }
-
-
 
     init {
         setMaxLength(32767)
@@ -350,18 +311,11 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer,
 
 fun newTextFieldWidget(height: Int): ITextFieldWidget = TextFieldWidget(height)
 
-private class TextFieldWidget(height: Int) : ITextFieldWidget,
-                                             VanillaWidget<VanillaTextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(),
-                                                                                                         0,
-                                                                                                         0,
-                                                                                                         0,
-                                                                                                         height,
-                                                                                                         "")) {
+private class TextFieldWidget(height: Int): ITextFieldWidget, VanillaWidget<VanillaTextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
 
     override var textPredicate: (string: String) -> Boolean = { true }
         set(value) {
-            field = value
-            //vanilla.setValidator(value)
+            field = value //vanilla.setValidator(value)
             vanilla.setFilter(value)
         }
     override var changedEvent: (string: String) -> Unit = { }
@@ -373,7 +327,7 @@ private class TextFieldWidget(height: Int) : ITextFieldWidget,
         }
 
     override var vanillaText: String
-        get() =  vanilla.value  //vanilla.text
+        get() = vanilla.value  //vanilla.text
         set(value) {
             if (vanilla.value != value) {
                 vanilla.value = value
@@ -396,8 +350,7 @@ private class TextFieldWidget(height: Int) : ITextFieldWidget,
         vanillaFocused = false
     }
 
-    override fun editing(): Boolean =
-        vanilla.isFocused// canWrite() // func_212955_f() = method_20315() = isActive = forge canWrite()
+    override fun editing(): Boolean = vanilla.isFocused // canWrite() // func_212955_f() = method_20315() = isActive = forge canWrite()
 
     init {
         textPredicate = textPredicate

@@ -75,6 +75,9 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
     override fun mouseClicked(x: Int,
                               y: Int,
                               button: Int): Boolean {
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
         val sc = super.mouseClicked(x, y, button)
         if (!sc) {
 
@@ -89,17 +92,25 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
     override fun mouseReleased(x: Int,
                                y: Int,
                                button: Int): Boolean {
-        return super.mouseReleased(x,
-                                   y,
-                                   button) || vanilla.mouseReleased(x.toDouble(),
-                                                                    y.toDouble(),
-                                                                    button)
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
+        val sc = super.mouseClicked(x, y, button)
+        if (!sc) {
+            return vanilla.mouseReleased(x.toDouble(),
+                                         y.toDouble(),
+                                         button)
+        }
+        return true
     }
 
     override fun mouseScrolled(x: Int,
                                y: Int,
                                horizontal: Double,
                                vertical: Double): Boolean {
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
         return super.mouseScrolled(x,
                                    y,
                                    horizontal,
@@ -114,6 +125,9 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
                               button: Int,
                               dx: Double,
                               dy: Double): Boolean {
+        if (!absoluteBounds.contains(x, y)) {
+            return false
+        }
         return super.mouseDragged(x,
                                   y,
                                   button,

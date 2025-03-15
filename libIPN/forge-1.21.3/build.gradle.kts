@@ -55,7 +55,9 @@ logger.lifecycle("""
 
 buildscript {
     repositories {
+/*
         maven { url = uri("https://maven.minecraftforge.net/maven") }
+*/
         mavenCentral()
 
 

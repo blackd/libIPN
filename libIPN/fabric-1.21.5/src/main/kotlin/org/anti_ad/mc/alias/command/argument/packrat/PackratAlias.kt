@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.alias.command.argument.packrat
 
+/*
 import net.minecraft.command.argument.packrat.AnyIdParsingRule
 import net.minecraft.command.argument.packrat.ArgumentParser
 import net.minecraft.command.argument.packrat.Cut
@@ -37,8 +38,10 @@ import net.minecraft.command.argument.packrat.ParsingStateImpl
 import net.minecraft.command.argument.packrat.Suggestable
 import net.minecraft.command.argument.packrat.Symbol
 import net.minecraft.command.argument.packrat.Term
+*/
 
 
+/*
 typealias AnyIdParsingRule = AnyIdParsingRule
 typealias ArgumentParser<T> = ArgumentParser<T>
 typealias Cut = Cut
@@ -57,3 +60,4 @@ typealias ParsingStateImpl = ParsingStateImpl
 typealias Suggestable<T> = Suggestable<T>
 typealias Symbol<T> = Symbol<T>
 typealias Term<T> = Term<T>
+*/

@@ -20,6 +20,8 @@
 
 package org.anti_ad.mc.common.math2d
 
+import kotlin.math.roundToInt
+
 // ============
 // Point
 // ============
@@ -173,6 +175,11 @@ data class Rectangle(val x: Int,
     fun contains(x: Int,
                  y: Int): Boolean {
         return x in left until right && y in top until bottom
+    }
+
+    fun contains(x: Double,
+                 y: Double): Boolean {
+        return x.roundToInt() in left until right && y.roundToInt() in top until bottom
     }
 
     fun insideOf(parent: Rectangle?): Boolean {

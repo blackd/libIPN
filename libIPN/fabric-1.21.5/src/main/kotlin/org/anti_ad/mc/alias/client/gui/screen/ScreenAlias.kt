@@ -34,7 +34,7 @@ import net.minecraft.client.gui.screen.DisconnectedScreen
 import net.minecraft.client.gui.screen.DownloadingTerrainScreen
 import net.minecraft.client.gui.screen.FatalErrorScreen
 import net.minecraft.client.gui.screen.GameMenuScreen
-import net.minecraft.client.gui.screen.GameModeSelectionScreen
+//import net.minecraft.client.gui.screen.GameModeSelectionScreen
 import net.minecraft.client.gui.screen.LoadingDisplay
 import net.minecraft.client.gui.screen.MessageScreen
 import net.minecraft.client.gui.screen.NoticeScreen
@@ -70,7 +70,7 @@ typealias DisconnectedScreen = DisconnectedScreen
 typealias DownloadingTerrainScreen = DownloadingTerrainScreen
 typealias FatalErrorScreen = FatalErrorScreen
 typealias GameMenuScreen = GameMenuScreen
-typealias GameModeSelectionScreen = GameModeSelectionScreen
+//typealias GameModeSelectionScreen = GameModeSelectionScreen
 typealias LoadingDisplay = LoadingDisplay
 typealias MessageScreen = MessageScreen
 typealias NoticeScreen = NoticeScreen

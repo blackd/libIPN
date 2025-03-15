@@ -295,14 +295,12 @@ enum class DynamicSizeMode {
         when (this) {
             STRETCH, REPEAT -> {
                 val draw = { index: Int ->
-                    if (this == STRETCH) drawStretch(context,
-                                                     identifier,
-                                                     pairs[index],
-                                                     textureSize)
-                    else drawRepeat(context,
-                                    identifier,
-                                    pairs[index],
-                                    textureSize)
+                    if (this == STRETCH) {
+                        drawStretch(context, identifier, pairs[index], textureSize)
+                    }
+                    else {
+                        drawRepeat(context, identifier, pairs[index], textureSize)
+                    }
                 }
                 if (w > 0) {
                     draw(2)

@@ -50,9 +50,9 @@ python build_release_notes.py
 cd ..
 
 if [[ n$IPNEXT_PATREON != "n" ]]; then
-  IPNEXT_RELEASE=1 ./gradlew --max-workers 32 clean compileKotlin compileJava
+  IPNEXT_RELEASE=1 ./gradlew --max-workers 32 clean classes
 else
-  ./gradlew --max-workers 32 clean compileKotlin compileJava
+  ./gradlew --max-workers 32 clean classes
 fi
 
 GRADLE_ARG="--exclude-task compileTestJava --exclude-task test build"

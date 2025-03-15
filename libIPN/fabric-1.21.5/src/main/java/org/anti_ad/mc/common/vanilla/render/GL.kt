@@ -23,15 +23,11 @@ package org.anti_ad.mc.common.vanilla.render
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
-import org.anti_ad.mc.common.vanilla.alias.DstFactor
 import org.anti_ad.mc.common.vanilla.alias.Matrix4fStack
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
-import org.anti_ad.mc.common.vanilla.alias.SrcFactor
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rScreenBounds
 import org.lwjgl.opengl.GL11
-
-
 
 fun Matrix4fStack.push(): Matrix4fStack = this.pushMatrix()
 
@@ -46,8 +42,8 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
 
     rEnableBlend()
     //gDisableDiffuse()
-    gEnableDepthTest()
-    RenderSystem.depthMask(true)
+    LibIPNRenderSystem._enableDepthTest()
+    LibIPNRenderSystem._depthMask(true)
 
 
 }
@@ -55,11 +51,10 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
 // ============
 // depth
 // ============
-
 fun rClearDepth(context: NativeContext) {
-    gEnableDepthTest()
-    RenderSystem.depthMask(true)
-    RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT)
+    LibIPNRenderSystem._enableDepthTest()
+    LibIPNRenderSystem._depthMask(true)
+    LibIPNRenderSystem._clear(GL11.GL_DEPTH_BUFFER_BIT)
     rOverwriteDepth(context,
                     rScreenBounds)
     depthBounds.clear() // added this
@@ -119,22 +114,22 @@ fun rRemoveDepthMask(context: NativeContext) {
 private fun rOverwriteDepth(context: NativeContext,
                             bounds: Rectangle) {
 //  rEnableDepth()
-    gDepthFunc(GL11.GL_ALWAYS)
+    LibIPNRenderSystem._depthFunc(GL11.GL_ALWAYS)
 
     rFillRect(context,
               bounds,
               0)
-    gDepthFunc(GL11.GL_LEQUAL)
+    LibIPNRenderSystem._depthFunc(GL11.GL_LEQUAL)
 }
 
 fun rDisableDepth() { // todo see if same with disableDepthTest (?)
-    gDepthFunc(GL11.GL_ALWAYS)
-    RenderSystem.depthMask(false)
+    LibIPNRenderSystem._depthFunc(GL11.GL_ALWAYS)
+    LibIPNRenderSystem._depthMask(false)
 }
 
 fun rEnableDepth() {
-    RenderSystem.depthMask(true)
-    gDepthFunc(GL11.GL_LEQUAL)
+    LibIPNRenderSystem._depthMask(true)
+    LibIPNRenderSystem._depthFunc(GL11.GL_LEQUAL)
 }
 
 // ============
@@ -144,19 +139,19 @@ fun rEnableDepth() {
 //var rMatrixStack = MatrixStack()
 
 
+
 // ============
 // internal
 // ============
 private fun rEnableBlend() {
     // ref: AbstractButtonWidget.renderButton()
-    RenderSystem.enableBlend()
-    RenderSystem.defaultBlendFunc()
-    RenderSystem.blendFunc(SrcFactor.SRC_ALPHA,
-                           DstFactor.ONE_MINUS_SRC_ALPHA)
-    RenderSystem.setShaderColor(1f,
-                                1f,
-                                1f,
-                                1f)
+    LibIPNRenderSystem._enableBlend()
+    LibIPNRenderSystem._blendFuncSeparate(LibIPNRenderSystem.SrcFactor.SRC_ALPHA.value,
+                                      LibIPNRenderSystem.DstFactor.ONE_MINUS_SRC_ALPHA.value,
+                                      LibIPNRenderSystem.SrcFactor.ONE.value,
+                                      LibIPNRenderSystem.DstFactor.ZERO.value)
+    LibIPNRenderSystem._blendFunc(LibIPNRenderSystem.SrcFactor.SRC_ALPHA.value, LibIPNRenderSystem.DstFactor.ONE_MINUS_SRC_ALPHA.value);
+    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
 
 }
 
@@ -164,7 +159,4 @@ private fun rEnableBlend() {
 // GlStateManager
 // ============
 
-private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
-private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515
-    RenderSystem.depthFunc(value)
-}
+

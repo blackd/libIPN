@@ -26,6 +26,7 @@ import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.DrawContext
 import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 
@@ -88,4 +89,8 @@ open class BaseOverlay : BaseScreen {
         onTick()
         super.tick()
     }
+
+    fun applyBlur(float: Float = 0f) = this.renderBlurredBackground()
+    fun renderDarkening(context: DrawContext) = renderMenuBackground(context)
+    fun renderPanoramaBackground(context: DrawContext, delta: Float) = this.renderPanorama(context, delta)
 }

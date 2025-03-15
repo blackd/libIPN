@@ -78,12 +78,8 @@ class RootWidget : Widget() {
     override fun mouseReleased(x: Int,
                                y: Int,
                                button: Int) =
-        mouseRelease.orInvoke(MouseEvent(x,
-                                         y,
-                                         button),
-                              super.mouseReleased(x,
-                                                  y,
-                                                  button))
+        mouseRelease.orInvoke(MouseEvent(x, y, button),
+                              super.mouseReleased(x, y, button))
 
     val mouseScrolled = RoutedEvent<MouseScrolledEvent>()
     override fun mouseScrolled(x: Int,
