@@ -1,14 +1,21 @@
 <!-- latest begin -->
 
-### 6.3.0/1
+### 6.4.0
 
-- support for 1.21.5
-- lots of technical improvements that make the client mods configs simpler 
-- ~~1.21.3 is no longer supported~~
-- 1.21.3 back for a final release
+- Due to changes how rendering works in 1.21.5 the libIPN API has incompatible changes.
+- Due to the above some aspects of the GUI may have minor differences with previous versions.
+- Fixed multiple click sounds when clicking on some widgets in the config screens.
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 6.3.0/1
+
+- support for 1.21.5
+- lots of technical improvements that make the client mods configs simpler
+- ~~1.21.3 is no longer supported~~
+- 1.21.3 back for a final release
+
 
 ### 6.2.1
 
