@@ -63,8 +63,10 @@ object TooltipsManager {
             val maxTextWidth = list.map { rMeasureText(it) }.maxOrNull() ?: return
             rStandardGlState()
             rClearDepth(context)
+/*
             val oldIsOverlay = context.isOverlay
             context.isOverlay = true
+*/
             context.pushMatrix()
             try {
                 val boxW = maxTextWidth + 8
@@ -92,7 +94,9 @@ object TooltipsManager {
                     rDrawText(context, s, boxX + 4, boxY + 4 + 10 * index, -1)
                 }
             } finally {
+/*
                 context.isOverlay = oldIsOverlay
+*/
                 context.popMatrix()
             }
         }

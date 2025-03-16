@@ -27,7 +27,8 @@ data class NativeContext(val native: DrawContext,
                          var layer: ((Identifier) -> RenderLayer)?): NativeContextBase() {
 
     fun pushMatrix() {
-        return native.matrices.push()
+        native.matrices.push()
+        native.matrices.translate(0f, 0f, 400f)
     }
 
     fun popMatrix() {
