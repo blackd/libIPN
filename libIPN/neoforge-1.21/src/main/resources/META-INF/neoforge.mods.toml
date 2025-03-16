@@ -29,7 +29,7 @@ side="CLIENT"
 [[dependencies.libipn]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.21, 1.21.2)"
+versionRange="[1.21.1, 1.21.2)"
 ordering="NONE"
 side="CLIENT"
 [modproperties.libipn]

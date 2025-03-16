@@ -31,7 +31,7 @@ import org.anti_ad.mc.libipn.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.libipn.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.libipn.buildsrc.registerMinimizeJarTask
 
-val supported_minecraft_versions = listOf("1.21", "1.21.1")
+val supported_minecraft_versions = listOf("1.21.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.21"

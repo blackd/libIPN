@@ -27,8 +27,8 @@ import org.anti_ad.mc.libipn.buildsrc.Loaders.*
 import org.anti_ad.mc.libipn.buildsrc.*
 
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21", "1.21.1"),
-                                         CURSEFORGE to listOf("1.21", "1.21.1"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.1"),
+                                         CURSEFORGE to listOf("1.21.1"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.21"
