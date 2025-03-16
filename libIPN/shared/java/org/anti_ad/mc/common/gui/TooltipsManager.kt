@@ -65,7 +65,7 @@ object TooltipsManager {
             rClearDepth(context)
             val oldIsOverlay = context.isOverlay
             context.isOverlay = true
-            //context.native.matrices.push()
+            context.pushMatrix()
             try {
                 val boxW = maxTextWidth + 8
                 val boxH = list.size * 10 + 6
@@ -93,7 +93,7 @@ object TooltipsManager {
                 }
             } finally {
                 context.isOverlay = oldIsOverlay
-                //context.native.matrices.pop()
+                context.popMatrix()
             }
         }
     }

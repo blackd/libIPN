@@ -24,4 +24,14 @@ import org.anti_ad.mc.common.vanilla.alias.DrawContext
 import org.anti_ad.mc.common.vanilla.alias.RenderLayer
 
 class NativeContext(val native: DrawContext,
-                    var layer: ((Identifier) -> RenderLayer)? = null): NativeContextBase()
+                    var layer: ((Identifier) -> RenderLayer)? = null): NativeContextBase() {
+
+    fun pushMatrix() {
+        return native.pose().pushPose()
+    }
+
+    fun popMatrix() {
+        return native.pose().popPose()
+    }
+}
+
