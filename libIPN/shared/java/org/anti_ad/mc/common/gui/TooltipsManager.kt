@@ -61,8 +61,8 @@ object TooltipsManager {
         private fun renderTooltip(context: NativeContext) { // ref: Screen.renderTooltip
             if (list.isEmpty()) return
             val maxTextWidth = list.map { rMeasureText(it) }.maxOrNull() ?: return
-            //rStandardGlState()
-            //rClearDepth(context)
+            rStandardGlState()
+            rClearDepth(context)
             val oldIsOverlay = context.isOverlay
             context.isOverlay = true
             //context.native.matrices.push()
