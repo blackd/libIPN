@@ -29,21 +29,21 @@ import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 
 open class IPNButtonWidget : Widget {
 
-    var clickEvent: (Int) -> Unit = { }
+    var clickEvent: (Int) -> Unit = {}
+        get() {
+            return { button ->
+                VanillaSound.playClick()
+                field(button)
+            }
+        }
 
     constructor(clickEvent: (button: Int) -> Unit) {
-        this.clickEvent = { button ->
-            VanillaSound.playClick()
-            clickEvent(button)
-        }
+        this.clickEvent = clickEvent
     }
 
     constructor(clickEvent: () -> Unit) {
-        this.clickEvent = { button ->
-            if (button == 0) {
-                VanillaSound.playClick()
-                clickEvent()
-            }
+        this.clickEvent = {
+            clickEvent()
         }
     }
 
