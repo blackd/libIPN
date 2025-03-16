@@ -34,7 +34,7 @@ license="@LICENSE@"
     logoFile="libIPN-logo.png" #optional
 
     # A text field displayed in the mod UI
-    credits="Selah (AspieGamer13)" #optional
+    credits="Selah (AspieGamer13), ThirtyTwelveNor" #optional
 
     # A text field displayed in the mod UI
     authors="blackd/mirinimi" #optional

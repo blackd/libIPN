@@ -7,7 +7,10 @@
   "authors": [
     "mirinimi/blackd"
   ],
-  "contributors": [],
+  "contributors": [
+    "Selah (AspieGamer13)",
+    "ThirtyTwelveNor"
+  ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
     "sources": "https://github.com/blackd/Inventory-Profiles"
