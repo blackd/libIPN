@@ -21,6 +21,7 @@
 rootProject.name = "libIPN"
 
 include("libIPN:fabric-1.21.5")
+include("libIPN:fabric-1.21.4")
 include("libIPN:fabric-1.21")
 include("libIPN:forge-1.21")
 include("libIPN:forge-1.21.4")

@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("6", "4", "0",
+val versionObj = Version("6", "5", "0",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 val loom_version: String by project

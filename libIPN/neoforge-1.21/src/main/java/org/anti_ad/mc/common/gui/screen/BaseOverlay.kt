@@ -89,8 +89,4 @@ open class BaseOverlay : BaseScreen {
         onTick()
         super.tick()
     }
-
-    fun applyBlur(delta: Float = 0f) = this.renderBlurredBackground(delta)
-    fun renderDarkening(context: DrawContext) = renderMenuBackground(context)
-    fun renderPanoramaBackground(context: DrawContext, delta: Float) = this.renderPanorama(context, delta)
 }

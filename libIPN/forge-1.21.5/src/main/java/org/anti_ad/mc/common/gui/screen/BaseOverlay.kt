@@ -26,7 +26,6 @@ import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.DrawContext
 
 open class BaseOverlay : BaseScreen {
     constructor(text: Text) : super(text)

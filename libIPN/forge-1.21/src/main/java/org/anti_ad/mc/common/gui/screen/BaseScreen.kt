@@ -48,6 +48,9 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
         // get() = this.title.formattedText // todo .asFormattedString()
         // get() = this.title.field_230704_d_.string
         get() = this.title.string
+
+    protected var blurEnabled = true
+
     open val screenInfo
         get() = ScreenInfo.default
 
@@ -214,4 +217,15 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                            modifiers: Int): Boolean =
         rootWidget.charTyped(charIn,
                              modifiers)
+
+    override fun renderBlurredBackground(p_336041_: Float) {
+        if (blurEnabled) {
+            super.renderBlurredBackground(p_336041_)
+        }
+    }
+
+    fun applyBlur(unused: Float) = renderBlurredBackground(unused)
+    fun renderDarkening(context: DrawContext) = renderMenuBackground(context)
+    fun renderPanoramaBackground(context: DrawContext, delta: Float) = this.renderPanorama(context, delta)
+
 }

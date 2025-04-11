@@ -51,6 +51,8 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     open val screenInfo
         get() = ScreenInfo.default
 
+    protected var blurEnabled = true
+
     open fun closeScreen() {
         this.isClosing = true
         VanillaScreenUtil.openScreenNullable(parent)
@@ -208,4 +210,16 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                            modifiers: Int): Boolean =
         rootWidget.charTyped(charIn,
                              modifiers)
+
+
+    override fun renderBlurredBackground() {
+        if (blurEnabled) {
+            super.renderBlurredBackground()
+        }
+    }
+
+    fun applyBlur(float: Float = 0f) = this.renderBlurredBackground()
+    fun renderDarkening(context: DrawContext) = renderMenuBackground(context)
+    fun renderPanoramaBackground(context: DrawContext, delta: Float) = this.renderPanorama(context, delta)
+
 }

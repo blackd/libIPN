@@ -49,6 +49,8 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     val titleString: String
         get() = this.title.string
 
+    protected var blurEnabled = true
+
     open val screenInfo: ScreenInfo
         get() {
             parent?.let { p ->
@@ -129,8 +131,6 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                           mouseY,
                           partialTicks)
     }
-
-    fun applyBlur(unused: Float = 0.0f)  = applyBlur()
 
     override fun render(drawContext: DrawContext,
                         mouseX: Int,
@@ -220,4 +220,12 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                            modifiers: Int): Boolean =
         rootWidget.charTyped(charIn,
                              modifiers)
+
+    override fun applyBlur() {
+        if (blurEnabled) {
+            super.applyBlur()
+        }
+    }
+
+    fun applyBlur(unused: Float = 0.0f) = applyBlur()
 }

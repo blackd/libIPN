@@ -45,9 +45,10 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
 
     var parent: Screen? = null
 
-
     val titleString: String
         get() = this.title.string // todo .asFormattedString()
+
+    protected var blurEnabled = true
 
     open val screenInfo: ScreenInfo
         get() {
@@ -213,4 +214,10 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                            modifiers: Int): Boolean =
         rootWidget.charTyped(charIn,
                              modifiers)
+
+    override fun applyBlur(unused: Float) {
+        if (blurEnabled) {
+            super.applyBlur(unused)
+        }
+    }
 }

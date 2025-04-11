@@ -49,6 +49,8 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     val titleString: String
         get() = this.title.string
 
+    protected var blurEnabled = true
+
     open val screenInfo: ScreenInfo
         get() {
             parent?.let { p ->
@@ -129,10 +131,6 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                           mouseY,
                           partialTicks)
     }
-
-    fun applyBlur(unused: Float = 0.0f)  = renderBlurredBackground()
-    fun renderDarkening(context: DrawContext) = renderMenuBackground(context)
-    fun renderPanoramaBackground(context: DrawContext, delta: Float) = this.renderPanorama(context, delta)
 
     override fun render(drawContext: DrawContext,
                         mouseX: Int,
@@ -222,4 +220,16 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                            modifiers: Int): Boolean =
         rootWidget.charTyped(charIn,
                              modifiers)
+
+
+    override fun renderBlurredBackground() {
+        if (blurEnabled) {
+            super.renderBlurredBackground()
+        }
+    }
+
+    fun applyBlur(float: Float = 0f) = this.renderBlurredBackground()
+    fun renderDarkening(context: DrawContext) = renderMenuBackground(context)
+    fun renderPanoramaBackground(context: DrawContext, delta: Float) = this.renderPanorama(context, delta)
+
 }
