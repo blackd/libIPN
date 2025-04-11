@@ -132,11 +132,6 @@ fun rEnableDepth() {
     LibIPNRenderSystem._depthFunc(GL11.GL_LEQUAL)
 }
 
-// ============
-// matrix
-// ============
-
-//var rMatrixStack = MatrixStack()
 
 
 

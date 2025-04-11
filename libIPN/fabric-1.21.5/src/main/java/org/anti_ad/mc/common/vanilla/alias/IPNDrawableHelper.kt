@@ -19,19 +19,12 @@
 
 package org.anti_ad.mc.common.vanilla.alias
 
-import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.common.gui.NativeContext
 
 open class IPNDrawableHelper() {
 
-    fun ipnfillGradient(context: NativeContext,
-                        i: Int,
-                        j: Int,
-                        k: Int,
-                        l: Int,
-                        m: Int,
-                        n: Int) {
+    fun ipnfillGradient(context: NativeContext, i: Int, j: Int, k: Int, l: Int, m: Int, n: Int) {
 
         val overlay = if (context.isOverlay) {
             RenderLayer.getGuiOverlay()
@@ -44,12 +37,7 @@ open class IPNDrawableHelper() {
 
     }
 
-    fun ipnFill(context: NativeContext,
-             x1: Int,
-             y1: Int,
-             x2: Int,
-             y2: Int,
-             color: Int) {
+    fun ipnFill(context: NativeContext, x1: Int, y1: Int, x2: Int, y2: Int, color: Int) {
         val overlay = if (context.isOverlay) {
             RenderLayer.getGuiOverlay()
         } else if (context.layer != null && context.isSlotBackground) {

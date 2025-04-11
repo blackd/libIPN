@@ -134,7 +134,18 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
 
         val kffverstr = kotlin_for_forge_version.toString()[0]
 
-        "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
+        /*"implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")*/
+
+        "implementation"("org.joml:joml:1.10.5") {
+            version {
+                strictly("1.10.5")
+            }
+        }
+
+        "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version") {
+            this.isChanging = true
+            exclude("cpw.mods")
+        }
 
         "runtimeOnly"("ca.solo-studios:kt-fuzzy-jvm:0.1.0") {
             exclude("org.jetbrains.kotlin")

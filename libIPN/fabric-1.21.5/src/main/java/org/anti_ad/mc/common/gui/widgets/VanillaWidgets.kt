@@ -347,8 +347,7 @@ private class TextFieldWidget(height: Int): ITextFieldWidget, VanillaWidget<Vani
         vanillaFocused = false
     }
 
-    override fun editing(): Boolean = //    vanilla.method_20315()
-        vanilla.isActive
+    override fun editing(): Boolean = vanilla.isActive
 
     init {
         textPredicate = textPredicate

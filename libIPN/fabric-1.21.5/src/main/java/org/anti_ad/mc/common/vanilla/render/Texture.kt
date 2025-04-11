@@ -32,7 +32,6 @@ import org.anti_ad.mc.common.math2d.resizeTop
 import org.anti_ad.mc.common.math2d.resizeTopLeft
 import org.anti_ad.mc.common.math2d.resizeTopRight
 import org.anti_ad.mc.common.math2d.split3x3
-import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeMode
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
@@ -43,37 +42,9 @@ operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
 }
 
-
-
 fun makeIdentifier(ns: String, path: String): Any {
     return Identifier.of(ns, path)
 }
-
-
-// for 256 x 256 texture
-private fun rBlit(context: NativeContext,
-                  x: Int,
-                  y: Int,
-                  sx: Int,
-                  sy: Int,
-                  sw: Int,
-                  sh: Int) { // screen xy sprite xy wh
-    /*
-    DrawableHelper.drawTexture(context.native,
-                               x,
-                               y,
-                               0,
-                               sx.toFloat(),
-                               sy.toFloat(),
-                               sw,
-                               sh,
-                               256,
-                               256)
-
-     */
-}
-
-
 
 // screen xy wh sprite xy wh texture wh
 fun vanilla_rBlit(context: NativeContext,
@@ -88,16 +59,6 @@ fun vanilla_rBlit(context: NativeContext,
                   sh: Int,
                   tw: Int,
                   th: Int) {
-
-/*
-    context.native.drawGuiTexture(context.layer,
-                                  identifier(),
-                                  tw, th,
-                                  sx, sy,
-                                  x, y,
-                                  sw, sh)
-*/
-
     context.native.drawTexture(context.layer,
                                identifier(),
                                x,
@@ -126,19 +87,6 @@ fun internal_rDrawSprite(context: NativeContext,
                          x: Int,
                          y: Int) {
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
-
-/*
-    val textureManager: TextureManager = Vanilla.mc().textureManager
-    val abstractTexture = textureManager.getTexture(sprite.identifier())
-    //abstractTexture.setFilter(textureEntry.blur, textureEntry.mipmap)
-    RenderSystem.setShaderTexture(tIndex, abstractTexture.getGlTexture())
-*/
-
-
-/*
-    RenderSystem.setShaderTexture(tIndex,
-                                  sprite.identifier())
-*/
     //LibIPNRenderSystem._disableDepthTest();
     //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
@@ -149,15 +97,7 @@ fun internal_rDrawSprite(context: NativeContext,
                                x, y,
                                sx.toFloat(), sy.toFloat(),
                                sw, sh,
-                               sw, sh, tw, th )
-/*
-    context.native.drawGuiTexture(context.layer,
-                                  sprite.identifier(),
-                                  tw, th,
-                                  sx, sy,
-                                  x, y,
-                                  sw, sh)
-*/
+                               sw, sh, tw, th)
     //LibIPNRenderSystem._enableDepthTest();
 }
 

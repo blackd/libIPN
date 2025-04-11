@@ -46,9 +46,8 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
 
     var parent: Screen? = null
 
-
     val titleString: String
-        get() = this.title.string // todo .asFormattedString()
+        get() = this.title.string
 
     open val screenInfo: ScreenInfo
         get() {

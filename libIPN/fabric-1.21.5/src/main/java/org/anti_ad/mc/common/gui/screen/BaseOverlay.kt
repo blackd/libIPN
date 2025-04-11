@@ -20,19 +20,13 @@
 
 package org.anti_ad.mc.common.gui.screen
 
-import net.minecraft.client.render.RenderLayer
 import org.anti_ad.mc.libipn.Log
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.alias.client.MinecraftClient
 import org.anti_ad.mc.alias.text.Text
-import org.anti_ad.mc.alias.util.Identifier
-import org.anti_ad.mc.common.vanilla.render.rClearDepth
-import org.anti_ad.mc.common.vanilla.render.rDepthMask
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 
-//import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 
 open class BaseOverlay : BaseScreen {
     constructor(text: Text) : super(text)
