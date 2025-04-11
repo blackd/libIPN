@@ -1,13 +1,18 @@
 <!-- latest begin -->
 
+### 6.5.0
+
+- Adds support for xForge 1.21.5
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 6.4.0
 
 - Due to changes how rendering works in 1.21.5 the libIPN API has incompatible changes.
 - Due to the above some aspects of the GUI may have minor differences with previous versions.
 - Fixed multiple click sounds when clicking on some widgets in the config screens.
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 6.3.0/1
 
