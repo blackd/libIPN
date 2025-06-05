@@ -24,12 +24,26 @@ if [[ n$IPNEXT_RELEASE != "n" ]]; then
   . ~/.config/secrets/curseforge.sh
 fi
 
+PROJECT_NAME="libIPN"
+
+BUILD_PATH=""
+
+if [[ n$1 != "n" ]]; then
+  BUILD_PATH="$1:"
+fi
+
+echo "BUILD_PATH=${BUILD_PATH}"
+
 pushd .
 
 mkdir /tmp/IPN
-cd $(mktemp -d /tmp/IPN/libIPN-release.XXXX)
+cd /tmp/IPN
 
-git clone git@gitea.lan:Inventory-Profiles-Next/libIPN.git libIPN
+if [[ -e /tmp/IPN/${PROJECT_NAME} ]]; then
+  rm -rf /tmp/IPN/${PROJECT_NAME}
+fi
+
+git clone git@gitea.lan:Inventory-Profiles-Next/${PROJECT_NAME}.git ${PROJECT_NAME}
 
 if [[ ! -e ../venv ]]; then
   python -m venv ../venv
@@ -42,38 +56,37 @@ else
   . ../venv/bin/activate
 fi
 
-cd libIPN/description
+cd ${PROJECT_NAME}/description
 
 
 python build_release_notes.py
 
 cd ..
 
-if [[ n$IPNEXT_PATREON != "n" ]]; then
-  IPNEXT_RELEASE=1 ./gradlew --max-workers 32 clean classes
-else
-  ./gradlew --max-workers 32 clean classes
+export _JAVA_OPTIONS=-Xmx8G
+
+GRADLE_ARG="--exclude-task compileTestJava --exclude-task test ${BUILD_PATH}build"
+
+
+if [[ n${IPNEXT_M} != "n" ]]; then
+  GRADLE_ARG="${GRADLE_ARG} ${BUILD_PATH}modrinth"
 fi
 
-GRADLE_ARG="--exclude-task compileTestJava --exclude-task test build"
-
-
-if [[ n$IPNEXT_M != "n" ]]; then
-  GRADLE_ARG="$GRADLE_ARG modrinth"
+if [[ n${IPNEXT_C} != "n" ]]; then
+  GRADLE_ARG="${GRADLE_ARG} ${BUILD_PATH}curseforge"
 fi
 
-if [[ n$IPNEXT_C != "n" ]]; then
-  GRADLE_ARG="$GRADLE_ARG curseforge"
-fi
-
-if [[ n$IPNEXT_P != "n" ]]; then
-  GRADLE_ARG="$GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository"
+if [[ n${IPNEXT_P} != "n" ]]; then
+  GRADLE_ARG="${GRADLE_ARG} ${BUILD_PATH}publishAllPublicationsToIpnOfficialRepoRepository"
 fi
 
 
-GRADLE_ARG="--max-workers 32 $GRADLE_ARG"
+GRADLE_ARG="--max-workers 32 ${GRADLE_ARG}"
 
-./gradlew $GRADLE_ARG
+echo will run "./gradlew ${GRADLE_ARG}"
+echo
+
+./gradlew ${GRADLE_ARG}
 
 
 pwd
