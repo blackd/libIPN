@@ -199,7 +199,7 @@ open class ConfigScreenBase(val configHelper: BaseConfigScreenSettings) : BaseSc
                         mouseY: Int,
                         partialTicks: Float) {
         //renderBackground(context.native, mouseX, mouseY, partialTicks)
-        renderBackground(context.native, mouseX, mouseY, partialTicks)
+        //renderBackground(context.native, mouseX, mouseY, partialTicks)
         //rRenderVanillaScreenBackground(context, mouseX, mouseY, partialTicks)
         rDrawText(context,
                   this.titleString,

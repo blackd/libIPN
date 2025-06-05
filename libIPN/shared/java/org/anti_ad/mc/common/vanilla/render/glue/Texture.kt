@@ -23,6 +23,7 @@ package org.anti_ad.mc.common.vanilla.render.glue
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.*
 import org.anti_ad.mc.common.math2d.Corner.*
+import org.anti_ad.mc.common.vanilla.alias.DrawContext
 import org.anti_ad.mc.common.vanilla.render.internal_rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.makeIdentifier
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
