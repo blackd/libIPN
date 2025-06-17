@@ -31,12 +31,12 @@ val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.6-pre3"),
                                          CURSEFORGE to listOf("1.21.6-snapshot"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.21.6-pre3"
+val minecraft_version = "1.21.6-rc1"
 val minecraft_version_string = "1.21.6"
-val mappings_version = "1.21.6-pre3+build.1"
+val mappings_version = "1.21.6-rc1+build.1"
 val loader_version = "0.16.14"
-val modmenu_version = "14.0.0-beta.2"
-val fabric_api_version = "0.126.0+1.21.6"
+val modmenu_version = "15.0.0-beta.1"
+val fabric_api_version = "0.127.0+1.21.6"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
